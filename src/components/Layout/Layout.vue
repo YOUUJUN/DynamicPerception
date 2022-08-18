@@ -92,7 +92,7 @@ export default {
     }
 
     /deep/ .el-scrollbar__view{
-        /* height:100%; */
+        height:100%;
     }
 	
 

@@ -11,10 +11,7 @@ const getters = {
     displayCategory : state => state.display.displayCategory,
 
     /*---渲染数据---*/
-    renderData : state => {
-        
-        return state.data.originData
-    }
+    renderData : state => state.data.originData,
 }
 
 export default getters;

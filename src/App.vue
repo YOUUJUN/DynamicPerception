@@ -17,6 +17,10 @@ export default {
 </script>
 
 <style>
+*{
+    box-sizing: border-box;
+}
+
 html,
 body {
     height: 100%;
@@ -25,6 +29,11 @@ body {
     font-size: 62.5%;
     font-family: Poppins, sans-serif;
     box-sizing: border-box;
+}
+
+ul{
+    margin:0;
+    padding:0;
 }
 
 #app {
