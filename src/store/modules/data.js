@@ -12,6 +12,7 @@ const state = {
         expandedKeys : [],
         selectedKey : '',
         data : [],
+        filters : [], //菜单过滤项
     },
 
     //初始床位和房间数据源
@@ -39,6 +40,10 @@ const mutations = {
             console.log(('state.menu.checkedKeys', state.menu.checkedKeys))
         }
     },
+
+    SET_MENU_FILTERS(state, payload){
+        state.menu.filters = payload;
+    }
 
 };
 
@@ -76,6 +81,10 @@ const actions = {
         commit('CHANGE_MENU_CHECKED', payload);
     },
 
+    //设置菜单过滤条件
+    setMenuFilters({ state, commit }, payload){
+        commit('SET_MENU_FILTERS', payload);
+    }
 
 };
 

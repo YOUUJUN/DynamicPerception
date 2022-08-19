@@ -12,6 +12,7 @@
         :expand-on-click-node="false"
         :check-on-click-node="true"
         @node-click="handleNodeClick"
+        @check-change="handleCheckedChange"
     ></el-tree>
 </template>
 
@@ -50,18 +51,41 @@ export default {
     },
 
     methods: {
-        ...mapActions("data", ["fetchData", "changeMenuChecked"]),
+        ...mapActions("data", ["fetchData", "changeMenuChecked", "setMenuFilters"]),
 
         //处理菜单点击事件
-        handleNodeClick(data) {
-            console.log('data', data);
+        handleNodeClick(data,node) {
+            // console.log('data', data);
             let payload = [data.id];
+            //修改菜单选中项
             this.changeMenuChecked(payload);
+
+
         },
 
         //设置菜单选择项
         setCheckedNodes(nodes){
             this.$refs.treeMenu.setCheckedNodes(nodes)
+        },
+
+        //处理菜单选中
+        handleCheckedChange(data, node){
+            let checkedNodes = this.$refs.treeMenu.getCheckedNodes();
+            let checkedKeys = this.$refs.treeMenu.getCheckedKeys();
+            console.log('checkedNodes', checkedNodes);
+            console.log('checkedKeys', checkedKeys);
+
+            let menuFilterData = checkedNodes.map(item => {
+                let id = item.id;
+                let node = this.$refs.treeMenu.getNode(item);
+                return {
+                    id,
+                    level : node.level,
+                }
+            })
+
+            //设置菜单过滤项
+            this.setMenuFilters(menuFilterData);
         }
     },
 };
