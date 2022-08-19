@@ -2,15 +2,52 @@
 <template>
     <el-card class="bed-card-wrap">
         <div class="card-header">
-            <el-avatar
+            <img
+                v-if="getGender === 'male'"
                 class="card-avatar"
-                size="small"
-                src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-            ></el-avatar>
-            <span class="card-name">501-08</span>
-            <el-button class="card-num" type="danger" circle size="mini"
-                >99</el-button
+                src="@/static/offlineImg/male.png"
+            />
+
+            <img
+                v-else
+                class="card-avatar"
+                src="@/static/offlineImg/female.png"
+            />
+
+            <span class="card-name">{{bedInfo.name}}</span>
+
+            <el-popover
+                popper-class="alarm-popover"
+                width="220"
+                placement="right"
+                trigger="click"
             >
+                <section class="alarm-list-wrap">
+                    <el-scrollbar style="height: 100%">
+                        <ul class="alarm-list">
+                            <li class="alarm-item">
+                                <div class="alarm-item-left">呼吸异常</div>
+
+                                <div class="alarm-item-right">
+                                    <el-button type="text" size="small"
+                                        >立即处理</el-button
+                                    >
+                                </div>
+                            </li>
+                        </ul>
+                    </el-scrollbar>
+                </section>
+
+                <el-button
+                    v-if="bedInfo.qty != 0"
+                    slot="reference"
+                    class="card-num"
+                    type="danger"
+                    circle
+                    size="mini"
+                    >{{bedInfo.qty}}</el-button
+                >
+            </el-popover>
         </div>
 
         <ul class="card-body">
@@ -23,7 +60,7 @@
                     <span class="status-label">状态</span>
                 </div>
                 <div class="card-item-right">
-                    <span class="status-name">离线</span>
+                    <span class="status-name">{{ bedInfo.status }}</span>
                 </div>
             </li>
 
@@ -36,7 +73,7 @@
                     <span class="status-label">心率</span>
                 </div>
                 <div class="card-item-right">
-                    <span class="status-name">离线</span>
+                    <span class="status-name">{{ bedInfo.heart }}</span>
                 </div>
             </li>
 
@@ -49,7 +86,7 @@
                     <span class="status-label">呼吸</span>
                 </div>
                 <div class="card-item-right">
-                    <span class="status-name">离线</span>
+                    <span class="status-name">{{ bedInfo.breathing }}</span>
                 </div>
             </li>
 
@@ -62,7 +99,7 @@
                     <span class="status-label">告警</span>
                 </div>
                 <div class="card-item-right">
-                    <span class="status-name">离线</span>
+                    <span class="status-name">{{ bedInfo.alarming }}</span>
                 </div>
             </li>
         </ul>
@@ -76,7 +113,34 @@
 </template>
 
 <script>
-export default {};
+export default {
+    props: {
+        bedInfo: {
+            type: Object,
+        },
+    },
+
+    data() {
+        return {};
+    },
+
+    computed: {
+        getGender() {
+            let info = this.bedInfo;
+            console.log("info");
+            let avatarUrl = info?.pop_show?.img;
+            let imgName = avatarUrl.split("/").pop();
+            console.log("imgName.trim()", imgName.trim());
+            if (imgName.trim() === "male.png") {
+                return "male";
+            } else {
+                return "female";
+            }
+        },
+    },
+
+    methods: {},
+};
 </script>
 
 <style>
@@ -86,13 +150,18 @@ export default {};
     justify-content: space-between;
     height: 100%;
 }
+
+.alarm-popover {
+    height: 24rem;
+    padding: 0 !important;
+}
 </style>
 
 <style scoped>
 .bed-card-wrap {
     width: 22rem;
     height: 24rem;
-    margin: 0 2rem 2rem 0;
+    margin: 0 4rem 4rem 0;
 }
 
 .card-header {
@@ -134,6 +203,13 @@ export default {};
     align-items: center;
 }
 
+.card-avatar{
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
 .status-icon {
     width: 1.4rem;
     height: 1.4rem;
@@ -146,5 +222,33 @@ export default {};
 
 .card-footer .btn {
     width: 100%;
+}
+
+/*-----告警处理弹窗---*/
+
+.alarm-list-wrap {
+    height: 100%;
+    overflow: auto;
+}
+
+.alarm-list {
+    padding: 1.6rem;
+    list-style: none;
+}
+
+.alarm-list .alarm-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    box-shadow: 0px 0px 4px 0px rgba(33, 33, 33, 0.14);
+    border-radius: 4px;
+    padding: 0 1.4rem;
+    margin-bottom: 1.3rem;
+}
+
+.alarm-list .alarm-item:last-child {
+    margin-bottom: 0;
 }
 </style>

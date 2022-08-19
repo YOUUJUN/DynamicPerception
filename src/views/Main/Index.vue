@@ -2,7 +2,7 @@
   
     <section class="main-wrap">
 
-        <bed-card v-for="item in renderData"></bed-card>
+        <bed-card v-for="item in renderData" :bedInfo="item"></bed-card>
 
     </section>
 
@@ -46,7 +46,7 @@ export default {
     display: flex;
     flex-direction: row;
     height: 100%;
-    padding:2rem;
+    padding:4rem;
 }
 
 </style>
