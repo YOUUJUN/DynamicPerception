@@ -30,7 +30,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(["menuData", "menuCheckedKeys", "menuExpandedKeys", "menuSelectedKey"]),
+        ...mapGetters(["menuData", "menuCheckedKeys", "menuExpandedKeys", "menuSelectedKey", "renderData"]),
     },
 
     watch : {
@@ -59,8 +59,6 @@ export default {
             let payload = [data.id];
             //修改菜单选中项
             this.changeMenuChecked(payload);
-
-
         },
 
         //设置菜单选择项
