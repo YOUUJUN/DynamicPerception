@@ -2,7 +2,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Layout from "@components/Layout/Layout.vue";
-// import Menu from "@views/Main/NewMenu.vue";
 import Menu from "@views/Main/TreeMenu.vue";
 
 Vue.use(VueRouter);

@@ -40,7 +40,7 @@ export default {
             handler(newValue){
                 console.log('menuCheckedKeys-newValue', newValue);
                 this.setCheckedNodes(newValue)
-            }
+            },
         }
     },
 
@@ -63,8 +63,14 @@ export default {
         },
 
         //设置菜单选择项
-        setCheckedNodes(nodes){
+        setCheckedNodes(nodes){  
+            console.log('nodes', nodes);
+            // this.$nextTick(() => {
+            //     this.$refs.treeMenu.setCheckedNodes(nodes)
+            // })
+
             this.$refs.treeMenu.setCheckedNodes(nodes)
+            
         },
 
         //处理菜单选中

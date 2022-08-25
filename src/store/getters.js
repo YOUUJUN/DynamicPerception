@@ -96,6 +96,7 @@ const getters = {
     /*---分类菜单过滤后的数据---*/
     classifiedData: (state, getters) => {
         let filteredData = getters.filteredData;
+        console.log('filteredData',filteredData);
         let displayCategory = getters.displayCategory;
         let displayCategoryLabel = getters.displayCategoryLabel;
         console.log("displayCategoryLabel", getters.displayCategoryLabel);
@@ -105,14 +106,13 @@ const getters = {
             case "1":
                 result = filteredData;
                 break;
-            case "2":
+            case "2": 
+            case "3":
                 result = filteredData.filter((item) => {
                     if (item.status === displayCategoryLabel) {
                         return item;
                     }
                 });
-                break;
-            case "3":
                 break;
         }
 

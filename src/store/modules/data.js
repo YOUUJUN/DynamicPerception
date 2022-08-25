@@ -27,6 +27,10 @@ const mutations = {
         state.menu.checkedKeys = [payload[0].id];
         state.menu.expandedKeys = [payload[0].id];
         state.menu.selectedKey = payload[0].id;
+        state.menu.filters = [{
+            id : payload[0].id,
+            level : 1,
+        }];
     },
 
     SET_ORIGIN_DATA(state, payload){
