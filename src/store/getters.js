@@ -114,6 +114,13 @@ const getters = {
                     }
                 });
                 break;
+            case "4":
+                result = filteredData.filter((item) => {
+                    if (item.qty > 0) {
+                        return item;
+                    }
+                });
+                break;
         }
 
         return result;
@@ -126,6 +133,36 @@ const getters = {
     },
 
     /*---分类数据---*/
+    allDataNum : (state, getters) => getters.filteredData.length,
+    inBedNum : (state, getters) => {
+        return getters.filteredData.filter((item) => {
+            if (item.status === '在床') {
+                return item;
+            }
+        }).length
+    },
+    offBedNum : (state, getters) => {
+        return getters.filteredData.filter((item) => {
+            if (item.status === '离床') {
+                return item;
+            }
+        }).length
+    },
+    alarmBedNum : (state, getters) => {
+        let beds = getters.filteredData.filter((item) => {
+            if (item.qty > 0) {
+                return item;
+            }
+        })
+
+        let alarmNum = beds.reduce((total, item) => {
+            total += item.qty;
+            return total
+        },0)
+
+        return alarmNum;
+    },
+
 };
 
 export default getters;
