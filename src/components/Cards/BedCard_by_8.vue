@@ -149,6 +149,7 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+    padding: 15px 0 !important;
 }
 
 .alarm-popover {
@@ -159,9 +160,8 @@ export default {
 
 <style scoped>
 .bed-card-wrap {
-    width: 22rem;
+    width: auto;
     height: 24rem;
-    margin: 0 4rem 4rem 0;
 }
 
 .card-header {
@@ -169,6 +169,7 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    padding: 0 8px;
 }
 
 .card-name {
@@ -187,6 +188,7 @@ export default {
 .card-body {
     font-size: 1.5rem;
     list-style: none;
+    padding: 0 15px;
 }
 
 .card-body .card-item {
@@ -218,6 +220,10 @@ export default {
 
 .status-name {
     font-size: 1.4rem;
+}
+
+.card-footer{
+    padding: 0 15px;
 }
 
 .card-footer .btn {

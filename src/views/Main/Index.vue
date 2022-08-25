@@ -1,52 +1,86 @@
 <template>
-  
-    <section class="main-wrap">
-
-        <bed-card v-for="item in renderData" :bedInfo="item"></bed-card>
-
+    <section class="main-wrap" :class="displayClass">
+        <component
+            v-for="item in renderData"
+            :bedInfo="item"
+            :is="displayComponentName"
+        ></component>
     </section>
-
 </template>
 
 <script>
-const BedCard = () => import('@/components/Cards/BedCard.vue');
+const BedCardByEight = () => import("@/components/Cards/BedCard_by_8.vue");
 
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
-    components : {
-        BedCard
+    components: {
+        BedCardByEight,
     },
 
-    data(){
+    data() {
         return {
-            testData : [1,2]
-        }
+            testData: [1, 2],
+        };
     },
 
-    computed : {
-        ...mapGetters(['renderData']),
+    computed: {
+        ...mapGetters(["renderData", "displayRow"]),
+
+        displayClass() {
+            let displayRow = this.displayRow;
+            let className = "";
+            switch (displayRow) {
+                case "X8":
+                    className = "grid-by-8";
+                    break;
+                case "X16":
+                    className = "grid-by-16";
+                    break;
+                case "X32":
+                    className = "grid-by-32";
+                    break;
+            }
+            return className;
+        },
+
+        displayComponentName() {
+            let displayRow = this.displayRow;
+            let className = "";
+            switch (displayRow) {
+                case "X8":
+                    className = "BedCardByEight";
+                    break;
+                case "X16":
+                    className = "BedCardByEight";
+                    break;
+                case "X32":
+                    className = "BedCardByEight";
+                    break;
+            }
+            return className;
+        },
     },
 
-    created(){
-        console.log('renderData', this.renderData);
+    created() {
+        console.log("renderData", this.renderData);
     },
 
-    methods : {
-
-    }
-
-    
-}
+    methods: {},
+};
 </script>
 
 <style scoped>
-
-.main-wrap{
+.main-wrap {
     display: flex;
     flex-direction: row;
     height: 100%;
-    padding:4rem;
+    padding: 2rem;
 }
 
+.grid-by-8 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-column-gap: 2rem;
+}
 </style>
