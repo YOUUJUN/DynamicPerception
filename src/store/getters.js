@@ -8,12 +8,18 @@ const getters = {
     /*---渲染条件控制---*/
     displayRow: (state) => state.display.displayRow,
     displayCategory: (state) => state.display.displayCategory,
+    displayCategoryMap: (state) => state.display.displayCategoryMap,
+    displayCategoryLabel: (state, getters) =>
+        getters.displayCategoryMap.get(getters.displayCategory),
     displayFilters: (state) => state.data.menu.filters,
 
+    /*---原始数据---*/
+    originData: (state) => state.data.originData,
+
     /*---菜单过滤后的数据---*/
-    filteredData: (state) => {
-        let originData = state.data.originData;
-        let displayFilters = state.data.menu.filters;
+    filteredData: (state, getters) => {
+        let originData = getters.originData;
+        let displayFilters = getters.displayFilters;
         let result = [];
         let levelQueue = displayFilters
             .map((item) => {
@@ -87,11 +93,39 @@ const getters = {
         return result;
     },
 
+    /*---分类菜单过滤后的数据---*/
+    classifiedData: (state, getters) => {
+        let filteredData = getters.filteredData;
+        let displayCategory = getters.displayCategory;
+        let displayCategoryLabel = getters.displayCategoryLabel;
+        console.log("displayCategoryLabel", getters.displayCategoryLabel);
+
+        let result = [];
+        switch (displayCategory) {
+            case "1":
+                result = filteredData;
+                break;
+            case "2":
+                result = filteredData.filter((item) => {
+                    if (item.status === displayCategoryLabel) {
+                        return item;
+                    }
+                });
+                break;
+            case "3":
+                break;
+        }
+
+        return result;
+    },
 
     /*---渲染数据---*/
-    renderData : (state, getters) => {
-        return getters.filteredData;
-    }
+    renderData: (state, getters) => {
+        // return getters.filteredData;
+        return getters.classifiedData;
+    },
+
+    /*---分类数据---*/
 };
 
 export default getters;

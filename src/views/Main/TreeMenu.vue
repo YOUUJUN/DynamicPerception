@@ -1,4 +1,5 @@
 <template>
+<!-- :default-checked-keys="menuCheckedKeys" -->
     <el-tree
         class="treemenu"
         ref="treeMenu"
@@ -37,7 +38,7 @@ export default {
         // setCheckedNodes
         menuCheckedKeys : {
             handler(newValue){
-                console.log('newValue', newValue);
+                console.log('menuCheckedKeys-newValue', newValue);
                 this.setCheckedNodes(newValue)
             }
         }
@@ -68,6 +69,7 @@ export default {
 
         //处理菜单选中
         handleCheckedChange(data, node){
+            console.log("changeing----------")
             let checkedNodes = this.$refs.treeMenu.getCheckedNodes();
             let checkedKeys = this.$refs.treeMenu.getCheckedKeys();
             console.log('checkedNodes', checkedNodes);
