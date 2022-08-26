@@ -1,17 +1,29 @@
 <template>
     <section class="main-wrap" :class="displayClass">
-        <component
-            v-for="item in renderData"
-            :bedInfo="item"
-            :is="displayComponentName"
-        ></component>
+        <template v-if="renderData.role === 'bed'">
+            <component
+                v-for="item in renderData.data"
+                :bedInfo="item"
+                :is="displayComponentName"
+            ></component>
+        </template>
+
+        <template v-else-if="renderData.role === 'device'">
+            设备
+        </template>
+
+        <template v-else-if="renderData.role === 'room'">
+            房间
+        </template>
+
     </section>
 </template>
 
 <script>
 const BedCardBySix = () => import("@/components/Cards/BedCard_by_6.vue");
 const BedCardByTwelve = () => import("@/components/Cards/BedCard_by_12.vue");
-const BedCardByTwentyfour = () => import("@/components/Cards/BedCard_by_24.vue");
+const BedCardByTwentyfour = () =>
+    import("@/components/Cards/BedCard_by_24.vue");
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -23,9 +35,7 @@ export default {
     },
 
     data() {
-        return {
-
-        };
+        return {};
     },
 
     computed: {
@@ -68,14 +78,9 @@ export default {
 
     created() {
         console.log("renderData", this.renderData);
-
     },
 
-    methods: {
-
-
-
-    },
+    methods: {},
 };
 </script>
 
@@ -89,7 +94,7 @@ export default {
 
 .grid-by-6 {
     display: grid;
-    grid-template-columns:  repeat(6, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-column-gap: 5rem;
 }
 
@@ -97,13 +102,13 @@ export default {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-column-gap: 1rem;
-    padding:1rem !important;
+    padding: 1rem !important;
 }
 
 .grid-by-24 {
     display: grid;
     grid-template-columns: repeat(24, 1fr);
-    grid-column-gap: .5rem;
-    padding:.5rem !important;
+    grid-column-gap: 0.5rem;
+    padding: 0.5rem !important;
 }
 </style>

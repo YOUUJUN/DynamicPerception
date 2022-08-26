@@ -129,9 +129,8 @@ export default {
             let info = this.bedInfo;
             console.log("info");
             let avatarUrl = info?.pop_show?.img;
-            let imgName = avatarUrl.split("/").pop();
-            console.log("imgName.trim()", imgName.trim());
-            if (imgName.trim() === "male.png") {
+            let imgName = avatarUrl && avatarUrl.split("/").pop();
+            if (imgName?.trim() === "male.png") {
                 return "male";
             } else {
                 return "female";
