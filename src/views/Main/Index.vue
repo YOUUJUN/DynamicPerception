@@ -13,7 +13,7 @@ const BedCardBySix = () => import("@/components/Cards/BedCard_by_6.vue");
 const BedCardByTwelve = () => import("@/components/Cards/BedCard_by_12.vue");
 const BedCardByTwentyfour = () => import("@/components/Cards/BedCard_by_24.vue");
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
     components: {
@@ -68,9 +68,14 @@ export default {
 
     created() {
         console.log("renderData", this.renderData);
+
     },
 
-    methods: {},
+    methods: {
+
+
+
+    },
 };
 </script>
 

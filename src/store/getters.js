@@ -15,9 +15,10 @@ const getters = {
 
     /*---原始数据---*/
     originData: (state) => state.data.originData,
+    offlineData : (state) => state.data.offlineData,
 
     /*---菜单过滤后的数据---*/
-    filteredData: (state, getters) => {
+    filteredBedData: (state, getters) => {
         let originData = getters.originData;
         let displayFilters = getters.displayFilters;
         let result = [];
@@ -93,10 +94,22 @@ const getters = {
         return result;
     },
 
+    filteredDeviceData : (state, getters) => {
+        let offlineData = getters.offlineData;
+        let displayFilters = getters.displayFilters;
+        let result = [];
+        let levelQueue = displayFilters
+            .map((item) => {
+                return item.level;
+            })
+            .sort((a, b) => a - b);
+        let firstLevel = levelQueue[0];
+
+    },
+
     /*---分类菜单过滤后的数据---*/
-    classifiedData: (state, getters) => {
-        let filteredData = getters.filteredData;
-        console.log('filteredData',filteredData);
+    classifiedBedData: (state, getters) => {
+        let filteredBedData = getters.filteredBedData;
         let displayCategory = getters.displayCategory;
         let displayCategoryLabel = getters.displayCategoryLabel;
         console.log("displayCategoryLabel", getters.displayCategoryLabel);
@@ -104,18 +117,18 @@ const getters = {
         let result = [];
         switch (displayCategory) {
             case "1":
-                result = filteredData;
+                result = filteredBedData;
                 break;
             case "2": 
             case "3":
-                result = filteredData.filter((item) => {
+                result = filteredBedData.filter((item) => {
                     if (item.status === displayCategoryLabel) {
                         return item;
                     }
                 });
                 break;
             case "4":
-                result = filteredData.filter((item) => {
+                result = filteredBedData.filter((item) => {
                     if (item.qty > 0) {
                         return item;
                     }
@@ -128,28 +141,28 @@ const getters = {
 
     /*---渲染数据---*/
     renderData: (state, getters) => {
-        // return getters.filteredData;
-        return getters.classifiedData;
+        // return getters.filteredBedData;
+        return getters.classifiedBedData;
     },
 
     /*---分类数据---*/
-    allDataNum : (state, getters) => getters.filteredData.length,
+    allDataNum : (state, getters) => getters.filteredBedData.length,
     inBedNum : (state, getters) => {
-        return getters.filteredData.filter((item) => {
+        return getters.filteredBedData.filter((item) => {
             if (item.status === '在床') {
                 return item;
             }
         }).length
     },
     offBedNum : (state, getters) => {
-        return getters.filteredData.filter((item) => {
+        return getters.filteredBedData.filter((item) => {
             if (item.status === '离床') {
                 return item;
             }
         }).length
     },
     alarmBedNum : (state, getters) => {
-        let beds = getters.filteredData.filter((item) => {
+        let beds = getters.filteredBedData.filter((item) => {
             if (item.qty > 0) {
                 return item;
             }

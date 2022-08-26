@@ -1,6 +1,6 @@
 import request from "@/utils/http";
 import { getAction, postAction } from "@/api/manage.js";
-import { getAllData, getOfflineData } from "@/api/dataSource.js";
+import { getAllData, getOfflineData, getRoomData } from "@/api/dataSource.js";
 
 import qs from "qs";
 
@@ -19,7 +19,10 @@ const state = {
     originData: [],
 
     //离线数据源
-    offlineData : [],
+    offlineData: [],
+
+    //告警房间数据源
+    roomData: [],
 };
 
 const mutations = {
@@ -40,6 +43,14 @@ const mutations = {
         state.originData = payload;
     },
 
+    SET_OFFLINE_DATA(state, payload) {
+        state.offlineData = payload;
+    },
+
+    SET_ROOM_DATA(state, payload) {
+        state.roomData = payload;
+    },
+
     CHANGE_MENU_CHECKED(state, payload) {
         console.log("payload", payload);
         if (Array.isArray(payload)) {
@@ -54,7 +65,6 @@ const mutations = {
 };
 
 const actions = {
-    //获取所有数据
     fetchData({ state, commit }) {
         return new Promise((resolve, reject) => {
             getAllData({
@@ -79,7 +89,52 @@ const actions = {
         return new Promise((resolve, reject) => {
             getOfflineData({
                 uid: state.uid,
-            });
+            })
+                .then((res) => {
+                    console.log("offline res", res);
+                    if (res.status === 200) {
+                        let result = res.data.data;
+                        let offlineData = result.filter((item) => {
+                            if (
+                                item.sign === "0" &&
+                                item.mech_name === state.menu.data[0].name
+                            ) {
+                                return item;
+                            }
+                        });
+                        console.log("offlineData", offlineData);
+                        commit("SET_OFFLINE_DATA", offlineData);
+                    }
+
+                    resolve();
+                })
+                .catch((err) => {
+                    console.error("err", err);
+                    reject();
+                });
+        });
+    },
+
+    fetchRoomData({ state, commit }) {
+        return new Promise((resolve, reject) => {
+            getRoomData({
+                uid: state.uid,
+            })
+                .then((res) => {
+                    console.log("room res", res);
+                    if (res.status === 200) {
+                        let result = res.data.data;
+                        let roomData = result;
+                        console.log("roomData", roomData);
+                        commit("SET_ROOM_DATA", roomData);
+                    }
+
+                    resolve();
+                })
+                .catch((err) => {
+                    console.error("err", err);
+                    reject();
+                });
         });
     },
 

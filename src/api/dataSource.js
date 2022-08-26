@@ -23,3 +23,14 @@ export function getOfflineData(params) {
     });
 }
 
+export function getRoomData(params) {
+    return request({
+        url: `/warn/home/all/alarm/api`,
+        method: "post",
+        data: qs.stringify(params),
+        headers: {
+            "content-type": "application/x-www-form-urlencoded",
+        },
+    });
+}
+

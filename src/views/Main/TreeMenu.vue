@@ -45,14 +45,21 @@ export default {
     },
 
     created() {
-        this.fetchData().then((res) => {
+        this.initData().then((res) => {
             //设置当前高亮选中行
             this.$refs.treeMenu.setCurrentKey(this.menuSelectedKey);
         });
     },
 
     methods: {
-        ...mapActions("data", ["fetchData", "changeMenuChecked", "setMenuFilters"]),
+        ...mapActions("data", ["fetchData", "fetchOfflineData", "fetchRoomData", "changeMenuChecked", "setMenuFilters"]),
+
+        //初始化所有数据
+        async initData(){
+            await this.fetchData();
+            await this.fetchOfflineData();
+            await this.fetchRoomData();
+        },
 
         //处理菜单点击事件
         handleNodeClick(data,node) {
