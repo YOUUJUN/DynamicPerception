@@ -62,7 +62,7 @@ export default {
 		flex:none;
         height: 6rem;
         padding:0;
-        border-bottom: 1px solid #E2DEDE;
+        border-bottom: .1rem solid #E2DEDE;
 	}
 
 	.main-wrap{
@@ -73,7 +73,7 @@ export default {
         /* width:24rem !important; */
         position: relative;
         transition:width .3s;
-        border-right: 1px solid #E2DEDE;
+        border-right: .1rem solid #E2DEDE;
     }
 
     .content, .aside{

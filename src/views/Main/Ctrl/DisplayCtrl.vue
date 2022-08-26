@@ -2,7 +2,7 @@
     <el-radio-group v-model="displayRow">
         <el-radio-button label="X8"></el-radio-button>
         <el-radio-button label="X16"></el-radio-button>
-        <el-radio-button label="X32"></el-radio-button>
+        <el-radio-button label="X24"></el-radio-button>
     </el-radio-group>
 </template>
 

@@ -106,16 +106,16 @@ export default {
 }
 
 .treemenu .el-checkbox {
-    margin-left: 10px;
+    margin-left: 1rem;
 }
 </style>
 
 <style scoped>
 ::v-deep .el-tree-node__content {
     position: relative;
-    height: 56px;
-    line-height: 56px;
-    font-size: 14px;
+    height: 5.6rem;
+    line-height: 5.6rem;
+    font-size: 1.4rem;
 }
 
 ::v-deep .el-tree-node__expand-icon {
@@ -125,7 +125,7 @@ export default {
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 0 20px !important;
+    padding: 0 2rem !important;
 }
 
 ::v-deep .el-tree-node:focus > .el-tree-node__content {
@@ -140,7 +140,7 @@ export default {
 }
 
 ::v-deep .el-tree-node__label {
-    margin-left: 10px;
+    margin-left: 1rem;
 }
 
 /* ::v-deep .is-current .el-tree-node__label{

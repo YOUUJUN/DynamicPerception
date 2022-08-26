@@ -1,0 +1,32 @@
+/*-----告警处理弹窗---*/
+
+.alarm-popover {
+    height: 24rem;
+    padding: 0 !important;
+}
+
+.alarm-list-wrap {
+    height: 100%;
+    overflow: auto;
+}
+
+.alarm-list {
+    padding: 1.6rem;
+    list-style: none;
+}
+
+.alarm-list .alarm-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    box-shadow: 0 0 .4rem 0 rgba(33, 33, 33, 0.14);
+    border-radius: 4rem;
+    padding: 0 1.4rem;
+    margin-bottom: 1.3rem;
+}
+
+.alarm-list .alarm-item:last-child {
+    margin-bottom: 0;
+}

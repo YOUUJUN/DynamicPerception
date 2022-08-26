@@ -77,7 +77,7 @@ export default {
 }
 
 .ctrl-label-wrap span:last-child {
-    margin-left: 15px;
+    margin-left: 1.5rem;
 }
 
 ::v-deep .el-radio-group {
@@ -85,11 +85,11 @@ export default {
 }
 
 ::v-deep .el-radio.is-bordered {
-    padding: 12px 10px 0;
+    padding: 1.2rem 1rem 0;
 }
 
 ::v-deep .radio-btn.el-radio {
-    margin: 8px;
+    margin: .8rem;
 }
 
 ::v-deep .radio-btn .el-radio__input {

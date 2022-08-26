@@ -1,6 +1,6 @@
 
 <template>
-    <el-card class="bed-card-wrap">
+    <el-card class="bed-card-by8-wrap">
         <div class="card-header">
             <img
                 v-if="getGender === 'male'"
@@ -144,22 +144,20 @@ export default {
 </script>
 
 <style>
-.bed-card-wrap .el-card__body {
+.bed-card-by8-wrap .el-card__body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    padding: 15px 0 !important;
+    padding: 1.5rem 0 !important;
 }
 
-.alarm-popover {
-    height: 24rem;
-    padding: 0 !important;
-}
 </style>
 
 <style scoped>
-.bed-card-wrap {
+@import url('~@/styles/alarmDlg.css');
+
+.bed-card-by8-wrap {
     width: auto;
     height: 24rem;
 }
@@ -169,7 +167,7 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 0 8px;
+    padding: 0 .8rem;
 }
 
 .card-name {
@@ -179,8 +177,8 @@ export default {
 
 .card-num {
     display: flex;
-    width: 30px;
-    height: 30px;
+    width: 3rem;
+    height: 3rem;
     align-items: center;
     justify-content: center;
 }
@@ -188,7 +186,7 @@ export default {
 .card-body {
     font-size: 1.5rem;
     list-style: none;
-    padding: 0 15px;
+    padding: 0 1.5rem;
 }
 
 .card-body .card-item {
@@ -223,38 +221,11 @@ export default {
 }
 
 .card-footer{
-    padding: 0 15px;
+    padding: 0 1.5rem;
 }
 
 .card-footer .btn {
     width: 100%;
 }
 
-/*-----告警处理弹窗---*/
-
-.alarm-list-wrap {
-    height: 100%;
-    overflow: auto;
-}
-
-.alarm-list {
-    padding: 1.6rem;
-    list-style: none;
-}
-
-.alarm-list .alarm-item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    background: #ffffff;
-    box-shadow: 0px 0px 4px 0px rgba(33, 33, 33, 0.14);
-    border-radius: 4px;
-    padding: 0 1.4rem;
-    margin-bottom: 1.3rem;
-}
-
-.alarm-list .alarm-item:last-child {
-    margin-bottom: 0;
-}
 </style>

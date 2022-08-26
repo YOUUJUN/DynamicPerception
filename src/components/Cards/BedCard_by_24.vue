@@ -1,5 +1,5 @@
 <template>
-    <el-card class="bed-card-by16-wrap">
+    <el-card class="bed-card-by24-wrap">
         <div class="card-header">
             <span class="card-name">{{ bedInfo.name }}</span>
         </div>
@@ -38,12 +38,6 @@
                 >
             </el-popover>
         </div>
-
-        <div class="card-footer">
-            <el-button class="btn" type="info" size="mini" round
-                >查看报告</el-button
-            >
-        </div>
     </el-card>
 </template>
 
@@ -57,11 +51,11 @@ export default {
 
     methods: {},
 };
-
 </script>
 
 <style>
-.bed-card-by16-wrap .el-card__body {
+
+.bed-card-by24-wrap .el-card__body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -74,9 +68,9 @@ export default {
 <style scoped>
 @import url('~@/styles/alarmDlg.css');
 
-.bed-card-by16-wrap {
+.bed-card-by24-wrap {
     width: auto;
-    height: 11rem;
+    height: 7rem;
 }
 
 .card-header {
@@ -88,7 +82,7 @@ export default {
 }
 
 .card-name {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #18171d;
 }
 
@@ -106,14 +100,6 @@ export default {
     height: 3rem;
     align-items: center;
     justify-content: center;
-}
-
-.card-footer{
-    padding: 0 .5rem;
-}
-
-.card-footer .btn {
-    width: 100%;
 }
 
 </style>

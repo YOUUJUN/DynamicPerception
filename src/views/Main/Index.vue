@@ -10,17 +10,21 @@
 
 <script>
 const BedCardByEight = () => import("@/components/Cards/BedCard_by_8.vue");
+const BedCardBySixteen = () => import("@/components/Cards/BedCard_by_16.vue");
+const BedCardByTwentyfour = () => import("@/components/Cards/BedCard_by_24.vue");
 
 import { mapGetters } from "vuex";
 
 export default {
     components: {
         BedCardByEight,
+        BedCardBySixteen,
+        BedCardByTwentyfour,
     },
 
     data() {
         return {
-            testData: [1, 2],
+
         };
     },
 
@@ -37,8 +41,8 @@ export default {
                 case "X16":
                     className = "grid-by-16";
                     break;
-                case "X32":
-                    className = "grid-by-32";
+                case "X24":
+                    className = "grid-by-24";
                     break;
             }
             return className;
@@ -46,19 +50,19 @@ export default {
 
         displayComponentName() {
             let displayRow = this.displayRow;
-            let className = "";
+            let componentName = "";
             switch (displayRow) {
                 case "X8":
-                    className = "BedCardByEight";
+                    componentName = "BedCardByEight";
                     break;
                 case "X16":
-                    className = "BedCardByEight";
+                    componentName = "BedCardBySixteen";
                     break;
-                case "X32":
-                    className = "BedCardByEight";
+                case "X24":
+                    componentName = "BedCardByTwentyfour";
                     break;
             }
-            return className;
+            return componentName;
         },
     },
 
@@ -82,5 +86,19 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-column-gap: 2rem;
+}
+
+.grid-by-16 {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-column-gap: 1rem;
+    padding:1rem !important;
+}
+
+.grid-by-24 {
+    display: grid;
+    grid-template-columns: repeat(24, 1fr);
+    grid-column-gap: .5rem;
+    padding:.5rem !important;
 }
 </style>
