@@ -1,5 +1,5 @@
 const state = {
-    displayRow: "X8",
+    displayRow: "X6",
     /**
      * 全部 1
      * 在床 2

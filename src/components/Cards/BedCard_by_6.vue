@@ -159,7 +159,7 @@ export default {
 
 .bed-card-by8-wrap {
     width: auto;
-    height: 24rem;
+    height: 26rem;
 }
 
 .card-header {
