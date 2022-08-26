@@ -1,29 +1,20 @@
 <template>
     <section class="main-wrap" :class="displayClass">
-        <template v-if="renderData.role === 'bed'">
+        <template>
             <component
                 v-for="item in renderData.data"
-                :bedInfo="item"
+                :renderInfo="item"
                 :is="displayComponentName"
             ></component>
         </template>
-
-        <template v-else-if="renderData.role === 'device'">
-            设备
-        </template>
-
-        <template v-else-if="renderData.role === 'room'">
-            房间
-        </template>
-
     </section>
 </template>
 
 <script>
 const BedCardBySix = () => import("@/components/Cards/BedCard_by_6.vue");
 const BedCardByTwelve = () => import("@/components/Cards/BedCard_by_12.vue");
-const BedCardByTwentyfour = () =>
-    import("@/components/Cards/BedCard_by_24.vue");
+const BedCardByTwentyfour = () => import("@/components/Cards/BedCard_by_24.vue");
+const DeviceCardBySix = () => import("@/components/Cards/DeviceCard_by_6.vue");
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -32,6 +23,7 @@ export default {
         BedCardBySix,
         BedCardByTwelve,
         BedCardByTwentyfour,
+        DeviceCardBySix,
     },
 
     data() {
@@ -59,17 +51,36 @@ export default {
         },
 
         displayComponentName() {
+            let role = this.renderData.role;
             let displayRow = this.displayRow;
             let componentName = "";
             switch (displayRow) {
                 case "X6":
-                    componentName = "BedCardBySix";
+                    if (role === "bed") {
+                        componentName = "BedCardBySix";
+                    } else if (role === "device") {
+                        componentName = "DeviceCardBySix";
+                    } else if (role === "room") {
+                        componentName = "BedCardBySix";
+                    }
                     break;
                 case "X12":
-                    componentName = "BedCardByTwelve";
+                    if (role === "bed") {
+                        componentName = "BedCardByTwelve";
+                    } else if (role === "device") {
+                        componentName = "BedCardByTwelve";
+                    } else if (role === "room") {
+                        componentName = "BedCardByTwelve";
+                    }
                     break;
                 case "X24":
-                    componentName = "BedCardByTwentyfour";
+                    if (role === "bed") {
+                        componentName = "BedCardByTwentyfour";
+                    } else if (role === "device") {
+                        componentName = "BedCardByTwentyfour";
+                    } else if (role === "room") {
+                        componentName = "BedCardByTwentyfour";
+                    }
                     break;
             }
             return componentName;

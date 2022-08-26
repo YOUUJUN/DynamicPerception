@@ -1,6 +1,6 @@
 
 <template>
-    <el-card class="bed-card-by8-wrap">
+    <el-card class="bed-card-by6-wrap">
         <div class="card-header">
             <img
                 v-if="getGender === 'male'"
@@ -14,7 +14,7 @@
                 src="@/static/offlineImg/female.png"
             />
 
-            <span class="card-name">{{bedInfo.name}}</span>
+            <span class="card-name">{{renderInfo.name}}</span>
 
             <el-popover
                 popper-class="alarm-popover"
@@ -39,13 +39,13 @@
                 </section>
 
                 <el-button
-                    v-if="bedInfo.qty != 0"
+                    v-if="renderInfo.qty != 0"
                     slot="reference"
                     class="card-num"
                     type="danger"
                     circle
                     size="mini"
-                    >{{bedInfo.qty}}</el-button
+                    >{{renderInfo.qty}}</el-button
                 >
             </el-popover>
         </div>
@@ -60,7 +60,7 @@
                     <span class="status-label">状态</span>
                 </div>
                 <div class="card-item-right">
-                    <span class="status-name">{{ bedInfo.status }}</span>
+                    <span class="status-name">{{ renderInfo.status }}</span>
                 </div>
             </li>
 
@@ -73,7 +73,7 @@
                     <span class="status-label">心率</span>
                 </div>
                 <div class="card-item-right">
-                    <span class="status-name">{{ bedInfo.heart }}</span>
+                    <span class="status-name">{{ renderInfo.heart }}</span>
                 </div>
             </li>
 
@@ -86,7 +86,7 @@
                     <span class="status-label">呼吸</span>
                 </div>
                 <div class="card-item-right">
-                    <span class="status-name">{{ bedInfo.breathing }}</span>
+                    <span class="status-name">{{ renderInfo.breathing }}</span>
                 </div>
             </li>
 
@@ -99,7 +99,7 @@
                     <span class="status-label">告警</span>
                 </div>
                 <div class="card-item-right">
-                    <span class="status-name">{{ bedInfo.alarming }}</span>
+                    <span class="status-name">{{ renderInfo.alarming }}</span>
                 </div>
             </li>
         </ul>
@@ -115,7 +115,7 @@
 <script>
 export default {
     props: {
-        bedInfo: {
+        renderInfo: {
             type: Object,
         },
     },
@@ -126,7 +126,7 @@ export default {
 
     computed: {
         getGender() {
-            let info = this.bedInfo;
+            let info = this.renderInfo;
             console.log("info");
             let avatarUrl = info?.pop_show?.img;
             let imgName = avatarUrl && avatarUrl.split("/").pop();
@@ -143,7 +143,7 @@ export default {
 </script>
 
 <style>
-.bed-card-by8-wrap .el-card__body {
+.bed-card-by6-wrap .el-card__body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -156,7 +156,7 @@ export default {
 <style scoped>
 @import url('~@/styles/alarmDlg.css');
 
-.bed-card-by8-wrap {
+.bed-card-by6-wrap {
     width: auto;
     height: 26rem;
 }

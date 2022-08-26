@@ -1,7 +1,7 @@
 <template>
-    <el-card class="bed-card-by16-wrap">
+    <el-card class="bed-card-by12-wrap">
         <div class="card-header">
-            <span class="card-name">{{ bedInfo.name }}</span>
+            <span class="card-name">{{ renderInfo.name }}</span>
         </div>
 
         <div class="card-body">
@@ -28,13 +28,13 @@
                 </section>
 
                 <el-button
-                    v-if="bedInfo.qty != 0"
+                    v-if="renderInfo.qty != 0"
                     slot="reference"
                     class="card-num"
                     type="danger"
                     circle
                     size="mini"
-                    >{{ bedInfo.qty }}</el-button
+                    >{{ renderInfo.qty }}</el-button
                 >
             </el-popover>
         </div>
@@ -50,7 +50,7 @@
 <script>
 export default {
     props: {
-        bedInfo: {
+        renderInfo: {
             type: Object,
         },
     },
@@ -61,7 +61,7 @@ export default {
 </script>
 
 <style>
-.bed-card-by16-wrap .el-card__body {
+.bed-card-by12-wrap .el-card__body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -74,7 +74,7 @@ export default {
 <style scoped>
 @import url('~@/styles/alarmDlg.css');
 
-.bed-card-by16-wrap {
+.bed-card-by12-wrap {
     width: auto;
     height: 13rem;
 }

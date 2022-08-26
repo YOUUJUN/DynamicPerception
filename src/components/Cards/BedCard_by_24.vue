@@ -1,7 +1,7 @@
 <template>
     <el-card class="bed-card-by24-wrap">
         <div class="card-header">
-            <span class="card-name">{{ bedInfo.name }}</span>
+            <span class="card-name">{{ renderInfo.name }}</span>
         </div>
 
         <div class="card-body">
@@ -28,13 +28,13 @@
                 </section>
 
                 <el-button
-                    v-if="bedInfo.qty != 0"
+                    v-if="renderInfo.qty != 0"
                     slot="reference"
                     class="card-num"
                     type="danger"
                     circle
                     size="mini"
-                    >{{ bedInfo.qty }}</el-button
+                    >{{ renderInfo.qty }}</el-button
                 >
             </el-popover>
         </div>
@@ -44,7 +44,7 @@
 <script>
 export default {
     props: {
-        bedInfo: {
+        renderInfo: {
             type: Object,
         },
     },
