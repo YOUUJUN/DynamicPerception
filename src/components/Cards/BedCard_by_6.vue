@@ -114,7 +114,15 @@
                     <span class="status-label">告警</span>
                 </div>
                 <div class="card-item-right">
-                    <span class="status-name">{{ renderInfo.alarming }}</span>
+                    <el-tooltip
+                        effect="dark"
+                        :content="renderInfo.pop_show.state"
+                        placement="top-start"
+                    >
+                        <span class="status-name">{{
+                            renderInfo.pop_show.state
+                        }}</span>
+                    </el-tooltip>
                 </div>
             </li>
         </ul>
@@ -258,7 +266,6 @@ export default {
 }
 
 .status-label {
-    width: 14rem;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -266,6 +273,14 @@ export default {
 
 .status-name {
     font-size: 1.4rem;
+}
+
+.card-item-right {
+    width: 11rem;
+    overflow: hidden;
+    text-align: right;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .card-footer {

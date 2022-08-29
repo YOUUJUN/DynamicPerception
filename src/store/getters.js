@@ -183,6 +183,35 @@ const getters = {
                     result = result.concat(cache);
                 });
                 break;
+            case 2:
+                filterArr = displayFilters.filter((item) => {
+                    if (item.level === 2) {
+                        return item;
+                    }
+                });
+
+                filterArr.forEach((item) => {
+                    let cache = roomData.filter(
+                        (data) => item.id === data.community_id ?? item
+                    );
+                    result = result.concat(cache);
+                });
+                break;
+            case 3:
+            case 4:
+                filterArr = displayFilters.filter((item) => {
+                    if (item.level === firstLevel) {
+                        return item;
+                    }
+                });
+
+                filterArr.forEach((item) => {
+                    let cache = roomData.filter(
+                        (data) => item.id === data.house_id ?? item
+                    );
+                    result = result.concat(cache);
+                });
+                break;
         }
 
         console.log("result-->3", result);

@@ -125,14 +125,18 @@ export default {
 .grid-by-12 {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(12, 1fr);
     grid-column-gap: 1rem;
+    grid-row-gap: 1rem;
     padding: 1rem !important;
 }
 
 .grid-by-24 {
     display: grid;
     grid-template-columns: repeat(24, 1fr);
+    grid-template-rows: repeat(24, 1fr);
     grid-column-gap: 0.5rem;
+    grid-row-gap: 0.5rem;
     padding: 0.5rem !important;
 }
 </style>
