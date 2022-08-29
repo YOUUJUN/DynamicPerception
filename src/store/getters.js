@@ -16,6 +16,7 @@ const getters = {
     /*---原始数据---*/
     originData: (state) => state.data.originData,
     offlineData: (state) => state.data.offlineData,
+    roomData: (state) => state.data.roomData,
 
     /*---菜单过滤后的数据---*/
     filteredBedData: (state, getters) => {
@@ -134,9 +135,57 @@ const getters = {
                     result = result.concat(cache);
                 });
                 break;
+            case 3:
+            case 4:
+                filterArr = displayFilters.filter((item) => {
+                    if (item.level === firstLevel) {
+                        return item;
+                    }
+                });
+
+                filterArr.forEach((item) => {
+                    let cache = offlineData.filter(
+                        (data) => item.id === data.house_id ?? item
+                    );
+                    result = result.concat(cache);
+                });
+                break;
         }
 
         console.log("result-->2", result);
+        return result;
+    },
+
+    filteredRoomData: (state, getters) => {
+        let roomData = getters.roomData;
+        console.log("roomData", roomData);
+        let displayFilters = getters.displayFilters;
+        let result = [];
+        let levelQueue = displayFilters
+            .map((item) => {
+                return item.level;
+            })
+            .sort((a, b) => a - b);
+        let firstLevel = levelQueue[0];
+        let filterArr = [];
+        switch (firstLevel) {
+            case 1:
+                filterArr = displayFilters.filter((item) => {
+                    if (item.level === 1) {
+                        return item;
+                    }
+                });
+
+                filterArr.forEach((item) => {
+                    let cache = roomData.filter(
+                        (data) => item.id === data.res_community_id ?? item
+                    );
+                    result = result.concat(cache);
+                });
+                break;
+        }
+
+        console.log("result-->3", result);
         return result;
     },
 
@@ -144,6 +193,7 @@ const getters = {
     classifiedBedData: (state, getters) => {
         let filteredBedData = getters.filteredBedData;
         let filteredDeviceData = getters.filteredDeviceData;
+        let filteredRoomData = getters.filteredRoomData;
         let displayCategory = getters.displayCategory;
         let displayCategoryLabel = getters.displayCategoryLabel;
         console.log("displayCategoryLabel", getters.displayCategoryLabel);
@@ -173,6 +223,11 @@ const getters = {
             //设备
             case "5":
                 result = filteredDeviceData;
+                break;
+
+            //房间
+            case "6":
+                result = filteredRoomData;
                 break;
         }
 
@@ -241,6 +296,15 @@ const getters = {
         }, 0);
 
         return offlineNum;
+    },
+
+    alarmRoomNum: (state, getters) => {
+        let roomNum = getters.filteredRoomData.reduce((total, item) => {
+            total += item.qty;
+            return total;
+        }, 0);
+
+        return roomNum;
     },
 };
 

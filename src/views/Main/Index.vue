@@ -17,6 +17,7 @@ const BedCardByTwentyfour = () => import("@/components/Cards/BedCard_by_24.vue")
 const DeviceCardBySix = () => import("@/components/Cards/DeviceCard_by_6.vue");
 const DeviceCardByTwelve = () => import("@/components/Cards/DeviceCard_by_12.vue");
 const DeviceCardByTwentyfour = () => import("@/components/Cards/DeviceCard_by_24.vue");
+const RoomCardBySix = () => import("@/components/Cards/RoomCard_by_6.vue");
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -28,6 +29,7 @@ export default {
         DeviceCardBySix,
         DeviceCardByTwelve,
         DeviceCardByTwentyfour,
+        RoomCardBySix,
     },
 
     data() {
@@ -65,7 +67,7 @@ export default {
                     } else if (role === "device") {
                         componentName = "DeviceCardBySix";
                     } else if (role === "room") {
-                        componentName = "BedCardBySix";
+                        componentName = "RoomCardBySix";
                     }
                     break;
                 case "X12":

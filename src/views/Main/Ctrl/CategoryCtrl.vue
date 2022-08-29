@@ -29,7 +29,7 @@
             >
             <el-radio class="radio-btn" label="6" border
                 ><div class="ctrl-label-wrap">
-                    <span>房间告警</span><span>0</span>
+                    <span>房间告警</span><span>{{alarmRoomNum}}</span>
                 </div></el-radio
             >
         </el-radio-group>
@@ -45,7 +45,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(['allDataNum', 'inBedNum', 'offBedNum', 'alarmBedNum', 'offlineDeviceNum']),
+        ...mapGetters(['allDataNum', 'inBedNum', 'offBedNum', 'alarmBedNum', 'offlineDeviceNum', 'alarmRoomNum']),
 
         categoryRadio: {
             get() {
