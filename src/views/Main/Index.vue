@@ -15,6 +15,8 @@ const BedCardBySix = () => import("@/components/Cards/BedCard_by_6.vue");
 const BedCardByTwelve = () => import("@/components/Cards/BedCard_by_12.vue");
 const BedCardByTwentyfour = () => import("@/components/Cards/BedCard_by_24.vue");
 const DeviceCardBySix = () => import("@/components/Cards/DeviceCard_by_6.vue");
+const DeviceCardByTwelve = () => import("@/components/Cards/DeviceCard_by_12.vue");
+const DeviceCardByTwentyfour = () => import("@/components/Cards/DeviceCard_by_24.vue");
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -24,6 +26,8 @@ export default {
         BedCardByTwelve,
         BedCardByTwentyfour,
         DeviceCardBySix,
+        DeviceCardByTwelve,
+        DeviceCardByTwentyfour,
     },
 
     data() {
@@ -68,7 +72,7 @@ export default {
                     if (role === "bed") {
                         componentName = "BedCardByTwelve";
                     } else if (role === "device") {
-                        componentName = "BedCardByTwelve";
+                        componentName = "DeviceCardByTwelve";
                     } else if (role === "room") {
                         componentName = "BedCardByTwelve";
                     }
@@ -77,7 +81,7 @@ export default {
                     if (role === "bed") {
                         componentName = "BedCardByTwentyfour";
                     } else if (role === "device") {
-                        componentName = "BedCardByTwentyfour";
+                        componentName = "DeviceCardByTwentyfour";
                     } else if (role === "room") {
                         componentName = "BedCardByTwentyfour";
                     }
@@ -106,7 +110,10 @@ export default {
 .grid-by-6 {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     grid-column-gap: 5rem;
+    grid-row-gap: 5rem;
+    align-items: start;
 }
 
 .grid-by-12 {

@@ -10,12 +10,25 @@
                 width="220"
                 placement="right"
                 trigger="click"
+                v-model="popOverVisible"
             >
                 <section class="alarm-list-wrap">
                     <el-scrollbar style="height: 100%">
                         <ul class="alarm-list">
-                            <li class="alarm-item">
-                                <div class="alarm-item-left">呼吸异常</div>
+                            <li
+                                class="alarm-item"
+                                v-for="(item, index) in alarmList"
+                                :key="index"
+                            >
+                                <el-tooltip
+                                    effect="dark"
+                                    :content="item.msg_text"
+                                    placement="top-start"
+                                >
+                                    <div class="alarm-item-left">
+                                        {{ item.msg_text }}
+                                    </div>
+                                </el-tooltip>
 
                                 <div class="alarm-item-right">
                                     <el-button type="text" size="small"
@@ -34,6 +47,8 @@
                     type="danger"
                     circle
                     size="mini"
+                    trigger="manual"
+                    @click="fetchUnsolvedAlarms(renderInfo.id)"
                     >{{ renderInfo.qty }}</el-button
                 >
             </el-popover>
@@ -48,6 +63,7 @@
 </template>
 
 <script>
+import { getUnsolvedAlarmInfo } from "@/api/dataSource.js";
 export default {
     props: {
         renderInfo: {
@@ -55,9 +71,37 @@ export default {
         },
     },
 
-    methods: {},
-};
+    data() {
+        return {
+            //弹窗控制
+            popOverVisible: false,
 
+            //报警列表
+            alarmList: [],
+        };
+    },
+
+    methods: {
+        //获取待处理告警信息
+        fetchUnsolvedAlarms(id) {
+            let params = {
+                id,
+                belong: "household",
+            };
+            getUnsolvedAlarmInfo(params)
+                .then((res) => {
+                    console.log("res", res);
+                    if (res.status === 200) {
+                        this.alarmList = res.data.data;
+                        this.popOverVisible = true;
+                    }
+                })
+                .catch((err) => {
+                    console.warn("err", err);
+                });
+        },
+    },
+};
 </script>
 
 <style>
@@ -66,13 +110,12 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    padding: .7rem 0 !important;
+    padding: 0.7rem 0 !important;
 }
-
 </style>
 
 <style scoped>
-@import url('~@/styles/alarmDlg.css');
+@import url("~@/styles/alarmDlg.css");
 
 .bed-card-by12-wrap {
     width: auto;
@@ -84,12 +127,13 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding: 0 .8rem;
+    padding: 0 0.8rem;
 }
 
 .card-name {
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: #18171d;
+    text-align: center;
 }
 
 .card-body {
@@ -108,12 +152,11 @@ export default {
     justify-content: center;
 }
 
-.card-footer{
-    padding: 0 .5rem;
+.card-footer {
+    padding: 0 0.5rem;
 }
 
 .card-footer .btn {
     width: 100%;
 }
-
 </style>

@@ -182,22 +182,25 @@ const getters = {
     /*---渲染数据---*/
     renderData: (state, getters) => {
         let displayCategory = getters.displayCategory;
-        let role = '';
-        
-        if(displayCategory === '5'){   //设备
-            role = 'device';
-        }else if(displayCategory === '6'){  //房间
-            role = 'room';
-        }else{  //床铺
-            role = 'bed';
+        let role = "";
+
+        if (displayCategory === "5") {
+            //设备
+            role = "device";
+        } else if (displayCategory === "6") {
+            //房间
+            role = "room";
+        } else {
+            //床铺
+            role = "bed";
         }
 
-        console.log('renderData==>', getters.classifiedBedData)
+        console.log("renderData==>", getters.classifiedBedData);
 
         return {
-            role,  //渲染角色
-            data : getters.classifiedBedData,
-        }
+            role, //渲染角色
+            data: getters.classifiedBedData,
+        };
     },
 
     /*---分类数据---*/
@@ -229,6 +232,15 @@ const getters = {
         }, 0);
 
         return alarmNum;
+    },
+
+    offlineDeviceNum: (state, getters) => {
+        let offlineNum = getters.filteredDeviceData.reduce((total, item) => {
+            total += item.off_qty;
+            return total;
+        }, 0);
+
+        return offlineNum;
     },
 };
 

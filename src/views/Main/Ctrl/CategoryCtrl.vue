@@ -24,7 +24,7 @@
             <el-divider class="split" direction="vertical"></el-divider>
             <el-radio class="radio-btn" label="5" border
                 ><div class="ctrl-label-wrap">
-                    <span>设备离线</span><span>0</span>
+                    <span>设备离线</span><span>{{offlineDeviceNum}}</span>
                 </div></el-radio
             >
             <el-radio class="radio-btn" label="6" border
@@ -45,7 +45,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(['allDataNum', 'inBedNum', 'offBedNum', 'alarmBedNum']),
+        ...mapGetters(['allDataNum', 'inBedNum', 'offBedNum', 'alarmBedNum', 'offlineDeviceNum']),
 
         categoryRadio: {
             get() {
