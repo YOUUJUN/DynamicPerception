@@ -14,19 +14,32 @@
                 src="@/static/offlineImg/female.png"
             />
 
-            <span class="card-name">{{renderInfo.name}}</span>
+            <span class="card-name">{{ renderInfo.name }}</span>
 
             <el-popover
                 popper-class="alarm-popover"
                 width="220"
                 placement="right"
                 trigger="click"
+                v-model="popOverVisible"
             >
                 <section class="alarm-list-wrap">
                     <el-scrollbar style="height: 100%">
                         <ul class="alarm-list">
-                            <li class="alarm-item">
-                                <div class="alarm-item-left">呼吸异常</div>
+                            <li
+                                class="alarm-item"
+                                v-for="(item, index) in alarmList"
+                                :key="index"
+                            >
+                                <el-tooltip
+                                    effect="dark"
+                                    :content="item.msg_text"
+                                    placement="top-start"
+                                >
+                                    <div class="alarm-item-left">
+                                        {{ item.msg_text }}
+                                    </div>
+                                </el-tooltip>
 
                                 <div class="alarm-item-right">
                                     <el-button type="text" size="small"
@@ -45,7 +58,9 @@
                     type="danger"
                     circle
                     size="mini"
-                    >{{renderInfo.qty}}</el-button
+                    trigger="manual"
+                    @click="fetchUnsolvedAlarms(renderInfo.id)"
+                    >{{ renderInfo.qty }}</el-button
                 >
             </el-popover>
         </div>
@@ -113,6 +128,7 @@
 </template>
 
 <script>
+import { getUnsolvedAlarmInfo } from "@/api/dataSource.js";
 export default {
     props: {
         renderInfo: {
@@ -121,7 +137,13 @@ export default {
     },
 
     data() {
-        return {};
+        return {
+            //弹窗控制
+            popOverVisible: false,
+
+            //报警列表
+            alarmList: [],
+        };
     },
 
     computed: {
@@ -138,7 +160,26 @@ export default {
         },
     },
 
-    methods: {},
+    methods: {
+        //获取待处理告警信息
+        fetchUnsolvedAlarms(id) {
+            let params = {
+                id,
+                belong: "household",
+            };
+            getUnsolvedAlarmInfo(params)
+                .then((res) => {
+                    console.log("res", res);
+                    if (res.status === 200) {
+                        this.alarmList = res.data.data;
+                        this.popOverVisible = true;
+                    }
+                })
+                .catch((err) => {
+                    console.warn("err", err);
+                });
+        },
+    },
 };
 </script>
 
@@ -150,11 +191,10 @@ export default {
     height: 100%;
     padding: 1.5rem 0 !important;
 }
-
 </style>
 
 <style scoped>
-@import url('~@/styles/alarmDlg.css');
+@import url("~@/styles/alarmDlg.css");
 
 .bed-card-by6-wrap {
     width: auto;
@@ -194,7 +234,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     color: #999;
-    margin: 0.8rem 0;
+    padding: 0.8rem 0;
 }
 
 .card-item-left {
@@ -202,7 +242,7 @@ export default {
     align-items: center;
 }
 
-.card-avatar{
+.card-avatar {
     width: 3.6rem;
     height: 3.6rem;
     border-radius: 50%;
@@ -215,16 +255,22 @@ export default {
     margin-right: 1rem;
 }
 
+.status-label {
+    width: 14rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .status-name {
     font-size: 1.4rem;
 }
 
-.card-footer{
+.card-footer {
     padding: 0 1.5rem;
 }
 
 .card-footer .btn {
     width: 100%;
 }
-
 </style>

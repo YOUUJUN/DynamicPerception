@@ -1,6 +1,7 @@
 import request from "@/utils/http";
 import qs from "qs";
 
+//获取菜单数据，床铺数据
 export function getAllData(params) {
     return request({
         url: `/home/elderly/data/api`,
@@ -12,6 +13,7 @@ export function getAllData(params) {
     });
 }
 
+//获取离线设备数据
 export function getOfflineData(params) {
     return request({
         url: `/dev/home/offline/api`,
@@ -23,9 +25,22 @@ export function getOfflineData(params) {
     });
 }
 
+//获取房间告警数据
 export function getRoomData(params) {
     return request({
         url: `/warn/home/all/alarm/api`,
+        method: "post",
+        data: qs.stringify(params),
+        headers: {
+            "content-type": "application/x-www-form-urlencoded",
+        },
+    });
+}
+
+//获取所有待处理信息
+export function getUnsolvedAlarmInfo(params) {
+    return request({
+        url: `/get/all/data/api`,
         method: "post",
         data: qs.stringify(params),
         headers: {

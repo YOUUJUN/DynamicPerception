@@ -192,6 +192,8 @@ const getters = {
             role = 'bed';
         }
 
+        console.log('renderData==>', getters.classifiedBedData)
+
         return {
             role,  //渲染角色
             data : getters.classifiedBedData,

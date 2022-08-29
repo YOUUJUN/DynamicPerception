@@ -2,24 +2,35 @@
 <template>
     <el-card class="device-card-by6-wrap">
         <div class="card-header">
-            <span class="card-name">{{ renderInfo.name }}</span>
+            <span class="card-name">{{ renderInfo.room_name }}</span>
         </div>
 
         <div class="card-body">
-            <ul class="card-list">
-                <li class="card-item">
-                    <div class="card-item-left">
-                        <img
-                            src="@/static/img/normalStatus.png"
-                            class="status-icon"
-                        />
-                        <span class="status-label">状态</span>
-                    </div>
-                    <div class="card-item-right">
-                        <span class="status-name">{{ renderInfo.status }}</span>
-                    </div>
-                </li>
-            </ul>
+            <el-scrollbar style="height: 100%">
+                <ul class="card-list">
+                    <li
+                        class="card-item"
+                        v-for="(item, index) in renderInfo.devices"
+                        :key="index"
+                    >
+                        <div class="card-item-left">
+                            <img :src="item.img" class="status-icon" />
+                            <el-tooltip
+                                effect="dark"
+                                :content="item.name"
+                                placement="top-start"
+                            >
+                                <span class="status-label">
+                                    {{ item.name }}
+                                </span>
+                            </el-tooltip>
+                        </div>
+                        <div class="card-item-right">
+                            <span class="status-name">{{ item.status }}</span>
+                        </div>
+                    </li>
+                </ul>
+            </el-scrollbar>
         </div>
     </el-card>
 </template>
@@ -36,8 +47,8 @@ export default {
         return {};
     },
 
-    created(){
-        console.log('renderInfo', this.renderInfo);
+    created() {
+        console.log("renderInfo", this.renderInfo);
     },
 
     computed: {},
@@ -51,34 +62,88 @@ export default {
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 100%;
     padding: 1.5rem 0 !important;
 }
 </style>
 
 <style scoped>
-
-.device-card-by6-wrap{
+.device-card-by6-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: auto;
+    height: 26rem;
 }
 
-.card-header{
-    flex:none;
+.card-header {
+    flex: none;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.card-body{
-    flex:auto;
+.card-name {
+    font-weight: bold;
+    color: #18171d;
+    font-size: 2.6rem;
+    cursor: pointer;
+}
+
+.card-name:hover {
+    color: #439df7;
+}
+
+.card-body {
+    flex: auto;
     display: flex;
-    height:100%;
-    justify-content: center;
+    height: 100%;
+    overflow: hidden;
+}
+
+.card-list {
+    font-size: 1.5rem;
+    list-style: none;
+    padding: 0 1.5rem;
+    width: 100%;
+}
+
+.card-list .card-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: #999;
+    padding: 0.8rem 0;
+}
+
+.card-item-left {
+    display: flex;
     align-items: center;
 }
 
+.card-avatar {
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
 
+.status-icon {
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 1rem;
+}
 
+.status-label {
+    width: 14rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.status-name {
+    font-size: 1.4rem;
+}
 </style>
 
