@@ -236,7 +236,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     color: #999;
-    padding: 0.8rem 0;
+    padding: 0.6rem 0;
 }
 
 .card-item-left {

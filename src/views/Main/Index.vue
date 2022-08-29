@@ -18,6 +18,8 @@ const DeviceCardBySix = () => import("@/components/Cards/DeviceCard_by_6.vue");
 const DeviceCardByTwelve = () => import("@/components/Cards/DeviceCard_by_12.vue");
 const DeviceCardByTwentyfour = () => import("@/components/Cards/DeviceCard_by_24.vue");
 const RoomCardBySix = () => import("@/components/Cards/RoomCard_by_6.vue");
+const RoomCardByTwelve = () => import("@/components/Cards/RoomCard_by_12.vue");
+const RoomCardByTwentyfour = () => import("@/components/Cards/RoomCard_by_24.vue");
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -30,6 +32,8 @@ export default {
         DeviceCardByTwelve,
         DeviceCardByTwentyfour,
         RoomCardBySix,
+        RoomCardByTwelve,
+        RoomCardByTwentyfour,
     },
 
     data() {
@@ -76,7 +80,7 @@ export default {
                     } else if (role === "device") {
                         componentName = "DeviceCardByTwelve";
                     } else if (role === "room") {
-                        componentName = "BedCardByTwelve";
+                        componentName = "RoomCardByTwelve";
                     }
                     break;
                 case "X24":
@@ -85,7 +89,7 @@ export default {
                     } else if (role === "device") {
                         componentName = "DeviceCardByTwentyfour";
                     } else if (role === "room") {
-                        componentName = "BedCardByTwentyfour";
+                        componentName = "RoomCardByTwentyfour";
                     }
                     break;
             }

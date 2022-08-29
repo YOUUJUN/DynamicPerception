@@ -49,3 +49,15 @@ export function getUnsolvedAlarmInfo(params) {
     });
 }
 
+//获取所有房间告警数据
+export function getAllRoomAlarmInfo(params) {
+    return request({
+        url: `/get/untreated/api`,
+        method: "post",
+        data: qs.stringify(params),
+        headers: {
+            "content-type": "application/x-www-form-urlencoded",
+        },
+    });
+}
+
