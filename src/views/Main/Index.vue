@@ -5,8 +5,11 @@
                 v-for="item in renderData.data"
                 :renderInfo="item"
                 :is="displayComponentName"
+                @openElderDlg="openElderDlg"
             ></component>
         </template>
+
+        <elder-info-dlg ref="elderDlg" :elderInfo="elderInfo" :visible.sync="elderDlgVisible"></elder-info-dlg>
     </section>
 </template>
 
@@ -21,7 +24,11 @@ const RoomCardBySix = () => import("@/components/Cards/RoomCard_by_6.vue");
 const RoomCardByTwelve = () => import("@/components/Cards/RoomCard_by_12.vue");
 const RoomCardByTwentyfour = () => import("@/components/Cards/RoomCard_by_24.vue");
 
+const ElderInfoDlg = () => import('@/components/Dialogs/ElderInfoDlg.vue')
+
 import { mapGetters, mapActions } from "vuex";
+import { getElderlyData } from "@/api/dataSource.js";
+
 
 export default {
     components: {
@@ -34,10 +41,17 @@ export default {
         RoomCardBySix,
         RoomCardByTwelve,
         RoomCardByTwentyfour,
+
+        ElderInfoDlg,
     },
 
     data() {
-        return {};
+        return {
+            //老人信息窗体控制
+            elderDlgVisible : false,
+            //老人窗体信息数据
+            elderInfo : {},
+        };
     },
 
     computed: {
@@ -101,7 +115,27 @@ export default {
         console.log("renderData", this.renderData);
     },
 
-    methods: {},
+    methods: {
+
+        //打开老人信息窗体
+        openElderDlg(id){
+            getElderlyData({
+                bed_id: id,
+                belong: "household"
+            }).then(res => {
+                console.log('res -->', res);
+                if(res.status === 200){
+                    let bedInfo = res.data.data[0];
+                    this.elderInfo = bedInfo;
+                    this.elderDlgVisible = true;
+                }
+                
+            }).catch(err => {
+                console.warn('err', err);
+            })
+        }
+
+    },
 };
 </script>
 

@@ -145,7 +145,7 @@ const getters = {
 
                 filterArr.forEach((item) => {
                     let cache = offlineData.filter(
-                        (data) => item.id === data.house_id ?? item
+                        (data) => item.id === data.id ?? item
                     );
                     result = result.concat(cache);
                 });
@@ -160,6 +160,7 @@ const getters = {
         let roomData = getters.roomData;
         console.log("roomData", roomData);
         let displayFilters = getters.displayFilters;
+        console.log('displayFilters', displayFilters);
         let result = [];
         let levelQueue = displayFilters
             .map((item) => {
@@ -194,10 +195,24 @@ const getters = {
                     let cache = roomData.filter(
                         (data) => item.id === data.community_id ?? item
                     );
+                    console.log('filter-cache', cache, item);
                     result = result.concat(cache);
                 });
                 break;
             case 3:
+                filterArr = displayFilters.filter((item) => {
+                    if (item.level === firstLevel) {
+                        return item;
+                    }
+                });
+
+                filterArr.forEach((item) => {
+                    let cache = roomData.filter(
+                        (data) => item.id === data.id ?? item
+                    );
+                    result = result.concat(cache);
+                });
+                break;
             case 4:
                 filterArr = displayFilters.filter((item) => {
                     if (item.level === firstLevel) {
@@ -207,11 +222,12 @@ const getters = {
 
                 filterArr.forEach((item) => {
                     let cache = roomData.filter(
-                        (data) => item.id === data.house_id ?? item
+                        (data) => item.parentId === data.id ?? item
                     );
                     result = result.concat(cache);
                 });
                 break;
+                
         }
 
         console.log("result-->3", result);

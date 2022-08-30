@@ -82,7 +82,7 @@ export default {
 
         //处理菜单选中
         handleCheckedChange(data, node){
-            console.log("changeing----------")
+            console.log("changeing----------", data);
             let checkedNodes = this.$refs.treeMenu.getCheckedNodes();
             let checkedKeys = this.$refs.treeMenu.getCheckedKeys();
             console.log('checkedNodes', checkedNodes);
@@ -93,6 +93,7 @@ export default {
                 let node = this.$refs.treeMenu.getNode(item);
                 return {
                     id,
+                    parentId : node?.parent?.id,
                     level : node.level,
                 }
             })

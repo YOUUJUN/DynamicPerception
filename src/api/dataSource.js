@@ -61,3 +61,17 @@ export function getAllRoomAlarmInfo(params) {
     });
 }
 
+
+//获取老人信息
+export function getElderlyData(params){
+    return request({
+        url: `/elderly/detail/api`,
+        method: "post",
+        data: qs.stringify(params),
+        headers: {
+            "content-type": "application/x-www-form-urlencoded",
+        },
+    });
+}
+
+

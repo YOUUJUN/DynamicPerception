@@ -6,12 +6,14 @@
                 v-if="getGender === 'male'"
                 class="card-avatar"
                 src="@/static/offlineImg/male.png"
+                @click="openElderDlg(renderInfo.id)"
             />
 
             <img
                 v-else
                 class="card-avatar"
                 src="@/static/offlineImg/female.png"
+                @click="openElderDlg(renderInfo.id)"
             />
 
             <span class="card-name">{{ renderInfo.name }}</span>
@@ -187,6 +189,11 @@ export default {
                     console.warn("err", err);
                 });
         },
+
+        //打开老人信息窗体
+        openElderDlg(id){
+            this.$emit('openElderDlg', id);
+        }
     },
 };
 </script>
