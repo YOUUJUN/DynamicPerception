@@ -130,7 +130,7 @@
         </ul>
 
         <div class="card-footer">
-            <el-button class="btn" type="info" size="small" round
+            <el-button class="btn" type="info" size="small" round @click="openHealthReportDlg(renderInfo.partner_id)"
                 >查看报告</el-button
             >
         </div>
@@ -191,8 +191,13 @@ export default {
         },
 
         //打开老人信息窗体
-        openElderDlg(id){
-            this.$emit('openElderDlg', id);
+        openElderDlg(id) {
+            this.$emit("openElderDlg", id);
+        },
+
+        //打开健康报告窗体
+        openHealthReportDlg(id){
+            this.$emit("openHealthReportDlg", id);
         }
     },
 };

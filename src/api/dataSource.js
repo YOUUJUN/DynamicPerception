@@ -74,4 +74,15 @@ export function getElderlyData(params){
     });
 }
 
+//获取老人健康报告
+export function getElderlyHealthReport(params){
+    return request({
+        url: `/elderly/health/report/api`,
+        method: "post",
+        data: qs.stringify(params),
+        headers: {
+            "content-type": "application/x-www-form-urlencoded",
+        },
+    });
+}
 

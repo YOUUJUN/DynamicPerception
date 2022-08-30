@@ -5,6 +5,8 @@ import store from './store'
 import Request from '@/utils/http.js'
 //vue2.0 template 链运算符使用 
 import {useChain} from "@/utils/index.js"
+//扩展date
+import '@/utils/global/dateExtend.js'
 
 
 // import {Container, Scrollbar, Avatar, Card, PageHeader} from 'element-ui';

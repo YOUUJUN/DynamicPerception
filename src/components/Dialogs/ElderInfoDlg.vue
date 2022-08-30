@@ -80,16 +80,6 @@ export default {
         return {};
     },
 
-    watch: {
-        visible: {
-            handler(newValue) {
-                if (newValue === true) {
-                    console.log("elderInfo", this.elderInfo);
-                }
-            },
-        },
-    },
-
     methods: {
         handleClose() {
             this.$emit("update:visible", false);
