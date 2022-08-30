@@ -5,8 +5,6 @@
                 v-for="item in renderData.data"
                 :renderInfo="item"
                 :is="displayComponentName"
-                @openElderDlg="openElderDlg"
-                @openHealthReportDlg="openHealthReportDlg"
             ></component>
         </template>
 
@@ -129,6 +127,13 @@ export default {
             }
             return componentName;
         },
+    },
+
+    provide(){
+        return {
+            openElderDlg_inject : this.openElderDlg,
+            openHealthReportDlg_inject : this.openHealthReportDlg,
+        }
     },
 
     created() {

@@ -53,12 +53,6 @@
                 >
             </el-popover>
         </div>
-
-        <div class="card-footer">
-            <el-button class="btn" type="info" size="mini" round
-                >查看报告</el-button
-            >
-        </div>
     </el-card>
 </template>
 
@@ -109,7 +103,7 @@ export default {
 .room-card-by12-wrap .el-card__body {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     height: 100%;
     padding: 0.7rem 0 !important;
 }
@@ -153,11 +147,4 @@ export default {
     justify-content: center;
 }
 
-.card-footer {
-    padding: 0 0.5rem;
-}
-
-.card-footer .btn {
-    width: 100%;
-}
 </style>

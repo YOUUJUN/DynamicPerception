@@ -1,7 +1,15 @@
 <template>
     <el-card class="bed-card-by12-wrap">
         <div class="card-header">
-            <span class="card-name">{{ renderInfo.name }}</span>
+            <el-popover
+                popper-class="bedBySix-popover"
+                placement="right"
+                width="240"
+                trigger="click"
+            >
+                <bed-card-by-six :renderInfo="renderInfo"></bed-card-by-six>
+                <span slot="reference" class="card-name">{{ renderInfo.name }}</span>
+            </el-popover>
         </div>
 
         <div class="card-body">
@@ -63,8 +71,14 @@
 </template>
 
 <script>
+const BedCardBySix = () => import("@/components/Cards/BedCard_by_6.vue");
 import { getUnsolvedAlarmInfo } from "@/api/dataSource.js";
 export default {
+
+    components : {
+        BedCardBySix
+    },
+
     props: {
         renderInfo: {
             type: Object,
@@ -112,6 +126,10 @@ export default {
     height: 100%;
     padding: 0.7rem 0 !important;
 }
+
+.bedBySix-popover{
+    padding:0;
+}
 </style>
 
 <style scoped>
@@ -131,9 +149,15 @@ export default {
 }
 
 .card-name {
+    display: inline-block;
     font-size: 1.8rem;
     color: #18171d;
     text-align: center;
+    cursor: pointer;
+}
+
+.card-name:hover {
+    color: #439df7;
 }
 
 .card-body {
@@ -158,5 +182,12 @@ export default {
 
 .card-footer .btn {
     width: 100%;
+}
+</style>
+
+<style scoped>
+.bedBySix-popover .bed-card-by6-wrap{
+    box-shadow: unset;
+    border: none;
 }
 </style>

@@ -170,6 +170,8 @@ export default {
         },
     },
 
+    inject : ['openElderDlg_inject', 'openHealthReportDlg_inject'],
+
     methods: {
         //获取待处理告警信息
         fetchUnsolvedAlarms(id) {
@@ -192,12 +194,12 @@ export default {
 
         //打开老人信息窗体
         openElderDlg(id) {
-            this.$emit("openElderDlg", id);
+            this.openElderDlg_inject(id)
         },
 
         //打开健康报告窗体
         openHealthReportDlg(id){
-            this.$emit("openHealthReportDlg", id);
+            this.openHealthReportDlg_inject(id)
         }
     },
 };

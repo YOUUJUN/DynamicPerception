@@ -189,6 +189,10 @@ export default {
     flex: none;
 }
 
+.card-header-left{
+    width:3rem;
+}
+
 .card-name {
     font-size: 2.2rem;
     color: #18171d;
