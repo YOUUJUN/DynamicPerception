@@ -176,7 +176,6 @@
 </template>
 
 <script>
-import { getElderlyHealthReport } from "@/api/dataSource.js";
 export default {
     inject: ["fetchElderHealthReportByTime_inject"],
 
@@ -262,7 +261,6 @@ export default {
         setReportDate(date){
             this.reportDate = date;
         },
-
 
         //获取报告数据
         fetchReport(date) {

@@ -63,7 +63,7 @@
         </div>
 
         <div class="card-footer">
-            <el-button class="btn" type="info" size="mini" round
+            <el-button class="btn" type="info" size="mini" round @click="openHealthReportDlg(renderInfo.partner_id)"
                 >查看报告</el-button
             >
         </div>
@@ -95,6 +95,9 @@ export default {
         };
     },
 
+
+    inject : ['openHealthReportDlg_inject'],
+
     methods: {
         //获取待处理告警信息
         fetchUnsolvedAlarms(id) {
@@ -114,6 +117,11 @@ export default {
                     console.warn("err", err);
                 });
         },
+
+        //打开健康报告窗体
+        openHealthReportDlg(id){
+            this.openHealthReportDlg_inject(id)
+        }
     },
 };
 </script>
