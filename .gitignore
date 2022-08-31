@@ -4,6 +4,7 @@ node_modules
 /vue-pages
 /vue-public
 /dist
+package-lock.json
 
 # local env files
 .env.local
