@@ -62,9 +62,26 @@ const mutations = {
     SET_MENU_FILTERS(state, payload) {
         state.menu.filters = payload;
     },
+
+    CHANGE_BED_ALARM_QTY(state, payload) {
+        let { partner_id, warn_qty } = payload;
+        let rowData = state.originData.find(
+            (data) => data.partner_id === partner_id
+        );
+        rowData.qty = warn_qty;
+    },
+
+    CHANGE_ROOM_ALARM_QTY(state, payload) {
+        let { room_id, warn_qty } = payload;
+        let rowData = state.roomData.find(
+            (data) => data.id === room_id
+        );
+        rowData.qty = warn_qty;
+    },
 };
 
 const actions = {
+    //获取所有床铺数据
     fetchData({ state, commit }) {
         return new Promise((resolve, reject) => {
             getAllData({
@@ -85,6 +102,7 @@ const actions = {
         });
     },
 
+    //获取离线设备数据
     fetchOfflineData({ state, commit }) {
         return new Promise((resolve, reject) => {
             getOfflineData({
@@ -115,6 +133,7 @@ const actions = {
         });
     },
 
+    //获取房间告警数据
     fetchRoomData({ state, commit }) {
         return new Promise((resolve, reject) => {
             getRoomData({
@@ -135,6 +154,30 @@ const actions = {
                     console.error("err", err);
                     reject();
                 });
+        });
+    },
+
+    //处理床铺告警
+    resolveBedAlarm({ state, commit }, payload) {
+        return new Promise((resolve, reject) => {
+            try {
+                commit("CHANGE_BED_ALARM_QTY", payload);
+                resolve();
+            } catch {
+                reject();
+            }
+        });
+    },
+
+    //处理房间告警
+    resolveRoomAlarm({ state, commit }, payload) {
+        return new Promise((resolve, reject) => {
+            try {
+                commit("CHANGE_ROOM_ALARM_QTY", payload);
+                resolve();
+            } catch {
+                reject();
+            }
         });
     },
 

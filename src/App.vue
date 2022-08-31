@@ -17,6 +17,8 @@ export default {
 </script>
 
 <style>
+@import url('~@/styles/global_ele.css');
+
 *{
     box-sizing: border-box;
 }

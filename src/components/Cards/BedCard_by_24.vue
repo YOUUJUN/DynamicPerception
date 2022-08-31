@@ -21,7 +21,7 @@
                 v-model="popOverVisible"
             >
 
-                <alarm-process-dlg :alarmData="alarmList"></alarm-process-dlg>
+                <alarm-process-dlg :alarmData="alarmList" :bedInfo="renderInfo"></alarm-process-dlg>
 
                 <el-button
                     v-if="renderInfo.qty != 0"
