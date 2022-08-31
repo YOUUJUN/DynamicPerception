@@ -20,33 +20,8 @@
                 trigger="click"
                 v-model="popOverVisible"
             >
-                <section class="alarm-list-wrap">
-                    <el-scrollbar style="height: 100%">
-                        <ul class="alarm-list">
-                            <li
-                                class="alarm-item"
-                                v-for="(item, index) in alarmList"
-                                :key="index"
-                            >
-                                <el-tooltip
-                                    effect="dark"
-                                    :content="item.msg_text"
-                                    placement="top-start"
-                                >
-                                    <div class="alarm-item-left">
-                                        {{ item.msg_text }}
-                                    </div>
-                                </el-tooltip>
 
-                                <div class="alarm-item-right">
-                                    <el-button type="text" size="small"
-                                        >立即处理</el-button
-                                    >
-                                </div>
-                            </li>
-                        </ul>
-                    </el-scrollbar>
-                </section>
+                <alarm-process-dlg :alarmData="alarmList"></alarm-process-dlg>
 
                 <el-button
                     v-if="renderInfo.qty != 0"
@@ -71,12 +46,14 @@
 </template>
 
 <script>
+const AlarmProcessDlg = () => import('@/components/Dialogs/AlarmProcessDlg.vue')
 const BedCardBySix = () => import("@/components/Cards/BedCard_by_6.vue");
 import { getUnsolvedAlarmInfo } from "@/api/dataSource.js";
 export default {
 
     components : {
-        BedCardBySix
+        BedCardBySix,
+        AlarmProcessDlg,
     },
 
     props: {
@@ -141,8 +118,6 @@ export default {
 </style>
 
 <style scoped>
-@import url("~@/styles/alarmDlg.css");
-
 .bed-card-by12-wrap {
     width: auto;
     height: 13rem;
