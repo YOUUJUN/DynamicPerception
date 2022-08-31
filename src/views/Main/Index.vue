@@ -16,6 +16,7 @@
 
         <health-report-dlg
             ref="reportDlg"
+            :partnerId="partner_id"
             :reportInfo="reportInfo"
             :visible.sync="reportDlgVisible"
         ></health-report-dlg>
@@ -69,6 +70,9 @@ export default {
             //老人健康报告窗体控制
             reportDlgVisible : false,
             reportInfo : {},
+            //老人健康报告获取数据id
+            partner_id : 0,
+            reportId : 0,
         };
     },
 
@@ -133,6 +137,7 @@ export default {
         return {
             openElderDlg_inject : this.openElderDlg,
             openHealthReportDlg_inject : this.openHealthReportDlg,
+            fetchElderHealthReportByTime_inject : this.fetchElderHealthReportByTime,
         }
     },
 
@@ -165,7 +170,15 @@ export default {
             this.fetchElderHealthReportByTime(id)
                 .then((res) => {
                     console.log("res-->", res);
-                    this.reportDlgVisible = true;
+                    if(res.status === 200){
+                        let reportInfo = res.data.data[0] ?? {};
+                        this.partner_id = id;
+                        this.$refs.reportDlg.setReportDate(new Date().Format('yyyy-MM-dd'))
+                        this.reportInfo = reportInfo;
+                        console.log('reportInfo', this.reportInfo);
+                        this.reportDlgVisible = true;
+                    }
+                    
                 })
                 .catch((err) => {
                     console.warn("err", err);
@@ -182,6 +195,8 @@ export default {
                 report_date: date,
             });
         },
+
+        //处理床铺告警
     },
 };
 </script>

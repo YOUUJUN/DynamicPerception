@@ -86,3 +86,15 @@ export function getElderlyHealthReport(params){
     });
 }
 
+//处理告警提示接口
+export function handleAlarmPrompt(params){
+    return request({
+        url: `/imm/process/api`,
+        method: "post",
+        data: qs.stringify(params),
+        headers: {
+            "content-type": "application/x-www-form-urlencoded",
+        },
+    });
+}
+

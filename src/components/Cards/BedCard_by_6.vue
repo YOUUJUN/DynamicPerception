@@ -144,6 +144,8 @@ export default {
         renderInfo: {
             type: Object,
         },
+
+        reportDlgVisible : {}
     },
 
     data() {
