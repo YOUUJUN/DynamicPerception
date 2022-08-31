@@ -20,6 +20,11 @@
             :reportInfo="reportInfo"
             :visible.sync="reportDlgVisible"
         ></health-report-dlg>
+
+        <room-info-dlg
+            :visible.sync="roomDlgVisible"
+            :roomInfo="roomInfo"
+        ></room-info-dlg>
     </section>
 </template>
 
@@ -39,10 +44,16 @@ const RoomCardByTwentyfour = () =>
     import("@/components/Cards/RoomCard_by_24.vue");
 
 const ElderInfoDlg = () => import("@/components/Dialogs/ElderInfoDlg.vue");
-const HealthReportDlg = () => import("@/components/Dialogs/HealthReportDlg.vue");
+const HealthReportDlg = () =>
+    import("@/components/Dialogs/HealthReportDlg.vue");
+const RoomInfoDlg = () => import("@/components/Dialogs/RoomInfoDlg.vue");
 
 import { mapGetters, mapActions } from "vuex";
-import { getElderlyData, getElderlyHealthReport } from "@/api/dataSource.js";
+import {
+    getElderlyData,
+    getElderlyHealthReport,
+    getRoomInfo,
+} from "@/api/dataSource.js";
 
 export default {
     components: {
@@ -58,6 +69,7 @@ export default {
 
         ElderInfoDlg,
         HealthReportDlg,
+        RoomInfoDlg,
     },
 
     data() {
@@ -68,11 +80,15 @@ export default {
             elderInfo: {},
 
             //老人健康报告窗体控制
-            reportDlgVisible : false,
-            reportInfo : {},
+            reportDlgVisible: false,
+            reportInfo: {},
             //老人健康报告获取数据id
-            partner_id : 0,
-            reportId : 0,
+            partner_id: 0,
+            reportId: 0,
+
+            //房间信息窗体控制
+            roomDlgVisible: false,
+            roomInfo: {},
         };
     },
 
@@ -133,12 +149,14 @@ export default {
         },
     },
 
-    provide(){
+    provide() {
         return {
-            openElderDlg_inject : this.openElderDlg,
-            openHealthReportDlg_inject : this.openHealthReportDlg,
-            fetchElderHealthReportByTime_inject : this.fetchElderHealthReportByTime,
-        }
+            openElderDlg_inject: this.openElderDlg,
+            openHealthReportDlg_inject: this.openHealthReportDlg,
+            openRoomInfoDlg_inject: this.openRoomInfoDlg,
+            fetchElderHealthReportByTime_inject:
+                this.fetchElderHealthReportByTime,
+        };
     },
 
     created() {
@@ -170,19 +188,40 @@ export default {
             this.fetchElderHealthReportByTime(id)
                 .then((res) => {
                     console.log("res-->", res);
-                    if(res.status === 200){
+                    if (res.status === 200) {
                         let reportInfo = res.data.data[0] ?? {};
                         this.partner_id = id;
-                        this.$refs.reportDlg.setReportDate(new Date().Format('yyyy-MM-dd'))
+                        this.$refs.reportDlg.setReportDate(
+                            new Date().Format("yyyy-MM-dd")
+                        );
                         this.reportInfo = reportInfo;
-                        console.log('reportInfo', this.reportInfo);
+                        console.log("reportInfo", this.reportInfo);
                         this.reportDlgVisible = true;
                     }
-                    
                 })
                 .catch((err) => {
                     console.warn("err", err);
                 });
+        },
+
+        //打开房间信息窗体
+        openRoomInfoDlg(id) {
+            getRoomInfo({
+                room_id: id,
+                belong: "household",
+            })
+                .then((res) => {
+                    console.log("res -->", res);
+                    if (res.status === 200) {
+                        let roomInfo = res.data;
+                        this.roomInfo = roomInfo;
+                        this.roomDlgVisible = true;
+                    }
+                })
+                .catch((err) => {
+                    console.warn("err", err);
+                });
+            
         },
 
         //通过时间获取老人健康报告信息
@@ -191,12 +230,10 @@ export default {
             date = new Date().Format("yyyy-MM-dd")
         ) {
             return getElderlyHealthReport({
-                partner_id : id,
+                partner_id: id,
                 report_date: date,
             });
         },
-
-        //处理床铺告警
     },
 };
 </script>

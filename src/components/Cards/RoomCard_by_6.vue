@@ -4,7 +4,7 @@
         <div class="card-header">
             <div class="card-header-left"></div>
 
-            <span class="card-name">{{ renderInfo.name }}</span>
+            <span class="card-name" @click="openRoomInfoDlg(renderInfo.id)">{{ renderInfo.name }}</span>
 
             <el-popover
                 popper-class="alarm-popover"
@@ -114,7 +114,14 @@ export default {
         },
     },
 
+    inject : ['openRoomInfoDlg_inject'],
+
     methods: {
+        //打开房间信息窗体
+        openRoomInfoDlg(id){
+            this.openRoomInfoDlg_inject(id)
+        },
+
         //获取待处理告警信息
         fetchAllRoomAlarmInfo(id) {
             let params = {
@@ -178,6 +185,11 @@ export default {
     color: #18171d;
     text-align: center;
     padding: 0 6px;
+    cursor: pointer;
+}
+
+.card-name:hover {
+    color: #439df7;
 }
 
 .card-num {

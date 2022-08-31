@@ -2,7 +2,7 @@
 <template>
     <el-card class="device-card-by6-wrap">
         <div class="card-header">
-            <span class="card-name">{{ renderInfo.room_name }}</span>
+            <span class="card-name" @click="openRoomInfoDlg(renderInfo.id)">{{ renderInfo.room_name }}</span>
         </div>
 
         <div class="card-body">
@@ -53,7 +53,16 @@ export default {
 
     computed: {},
 
-    methods: {},
+    inject : ['openRoomInfoDlg_inject'],
+
+    methods: {
+
+        //打开房间信息窗体
+        openRoomInfoDlg(id){
+            this.openRoomInfoDlg_inject(id)
+        }
+
+    },
 };
 </script>
 

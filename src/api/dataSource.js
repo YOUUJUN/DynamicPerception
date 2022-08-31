@@ -98,3 +98,15 @@ export function handleAlarmPrompt(params){
     });
 }
 
+//获取房间信息数据
+export function getRoomInfo(params){
+    return request({
+        url: `/get/room/info/api`,
+        method: "post",
+        data: qs.stringify(params),
+        headers: {
+            "content-type": "application/x-www-form-urlencoded",
+        },
+    });
+}
+
