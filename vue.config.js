@@ -139,9 +139,12 @@ module.exports = function () {
 
             //优化moment 去掉国际化内容；
             //我都不知道哪来的moment
-            config
-                .plugin("ignore")
-                .use(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
+            config.plugin("ignore").use(
+                new webpack.IgnorePlugin({
+                    resourceRegExp: /^\.\/locale$/,
+                    contextRegExp: /moment$/,
+                })
+            );
 
             config //打包时生成.gz文件
                 .plugin("compression-webpack-plugin")
@@ -182,15 +185,15 @@ module.exports = function () {
                     },
                 },
 
-                postcss : {
-                    plugins : [
-                        require('postcss-pxtorem')({
+                postcss: {
+                    plugins: [
+                        require("postcss-pxtorem")({
                             rootValue: 10, // 换算的基数(设计图750的根字体为32)
                             selectorBlackList: [], // 忽略转换正则匹配项
-                            propList: ['*'],  //要转换的匹配项
-                        })
-                    ]
-                }
+                            propList: ["*"], //要转换的匹配项
+                        }),
+                    ],
+                },
             },
         },
     };
