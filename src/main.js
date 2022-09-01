@@ -8,6 +8,12 @@ import {useChain} from "@/utils/index.js"
 //扩展date
 import '@/utils/global/dateExtend.js'
 
+//添加 websocket
+import SocketService from '@/api/socketService'
+//触发对于服务器的socket连接
+SocketService.Instance.connect();
+
+
 
 // import {Container, Scrollbar, Avatar, Card, PageHeader} from 'element-ui';
 // import 'element-ui/lib/theme-chalk/index.css';
@@ -35,6 +41,7 @@ Vue.config.productionTip = false;
 
 /*---init axios---*/
 Vue.prototype.$request = Request;
+Vue.prototype.$socket = SocketService.Instance;
 
 Vue.prototype.$bus = new Vue();
 Vue.prototype.$useChain = useChain;

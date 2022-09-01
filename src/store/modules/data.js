@@ -1,8 +1,5 @@
-import request from "@/utils/http";
-import { getAction, postAction } from "@/api/manage.js";
-import { getAllData, getOfflineData, getRoomData } from "@/api/dataSource.js";
 
-import qs from "qs";
+import { getAllData, getOfflineData, getRoomData } from "@/api/dataSource.js";
 
 const state = {
     uid: window.uid,

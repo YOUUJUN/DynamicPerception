@@ -14,6 +14,7 @@
                     type="date"
                     value-format="yyyy-MM-dd"
                     placeholder="选择日期"
+                    :clearable="false"
                     :picker-options="pickerOptions"
                     @change="fetchReport"
                 >
