@@ -4,7 +4,6 @@
             <el-popover
                 popper-class="roomBySix-popover"
                 placement="right"
-                width="240"
                 trigger="click"
             >
                 <room-card-by-six :renderInfo="renderInfo"></room-card-by-six>
@@ -99,6 +98,7 @@ export default {
 }
 
 .roomBySix-popover{
+    width:24rem;
     padding:0;
 }
 </style>

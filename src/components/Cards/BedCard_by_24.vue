@@ -4,7 +4,6 @@
             <el-popover
                 popper-class="bedBySix-popover"
                 placement="right"
-                width="240"
                 trigger="click"
             >
                 <bed-card-by-six :renderInfo="renderInfo"></bed-card-by-six>
@@ -99,6 +98,7 @@ export default {
 }
 
 .bedBySix-popover{
+    width:24rem;
     padding:0;
 }
 </style>

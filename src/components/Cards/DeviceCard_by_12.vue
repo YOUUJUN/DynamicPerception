@@ -4,7 +4,6 @@
             <el-popover
                 popper-class="device-popover"
                 placement="right"
-                width="240"
                 trigger="click"
             >
                 
@@ -54,6 +53,7 @@ export default {
 }
 
 .device-popover{
+    width:24rem;
     padding: 0;
 }
 </style>
