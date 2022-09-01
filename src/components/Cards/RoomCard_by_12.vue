@@ -1,7 +1,15 @@
 <template>
     <el-card class="room-card-by12-wrap">
         <div class="card-header">
-            <span class="card-name">{{ renderInfo.name }}</span>
+            <el-popover
+                popper-class="roomBySix-popover"
+                placement="right"
+                width="240"
+                trigger="click"
+            >
+                <room-card-by-six :renderInfo="renderInfo"></room-card-by-six>
+                <span slot="reference" class="card-name">{{ renderInfo.name }}</span>
+            </el-popover>
         </div>
 
         <div class="card-body">
@@ -31,11 +39,13 @@
 </template>
 
 <script>
+const RoomCardBySix = () => import("@/components/Cards/RoomCard_by_6.vue");
 const AlarmProcessDlg = () => import('@/components/Dialogs/AlarmProcessDlg.vue')
 import { getAllRoomAlarmInfo } from "@/api/dataSource.js";
 export default {
 
     components : {
+        RoomCardBySix,
         AlarmProcessDlg
     },
 
@@ -87,6 +97,10 @@ export default {
     height: 100%;
     padding: 0.7rem 0 !important;
 }
+
+.roomBySix-popover{
+    padding:0;
+}
 </style>
 
 <style scoped>
@@ -108,6 +122,11 @@ export default {
     font-size: 1.8rem;
     color: #18171d;
     text-align: center;
+    cursor: pointer;
+}
+
+.card-name:hover {
+    color: #439df7;
 }
 
 .card-body {
@@ -126,4 +145,11 @@ export default {
     justify-content: center;
 }
 
+</style>
+
+<style scoped>
+.roomBySix-popover .room-card-by6-wrap{
+    box-shadow: unset;
+    border: none;
+}
 </style>

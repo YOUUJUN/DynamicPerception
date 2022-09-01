@@ -7,45 +7,8 @@
                 width="240"
                 trigger="click"
             >
-                <section class="card-wrap">
-                    <div class="card-header">
-                        <span class="card-name">{{
-                            renderInfo.room_name
-                        }}</span>
-                    </div>
-                    <div class="card-body">
-                        <el-scrollbar style="height: 100%">
-                            <ul class="card-list">
-                                <li
-                                    class="card-item"
-                                    v-for="(item, index) in renderInfo.devices"
-                                    :key="index"
-                                >
-                                    <div class="card-item-left">
-                                        <img
-                                            :src="item.img"
-                                            class="status-icon"
-                                        />
-                                        <el-tooltip
-                                            effect="dark"
-                                            :content="item.name"
-                                            placement="top-start"
-                                        >
-                                            <span class="status-label">
-                                                {{ item.name }}
-                                            </span>
-                                        </el-tooltip>
-                                    </div>
-                                    <div class="card-item-right">
-                                        <span class="status-name">{{
-                                            item.status
-                                        }}</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </el-scrollbar>
-                    </div>
-                </section>
+                
+                <device-card-by-six :renderInfo="renderInfo"></device-card-by-six>
 
                 <span slot="reference" class="card-name">{{
                     renderInfo.name
@@ -56,7 +19,13 @@
 </template>
 
 <script>
+const DeviceCardBySix = () => import("@/components/Cards/DeviceCard_by_6.vue");
 export default {
+
+    components : {
+        DeviceCardBySix
+    },
+
     props: {
         renderInfo: {
             type: Object,
@@ -85,7 +54,7 @@ export default {
 }
 
 .device-popover{
-    padding:1rem 0;
+    padding: 0;
 }
 </style>
 
@@ -181,5 +150,12 @@ export default {
 
 .status-name {
     font-size: 1.4rem;
+}
+</style>
+
+<style scoped>
+.device-popover .device-card-by6-wrap{
+    box-shadow: unset;
+    border: none;
 }
 </style>
