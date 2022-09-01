@@ -162,4 +162,9 @@ export default {
 
 <style scoped>
 @import url("~@/styles/alarmDlg.css");
+
+::v-deep .el-scrollbar__wrap {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 </style>
