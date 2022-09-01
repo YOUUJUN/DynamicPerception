@@ -108,7 +108,7 @@ export default {
 .dlg-header {
     text-align: center;
     padding: 0 1rem 1rem 1rem;
-    border-bottom: 1px solid #7c98ad;
+    border-bottom: .1rem solid #7c98ad;
 }
 
 .dlg-header .dlg-title {
@@ -135,7 +135,7 @@ export default {
 }
 
 .body-top .name {
-    font-size: 22px;
+    font-size: 2.2rem;
     font-weight: 400;
     color: #2c506c;
     margin-left: 1.8rem;
@@ -162,7 +162,7 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     padding: 1rem 0;
-    border-bottom: 1px solid #e8e8e8;
+    border-bottom: .1rem solid #e8e8e8;
 }
 
 .list-item-left {

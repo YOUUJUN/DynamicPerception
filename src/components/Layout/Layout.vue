@@ -1,6 +1,6 @@
 <template>
     <el-container class="root-wrap">
-        <el-header class="header-wrap">
+        <el-header class="header-wrap" height="6rem">
             <nav-bar></nav-bar>
         </el-header>
 
@@ -89,11 +89,16 @@ export default {
         background: #f5f5f5;
     }
 
-    /deep/ .el-scrollbar__wrap {
-        overflow-x: auto;
+    ::v-deep .el-scrollbar .el-scrollbar__bar.is-horizontal{
+        display: none;
     }
 
-    /deep/ .el-scrollbar__view{
+    ::v-deep .el-scrollbar__wrap {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    ::v-deep .el-scrollbar__view{
         height:100%;
     }
 	

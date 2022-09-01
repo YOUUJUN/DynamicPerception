@@ -12,7 +12,6 @@ const fs = require("fs");
 const path = require("path");
 
 const webpack = require("webpack");
-const CompressionWebpackPlugin = require("compression-webpack-plugin");
 
 const productionGzipExtensions = ["js", "css"];
 const isProd = process.env.NODE_ENV === "production";
@@ -182,6 +181,16 @@ module.exports = function () {
                         // primary: '#333'
                     },
                 },
+
+                postcss : {
+                    plugins : [
+                        require('postcss-pxtorem')({
+                            rootValue: 10, // 换算的基数(设计图750的根字体为32)
+                            selectorBlackList: [], // 忽略转换正则匹配项
+                            propList: ['*'],  //要转换的匹配项
+                        })
+                    ]
+                }
             },
         },
     };

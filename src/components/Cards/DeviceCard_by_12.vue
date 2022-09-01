@@ -85,7 +85,7 @@ export default {
 }
 
 .device-popover{
-    padding:10px 0;
+    padding:1rem 0;
 }
 </style>
 

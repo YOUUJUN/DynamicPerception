@@ -182,9 +182,10 @@ export default {
 
 .card-name {
     font-size: 2.2rem;
+    font-weight: bold;
     color: #18171d;
     text-align: center;
-    padding: 0 6px;
+    padding: 0 .6rem;
     cursor: pointer;
 }
 

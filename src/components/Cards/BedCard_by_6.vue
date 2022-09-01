@@ -217,7 +217,7 @@ export default {
     font-size: 2.2rem;
     color: #18171d;
     text-align: center;
-    padding: 0 6px;
+    padding: 0 .6rem;
 }
 
 .card-num {

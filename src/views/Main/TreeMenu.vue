@@ -151,19 +151,4 @@ export default {
     margin-left: 1rem;
 }
 
-/* ::v-deep .is-current .el-tree-node__label{
-    color: #439DF7 !important
-} */
-
-/* ::v-deep .el-tree-node__expand-icon:hover{
-    background: #eee;
-} */
-
-/* ::v-deep .el-tree-node__expand-icon.expanded{
-    transform: none;
-}
-
-::v-deep .el-tree-node__expand-icon.expanded .el-icon-caret-right::before{
-    transform: rotate(90deg);
-} */
 </style>

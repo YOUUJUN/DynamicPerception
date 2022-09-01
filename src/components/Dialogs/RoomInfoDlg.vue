@@ -137,7 +137,8 @@ export default {
 }
 
 .info-right {
-    width: 210px;
+    text-align: right;
+    width: 21rem;
 }
 
 .info-right .info-label {
@@ -145,6 +146,6 @@ export default {
 }
 
 .split-line {
-    border: 1px dashed #666666;
+    border: .1rem dashed #666666;
 }
 </style>
