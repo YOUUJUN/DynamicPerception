@@ -1,5 +1,5 @@
 
-import { getAllData, getOfflineData, getRoomData } from "@/api/dataSource.js";
+import { getAllData, getOfflineData, getRoomData } from "../../api/dataSource.js";
 
 const state = {
     uid: window.uid,

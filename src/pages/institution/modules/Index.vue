@@ -29,31 +29,31 @@
 </template>
 
 <script>
-const BedCardBySix = () => import("@/components/Cards/BedCard_by_6.vue");
-const BedCardByTwelve = () => import("@/components/Cards/BedCard_by_12.vue");
+const BedCardBySix = () => import("../components/Cards/BedCard_by_6.vue");
+const BedCardByTwelve = () => import("../components/Cards/BedCard_by_12.vue");
 const BedCardByTwentyfour = () =>
-    import("@/components/Cards/BedCard_by_24.vue");
-const DeviceCardBySix = () => import("@/components/Cards/DeviceCard_by_6.vue");
+    import("../components/Cards/BedCard_by_24.vue");
+const DeviceCardBySix = () => import("../components/Cards/DeviceCard_by_6.vue");
 const DeviceCardByTwelve = () =>
-    import("@/components/Cards/DeviceCard_by_12.vue");
+    import("../components/Cards/DeviceCard_by_12.vue");
 const DeviceCardByTwentyfour = () =>
-    import("@/components/Cards/DeviceCard_by_24.vue");
-const RoomCardBySix = () => import("@/components/Cards/RoomCard_by_6.vue");
-const RoomCardByTwelve = () => import("@/components/Cards/RoomCard_by_12.vue");
+    import("../components/Cards/DeviceCard_by_24.vue");
+const RoomCardBySix = () => import("../components/Cards/RoomCard_by_6.vue");
+const RoomCardByTwelve = () => import("../components/Cards/RoomCard_by_12.vue");
 const RoomCardByTwentyfour = () =>
-    import("@/components/Cards/RoomCard_by_24.vue");
+    import("../components/Cards/RoomCard_by_24.vue");
 
-const ElderInfoDlg = () => import("@/components/Dialogs/ElderInfoDlg.vue");
+const ElderInfoDlg = () => import("../components/Dialogs/ElderInfoDlg.vue");
 const HealthReportDlg = () =>
-    import("@/components/Dialogs/HealthReportDlg.vue");
-const RoomInfoDlg = () => import("@/components/Dialogs/RoomInfoDlg.vue");
+    import("../components/Dialogs/HealthReportDlg.vue");
+const RoomInfoDlg = () => import("../components/Dialogs/RoomInfoDlg.vue");
 
 import { mapGetters, mapActions } from "vuex";
 import {
     getElderlyData,
     getElderlyHealthReport,
     getRoomInfo,
-} from "@/api/dataSource.js";
+} from "../api/dataSource.js";
 
 export default {
     components: {
