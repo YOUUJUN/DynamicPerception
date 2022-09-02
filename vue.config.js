@@ -3,8 +3,6 @@
  *  Which webpack version is "webpack": "^4.0.0"
  *
  *
- *  Designed && written by YOUJUN
- *  Contact me => QQ: 824000803  :)
  */
 
 // const fsPromises = require("fs").promises;
@@ -15,6 +13,37 @@ const webpack = require("webpack");
 
 const productionGzipExtensions = ["js", "css"];
 const isProd = process.env.NODE_ENV === "production";
+
+const buildPageSync = () => {
+    let pages = {};
+    let pagesPath = path.join(__dirname, "/src/pages");
+
+    let files = fs.readdirSync(pagesPath);
+
+    for (let file of files) {
+        let filePath = path.join(pagesPath, file);
+        let page = {};
+        let stat = fs.statSync(filePath);
+        if (stat.isDirectory()) {
+            let entry = path.posix.join("src/pages", file, file.concat(".js"));
+            page.entry = entry;
+            page.template = path.posix.join(
+                "src/pages",
+                file,
+                file.concat(".html")
+            );
+            if (process.env.NODE_ENV === "development") {
+                page.filename = file.concat(".html");
+            } else {
+                page.filename = "./vue-pages/".concat(file, ".html");
+            }
+            // page.filename = file.concat('.html');
+            pages[file] = page;
+        }
+    }
+
+    return pages;
+};
 
 const cdnBaseHttp = "https://cdn.jsdelivr.net/npm";
 let externalConfig = [
@@ -76,6 +105,8 @@ let getExternalModules = (config) => {
 
 let externalModules = getExternalModules(externalConfig);
 
+let pageConstruction = buildPageSync();
+
 delete require.cache[module.id];
 
 module.exports = function () {
@@ -84,6 +115,7 @@ module.exports = function () {
         outputDir: "./dist",
         assetsDir: "static",
         filenameHashing: true,
+        pages: pageConstruction,
         devServer: {
             port: 8082,
             hotOnly: true,
@@ -112,22 +144,40 @@ module.exports = function () {
                     "@assets": path.resolve(__dirname, "src/assets"),
                     "@components": path.resolve(__dirname, "src/components"),
                     "@views": path.resolve(__dirname, "src/views"),
+                    "@pages": path.resolve(__dirname, "src/pages"),
                     "@store": path.resolve(__dirname, "src/store"),
                 },
             },
         },
 
         chainWebpack: (config) => {
-            config
-                .plugin(`html`) //自定义插件名称用于移除
-                .tap((args) => [
-                    {
-                        //动态修改plugin传参
-                        template: "./public/index.html",
-                        cdnConfig: externalConfig,
-                        BASE_URL: "/",
+            const entry = Object.keys(pageConstruction);
+            console.log("entry===>", entry);
+            for (const iterator of entry) {
+                let cdnConfig = externalConfig.reduce(
+                    (total, currentValue, index, arr) => {
+                        console.log("total", total);
+                        if (
+                            !currentValue.includes ||
+                            currentValue.length === 0 ||
+                            currentValue.includes.includes(iterator)
+                        ) {
+                            total.push(currentValue);
+                        }
+                        return total;
                     },
-                ]);
+                    []
+                );
+
+                config
+                    .plugin(`html-${iterator}`) //自定义插件名称用于移除
+                    .tap((args) => {
+                        //动态修改plugin传参
+                        console.log("args", args);
+                        args[0].cdnConfig = cdnConfig;
+                        return args;
+                    });
+            }
 
             config.when(process.env.NODE_ENV === "development", (config) =>
                 config
@@ -188,7 +238,7 @@ module.exports = function () {
                 postcss: {
                     plugins: [
                         require("postcss-pxtorem")({
-                            rootValue: 10, // 换算的基数(设计图750的根字体为32)
+                            rootValue: 10, // 换算的基数
                             selectorBlackList: [], // 忽略转换正则匹配项
                             propList: ["*"], //要转换的匹配项
                         }),

@@ -11,7 +11,7 @@ const instance = axios.create({
     baseURL,
     method : 'POST',
     timeout : 120000,
-    withCredentials: false,
+    withCredentials: true,
 });
 
 instance.interceptors.request.use(config => {
