@@ -208,7 +208,7 @@ export default {
         openRoomInfoDlg(id) {
             getRoomInfo({
                 room_id: id,
-                belong: "household",
+                belong: "nursing",
             })
                 .then((res) => {
                     console.log("res -->", res);

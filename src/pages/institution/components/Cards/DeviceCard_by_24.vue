@@ -91,6 +91,7 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    text-align: center;
     padding: 0 0.2rem;
 }
 
