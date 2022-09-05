@@ -160,7 +160,7 @@ export default {
         fetchUnsolvedAlarms(id) {
             let params = {
                 id,
-                belong: "household",
+                belong: "nursing",
             };
             getUnsolvedAlarmInfo(params)
                 .then((res) => {

@@ -4,7 +4,7 @@ import qs from "qs";
 //获取菜单数据，床铺数据
 export function getAllData(params) {
     return request({
-        url: `/home/elderly/data/api`,
+        url: `/inst/elderly/data/api`,
         method: "post",
         data: qs.stringify(params),
         headers: {
@@ -16,7 +16,7 @@ export function getAllData(params) {
 //获取离线设备数据
 export function getOfflineData(params) {
     return request({
-        url: `/dev/home/offline/api`,
+        url: `/dev/inst/offline/api`,
         method: "post",
         data: qs.stringify(params),
         headers: {

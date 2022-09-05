@@ -21,6 +21,7 @@ const getters = {
     /*---菜单过滤后的数据---*/
     filteredBedData: (state, getters) => {
         let originData = getters.originData;
+        console.log("originData", originData);
         let displayFilters = getters.displayFilters;
         let result = [];
         let levelQueue = displayFilters
@@ -41,7 +42,7 @@ const getters = {
 
                 filterArr.forEach((item) => {
                     let cache = originData.filter(
-                        (data) => item.id === data.res_community_id ?? item
+                        (data) => item.id === data.nursing_id ?? item
                     );
                     result = result.concat(cache);
                 });
@@ -55,7 +56,7 @@ const getters = {
 
                 filterArr.forEach((item) => {
                     let cache = originData.filter(
-                        (data) => item.id === data.community_id ?? item
+                        (data) => item.id === data.nursing_building_id ?? item
                     );
                     result = result.concat(cache);
                 });
@@ -69,14 +70,28 @@ const getters = {
 
                 filterArr.forEach((item) => {
                     let cache = originData.filter(
-                        (data) => item.id == data.house_id ?? item
+                        (data) => item.id == data.nursing_floor_id ?? item
                     );
                     result = result.concat(cache);
                 });
                 break;
             case 4:
-                let filterArr = displayFilters.filter((item) => {
+                filterArr = displayFilters.filter((item) => {
                     if (item.level === 4) {
+                        return item;
+                    }
+                });
+
+                filterArr.forEach((item) => {
+                    let cache = originData.filter(
+                        (data) => item.id == data.room_id ?? item
+                    );
+                    result = result.concat(cache);
+                });
+                break;
+            case 5:
+                filterArr = displayFilters.filter((item) => {
+                    if (item.level === 5) {
                         return item;
                     }
                 });
@@ -116,7 +131,7 @@ const getters = {
 
                 filterArr.forEach((item) => {
                     let cache = offlineData.filter(
-                        (data) => item.id === data.res_community_id ?? item
+                        (data) => item.id === data.nursing_id ?? item
                     );
                     result = result.concat(cache);
                 });
@@ -130,13 +145,40 @@ const getters = {
 
                 filterArr.forEach((item) => {
                     let cache = offlineData.filter(
-                        (data) => item.id === data.community_id ?? item
+                        (data) => item.id === data.nursing_building_id ?? item
                     );
                     result = result.concat(cache);
                 });
                 break;
             case 3:
+                filterArr = displayFilters.filter((item) => {
+                    if (item.level === firstLevel) {
+                        return item;
+                    }
+                });
+
+                filterArr.forEach((item) => {
+                    let cache = offlineData.filter(
+                        (data) => item.id === data.nursing_floor_id ?? item
+                    );
+                    result = result.concat(cache);
+                });
+                break;
             case 4:
+                filterArr = displayFilters.filter((item) => {
+                    if (item.level === firstLevel) {
+                        return item;
+                    }
+                });
+
+                filterArr.forEach((item) => {
+                    let cache = offlineData.filter(
+                        (data) => item.id === data.room_id ?? item
+                    );
+                    result = result.concat(cache);
+                });
+                break;
+            case 5:
                 filterArr = displayFilters.filter((item) => {
                     if (item.level === firstLevel) {
                         return item;
@@ -160,7 +202,7 @@ const getters = {
         let roomData = getters.roomData;
         console.log("roomData", roomData);
         let displayFilters = getters.displayFilters;
-        console.log('displayFilters', displayFilters);
+        console.log("displayFilters", displayFilters);
         let result = [];
         let levelQueue = displayFilters
             .map((item) => {
@@ -179,7 +221,7 @@ const getters = {
 
                 filterArr.forEach((item) => {
                     let cache = roomData.filter(
-                        (data) => item.id === data.res_community_id ?? item
+                        (data) => item.id === data.nursing_id ?? item
                     );
                     result = result.concat(cache);
                 });
@@ -193,9 +235,9 @@ const getters = {
 
                 filterArr.forEach((item) => {
                     let cache = roomData.filter(
-                        (data) => item.id === data.community_id ?? item
+                        (data) => item.id === data.nursing_building_id ?? item
                     );
-                    console.log('filter-cache', cache, item);
+                    console.log("filter-cache", cache, item);
                     result = result.concat(cache);
                 });
                 break;
@@ -208,7 +250,7 @@ const getters = {
 
                 filterArr.forEach((item) => {
                     let cache = roomData.filter(
-                        (data) => item.id === data.id ?? item
+                        (data) => item.id === data.nursing_floor_id ?? item
                     );
                     result = result.concat(cache);
                 });
@@ -222,12 +264,25 @@ const getters = {
 
                 filterArr.forEach((item) => {
                     let cache = roomData.filter(
+                        (data) => item.parentId === data.room_id ?? item
+                    );
+                    result = result.concat(cache);
+                });
+                break;
+            case 5:
+                filterArr = displayFilters.filter((item) => {
+                    if (item.level === firstLevel) {
+                        return item;
+                    }
+                });
+
+                filterArr.forEach((item) => {
+                    let cache = roomData.filter(
                         (data) => item.parentId === data.id ?? item
                     );
                     result = result.concat(cache);
                 });
                 break;
-                
         }
 
         console.log("result-->3", result);

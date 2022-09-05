@@ -126,7 +126,7 @@ export default {
         fetchAllRoomAlarmInfo(id) {
             let params = {
                 id,
-                belong: "household",
+                belong: "nursing",
                 type : 'all',
             };
             getAllRoomAlarmInfo(params)

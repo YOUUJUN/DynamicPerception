@@ -25,7 +25,7 @@ export default {
         return {
             defaultProps: {
                 children: "items",
-                label: "index",
+                label: "name",
             },
         };
     },

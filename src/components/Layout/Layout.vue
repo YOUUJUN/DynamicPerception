@@ -33,8 +33,6 @@
 const SideBar = () => import('./Parts/SideBar.vue')
 const NavBar = () => import('./Parts/NavBar.vue')
 
-import {mapGetters} from "vuex";
-
 export default {
     name: "Layout",
 

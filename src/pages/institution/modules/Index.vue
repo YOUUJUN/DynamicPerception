@@ -168,7 +168,7 @@ export default {
         openElderDlg(id) {
             getElderlyData({
                 bed_id: id,
-                belong: "household",
+                belong: "nursing",
             })
                 .then((res) => {
                     console.log("res -->", res);
