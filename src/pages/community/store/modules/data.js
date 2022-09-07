@@ -48,12 +48,12 @@ const mutations = {
     },
 
     SET_ROOM_DATA(state, payload) {
-        let roomData = payload.map(item =>{
+        let roomData = payload.map((item) => {
             Object.assign(item, {
-                alertFlag : false,
-            })
+                alertFlag: false,
+            });
             return item;
-        })
+        });
         state.roomData = roomData;
     },
 
@@ -88,20 +88,25 @@ const mutations = {
         for (let room of rooms) {
             let oldRoom = state.roomData.find((item) => item.id === room.id);
             Object.assign(oldRoom, {
-                persons: room.persons,
-                qty: room.qty,
-                msg_text: room.alarm_msg,
-
-                alertFlag : true,
+                alertFlag: false,
             });
+            setTimeout(() => {
+                Object.assign(oldRoom, {
+                    persons: room.persons,
+                    qty: room.qty,
+                    msg_text: room.alarm_msg,
+
+                    alertFlag: true,
+                });
+            }, 500);
         }
     },
 
-    CHANGE_ROOM_ALERT_STATUS(state, payload){
+    CHANGE_ROOM_ALERT_STATUS(state, payload) {
         let { room_id, alertFlag } = payload;
         let rowData = state.roomData.find((data) => data.id === room_id);
         rowData.alertFlag = alertFlag;
-    }
+    },
 };
 
 const actions = {
@@ -229,7 +234,7 @@ const actions = {
 
     //改变房间告警状态
     // CHANGE_ROOM_ALERT_STATUS
-    setRoomAlertStatus(){
+    setRoomAlertStatus({ state, commit }, payload) {
         return new Promise((resolve, reject) => {
             try {
                 commit("CHANGE_ROOM_ALERT_STATUS", payload);

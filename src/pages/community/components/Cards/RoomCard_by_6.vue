@@ -7,9 +7,12 @@
         trigger="manual"
         v-model="alertVisible"
     >
-        <alert-popover :renderInfo="renderInfo"></alert-popover>
+        <alert-popover
+            :renderInfo="renderInfo"
+            :popVisible="alertVisible"
+        ></alert-popover>
 
-        <el-card slot="reference" class="room-card-by6-wrap">
+        <el-card slot="reference" class="room-card-by6-wrap" :class="alertClass">
             <div class="card-header">
                 <div class="card-header-left"></div>
 
@@ -115,6 +118,9 @@ export default {
 
             //报警列表
             alarmList: [],
+
+            //报警卡片类
+            alertClass: "",
         };
     },
 
@@ -138,8 +144,39 @@ export default {
                 return alertFlag;
             },
 
-            set(visible) {
+            set(visible) {},
+        },
+    },
+
+    watch: {
+        renderInfo: {
+            deep: true,
+            handler(newValue) {
+                let { msg_text, alertFlag } = newValue;
+                let alertClass = '';
                 
+                if(!alertFlag){
+                    this.alertClass = '';
+                    return alertClass;
+                }
+                switch (msg_text) {
+                    case "跌倒告警":
+                    case "烟雾告警":
+                    case "燃气告警":
+                    case "紧急呼叫":
+                        alertClass = "alert-card-level-1";
+                        break;
+                    case "心率异常":
+                    case "呼吸异常":
+                    case "离床未归":
+                    case "翻身护理":
+                    case "水流异常":
+                    case "用水异常":
+                        alertClass = "alert-card-level-2";
+                        break;
+                }
+
+                this.alertClass = alertClass;
             },
         },
     },

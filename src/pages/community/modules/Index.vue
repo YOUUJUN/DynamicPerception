@@ -173,11 +173,16 @@ export default {
         setSocketHandler(){
             this.$socket.registerCallBack('init', (msg) => {
                 console.log('socket', msg);
-                let jsonData = JSON.parse(msg.data);
+                let jsonData = '';
+                try{
+                    jsonData = JSON.parse(msg?.data ?? null);
+                }catch(err){
+                    return;
+                }
                 console.log('jsonData', jsonData);
 
                 let operation = jsonData?.operation;
-                let data = jsonData?.data ?? []
+                let data = jsonData?.data ?? [];
                 switch(operation){
                     case 'fm_room_all_iot':
                         this.handleRoomSocket(data)

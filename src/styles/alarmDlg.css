@@ -41,3 +41,10 @@
     display: none;
 }
 
+.alert-card-level-1{
+    border: 2px solid #dd1d1d;
+}
+
+.alert-card-level-2{
+    border: 2px solid #fd7f0e;
+}

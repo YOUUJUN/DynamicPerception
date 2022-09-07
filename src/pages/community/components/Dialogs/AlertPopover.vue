@@ -3,20 +3,20 @@
         <header class="alert-header">
             <div class="header-left">
                 <img src="@/static/offlineImg/male.png" />
-                <span>{{renderInfo.persons[0].name}}</span>
+                <span>{{ renderInfo.persons[0].name }}</span>
             </div>
             <div class="header-center">
-                <span>{{renderInfo.name}}</span>
+                <span>{{ renderInfo.name }}</span>
             </div>
             <div class="header-right">
                 <el-button class="count-num" type="danger" circle size="mini"
-                    >10</el-button
+                    >{{count}}</el-button
                 >
             </div>
         </header>
 
         <main class="alert-main">
-            <img class="alert-logo" src="@/static/img/alarmingHeart.png" />
+            <img class="alert-logo" :src="alertImgPath" />
         </main>
 
         <footer class="alert-footer">
@@ -31,41 +31,180 @@
 </template>
 
 <script>
+
+import { mapActions } from 'vuex';
+
 export default {
     props: {
+        popVisible : {
+            type : Boolean,
+            required : true,
+        },
+
         renderInfo: {
             type: Object,
+            required : true,
         },
     },
 
     data() {
-        return {};
+        return {
+            count : 10,
+            //倒计时循环
+            countHandle : '',
+
+            alertLevelClass : '',
+            alertImgPath : '',
+        };
     },
 
     computed: {
-        alertLevelClass() {
-            let { alarm_msg } = this.renderInfo;
-            let alertClass = "";
-            switch (alarm_msg) {
-                case "跌倒告警":
-                case "烟雾告警":
-                case "燃气告警":
-                case "紧急呼叫":
-                    alertClass = "level_1_warning";
-                    break;
-                case "心率异常":
-                case "呼吸异常":
-                case "离床未归":
-                case "翻身护理":
-                case "水流异常":
-                case "用水异常":
-                    alertClass = "level_2_warning";
-                    break;
+        // alertLevelClass() {
+        //     let { alarm_msg } = this.renderInfo;
+        //     console.log("alarm_msg", alarm_msg);
+        //     let alertClass = "";
+        //     switch (alarm_msg) {
+        //         case "跌倒告警":
+        //         case "烟雾告警":
+        //         case "燃气告警":
+        //         case "紧急呼叫":
+        //             alertClass = "level_1_warning";
+        //             break;
+        //         case "心率异常":
+        //         case "呼吸异常":
+        //         case "离床未归":
+        //         case "翻身护理":
+        //         case "水流异常":
+        //         case "用水异常":
+        //             alertClass = "level_2_warning";
+        //             break;
+        //     }
+
+        //     return alertClass;
+        // },
+
+        // alertImgPath() {
+        //     let { alarm_msg } = this.renderInfo;
+        //     console.log("alarm_msg", alarm_msg);
+        //     let imgPath = "";
+        //     switch (alarm_msg) {
+        //         case "跌倒告警":
+        //             break;
+        //         case "烟雾告警":
+        //             imgPath = "@/static/img/smokeAlarm.png";
+        //             break;
+        //         case "燃气告警":
+        //             imgPath = "@/static/img/gasAlarm.png";
+        //             break;
+        //         case "紧急呼叫":
+        //             imgPath = "@/static/img/SOS.png";
+        //             break;
+        //         case "心率异常":
+        //             break;
+        //         case "呼吸异常":
+        //             break;
+        //         case "离床未归":
+        //             imgPath = "@/static/img/fallBed.png";
+        //             break;
+        //         case "翻身护理":
+        //             break;
+        //         case "水流异常":
+        //             break;
+        //         case "用水异常":
+        //             break;
+        //     }
+
+        //     return imgPath;
+        // },
+    },
+
+    watch: {
+
+        popVisible : {
+            handler(newValue){
+                if(newValue === true){
+                    this.doCountDown();
+                }else{
+                    this.count = 10;
+                    clearInterval(this.countHandle);
+                }
             }
-            
-            return alertClass;
+        },
+
+        renderInfo: {
+            deep : true,
+            handler(newValue) {
+                console.log('newValue', newValue);
+                let { msg_text } = newValue;
+                console.log('msg_text', msg_text);
+                let imgPath = "";
+                let alertClass = "";
+                switch (msg_text) {
+                    case "跌倒告警":
+                        alertClass = "level_1_warning";
+                        break;
+                    case "烟雾告警":
+                        alertClass = "level_1_warning";
+                        imgPath = require("@/static/img/smokeAlarm.png");
+                        break;
+                    case "燃气告警":
+                        alertClass = "level_1_warning";
+                        imgPath = require("@/static/img/gasAlarm.png");
+                        break;
+                    case "紧急呼叫":
+                        alertClass = "level_1_warning";
+                        imgPath = require("@/static/img/SOS.png");
+                        break;
+                    case "心率异常":
+                        alertClass = "level_2_warning";
+                        break;
+                    case "呼吸异常":
+                        alertClass = "level_2_warning";
+                        break;
+                    case "离床未归":
+                        alertClass = "level_2_warning";
+                        imgPath = require("@/static/img/fallBed.png");
+                        break;
+                    case "翻身护理":
+                        alertClass = "level_2_warning";
+                        break;
+                    case "水流异常":
+                        alertClass = "level_2_warning";
+                        break;
+                    case "用水异常":
+                        alertClass = "level_2_warning";
+                        break;
+                }
+                
+                console.log('imgPath', imgPath);
+                this.alertLevelClass = alertClass;
+                this.alertImgPath = imgPath;
+            },
         },
     },
+
+    created(){
+        
+    },
+
+    methods : {
+        ...mapActions('data', ['setRoomAlertStatus']),
+
+        //控制倒计时
+        doCountDown(){
+            this.countHandle = setInterval(() => {
+                this.count--;
+                if(this.count === 0){
+                    //设置alertFlag
+                    this.setRoomAlertStatus({
+                        room_id : this.renderInfo.id,
+                        alertFlag : false,
+                    })
+                }
+            }, 1000)
+        }
+
+    }
 };
 </script>
 
@@ -81,7 +220,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.2rem 1.2rem 0;
+    padding: 1.2rem .6rem 0;
 }
 
 .header-left,
@@ -158,6 +297,10 @@ export default {
     border-radius: 4px;
 }
 
+.level_1_warning .alert-header, .level_1_warning .alert-main{
+    background: #FBEEE9;
+}
+
 .level_1_warning .count-num {
     background: #dd1d1d;
 }
@@ -178,6 +321,10 @@ export default {
 .level_2_warning {
     border: 2px solid #fd7f0e;
     border-radius: 4px;
+}
+
+.level_1_warning .alert-header, .level_1_warning .alert-main{
+    background: #FBEEE9;
 }
 
 .level_2_warning .count-num {
