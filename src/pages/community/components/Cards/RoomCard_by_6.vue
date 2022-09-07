@@ -1,87 +1,105 @@
 
 <template>
-    <el-card class="room-card-by6-wrap">
-        <div class="card-header">
-            <div class="card-header-left"></div>
+    <el-popover
+        popper-class="alert-popover"
+        width="150"
+        placement="right-start"
+        trigger="manual"
+        v-model="alertVisible"
+    >
+        <alert-popover :renderInfo="renderInfo"></alert-popover>
 
-            <span class="card-name" @click="openRoomInfoDlg(renderInfo.id)">{{ renderInfo.name }}</span>
+        <el-card slot="reference" class="room-card-by6-wrap">
+            <div class="card-header">
+                <div class="card-header-left"></div>
 
-            <el-popover
-                popper-class="alarm-popover"
-                width="220"
-                placement="right"
-                trigger="click"
-                v-model="popOverVisible"
-            >
-                <alarm-process-dlg :alarmData="alarmList" :bedInfo="renderInfo"></alarm-process-dlg>
-
-                <el-button
-                    v-if="renderInfo.qty != 0"
-                    slot="reference"
-                    class="card-num"
-                    type="danger"
-                    circle
-                    size="mini"
-                    trigger="manual"
-                    @click="fetchAllRoomAlarmInfo(renderInfo.id)"
-                    >{{ renderInfo.qty }}</el-button
+                <span
+                    class="card-name"
+                    @click="openRoomInfoDlg(renderInfo.id)"
+                    >{{ renderInfo.name }}</span
                 >
-            </el-popover>
-        </div>
 
-        <div class="card-body-wrap">
-            <el-scrollbar style="height: 100%">
-                <ul class="card-body">
-                    <li
-                        class="card-item"
-                        v-for="(item, index) in renderInfo.persons"
+                <el-popover
+                    popper-class="alarm-popover"
+                    width="220"
+                    placement="right"
+                    trigger="click"
+                    v-model="popOverVisible"
+                >
+                    <alarm-process-dlg
+                        :alarmData="alarmList"
+                        :bedInfo="renderInfo"
+                    ></alarm-process-dlg>
+
+                    <el-button
+                        v-if="renderInfo.qty != 0"
+                        slot="reference"
+                        class="card-num"
+                        type="danger"
+                        circle
+                        size="mini"
+                        trigger="manual"
+                        @click="fetchAllRoomAlarmInfo(renderInfo.id)"
+                        >{{ renderInfo.qty }}</el-button
                     >
-                        <div class="card-item-left">
-                            <img
-                                src="@/static/img/normalStatus.png"
-                                class="status-icon"
-                            />
-                            <span class="status-label">床位</span>
-                        </div>
-                        <div class="card-item-right">
-                            <span class="status-name">{{ item.name }}</span>
-                        </div>
-                    </li>
-                </ul>
-            </el-scrollbar>
-        </div>
+                </el-popover>
+            </div>
 
-        <div class="card-footer">
-            <el-alert class="card-warning" type="warning" :closable="false">
-                <template slot="title">
-                    <div class="warning-wrap">
-                        <div class="warning-wrap-left">
-                            <img
-                                class="warning-icon"
-                                src="@/static/img/redAlarming.png"
-                            />
-                            <span class="warning-label">告警</span>
-                        </div>
+            <div class="card-body-wrap">
+                <el-scrollbar style="height: 100%">
+                    <ul class="card-body">
+                        <li
+                            class="card-item"
+                            v-for="(item, index) in renderInfo.persons"
+                        >
+                            <div class="card-item-left">
+                                <img
+                                    src="@/static/img/normalStatus.png"
+                                    class="status-icon"
+                                />
+                                <span class="status-label">床位</span>
+                            </div>
+                            <div class="card-item-right">
+                                <span class="status-name">{{ item.name }}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </el-scrollbar>
+            </div>
 
-                        <div class="warning-wrap-right">
-                            <span class="warning-status">{{
-                                renderInfo.msg_text
-                            }}</span>
+            <div class="card-footer">
+                <el-alert class="card-warning" type="warning" :closable="false">
+                    <template slot="title">
+                        <div class="warning-wrap">
+                            <div class="warning-wrap-left">
+                                <img
+                                    class="warning-icon"
+                                    src="@/static/img/redAlarming.png"
+                                />
+                                <span class="warning-label">告警</span>
+                            </div>
+
+                            <div class="warning-wrap-right">
+                                <span class="warning-status">{{
+                                    renderInfo.msg_text
+                                }}</span>
+                            </div>
                         </div>
-                    </div>
-                </template>
-            </el-alert>
-        </div>
-    </el-card>
+                    </template>
+                </el-alert>
+            </div>
+        </el-card>
+    </el-popover>
 </template>
 
 <script>
-const AlarmProcessDlg = () => import('../Dialogs/AlarmProcessDlg.vue')
+const AlarmProcessDlg = () => import("../Dialogs/AlarmProcessDlg.vue");
+const AlertPopover = () => import("../Dialogs/AlertPopover.vue");
 import { getAllRoomAlarmInfo } from "../../api/dataSource.js";
 export default {
-
-    components : {
-        AlarmProcessDlg
+    components: {
+        AlarmProcessDlg,
+        AlertPopover,
     },
 
     props: {
@@ -112,14 +130,26 @@ export default {
                 return "female";
             }
         },
+
+        alertVisible: {
+            get() {
+                let alertFlag = this.renderInfo?.alertFlag ?? false;
+                console.log("alertFlag", alertFlag);
+                return alertFlag;
+            },
+
+            set(visible) {
+                
+            },
+        },
     },
 
-    inject : ['openRoomInfoDlg_inject'],
+    inject: ["openRoomInfoDlg_inject"],
 
     methods: {
         //打开房间信息窗体
-        openRoomInfoDlg(id){
-            this.openRoomInfoDlg_inject(id)
+        openRoomInfoDlg(id) {
+            this.openRoomInfoDlg_inject(id);
         },
 
         //获取待处理告警信息
@@ -127,7 +157,7 @@ export default {
             let params = {
                 id,
                 belong: "household",
-                type : 'all',
+                type: "all",
             };
             getAllRoomAlarmInfo(params)
                 .then((res) => {
@@ -176,8 +206,8 @@ export default {
     flex: none;
 }
 
-.card-header-left{
-    width:3rem;
+.card-header-left {
+    width: 3rem;
 }
 
 .card-name {
@@ -185,7 +215,7 @@ export default {
     font-weight: bold;
     color: #18171d;
     text-align: center;
-    padding: 0 .6rem;
+    padding: 0 0.6rem;
     cursor: pointer;
 }
 

@@ -95,6 +95,7 @@ export default {
     computed: {
         ...mapGetters(["renderData", "displayRow"]),
 
+
         displayClass() {
             let displayRow = this.displayRow;
             let className = "";
@@ -161,9 +162,43 @@ export default {
 
     created() {
         console.log("renderData", this.renderData);
+
+        this.setSocketHandler();
     },
 
     methods: {
+        ...mapActions('data', ['updateRoomData']),
+
+        //设置socket数据处理
+        setSocketHandler(){
+            this.$socket.registerCallBack('init', (msg) => {
+                console.log('socket', msg);
+                let jsonData = JSON.parse(msg.data);
+                console.log('jsonData', jsonData);
+
+                let operation = jsonData?.operation;
+                let data = jsonData?.data ?? []
+                switch(operation){
+                    case 'fm_room_all_iot':
+                        this.handleRoomSocket(data)
+                        break;
+                }
+            })
+        },
+
+        //处理socket房间告警
+        handleRoomSocket(data){
+            this.updateRoomData(data);
+        },
+
+
+        //打开告警弹窗
+        openAlarmPopover(){
+            
+        },
+
+
+
         //打开老人信息窗体
         openElderDlg(id) {
             getElderlyData({

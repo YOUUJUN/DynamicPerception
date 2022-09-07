@@ -84,7 +84,7 @@ export default {
             let { id: roomId, partner_id } = this.bedInfo;
             let params = {
                 id: alarmId,
-                belong: "household",
+                belong: "nursing",
                 type: "",
                 room_id: "",
                 partner_id,
@@ -123,7 +123,7 @@ export default {
             let { id: room_id, partner_id } = this.bedInfo;
             let params = (params = {
                 id: alarmId,
-                belong: "household",
+                belong: "nursing",
                 type: "all",
                 room_id,
                 partner_id: "",

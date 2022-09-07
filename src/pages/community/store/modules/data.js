@@ -1,5 +1,8 @@
-
-import { getAllData, getOfflineData, getRoomData } from "../../api/dataSource.js";
+import {
+    getAllData,
+    getOfflineData,
+    getRoomData,
+} from "../../api/dataSource.js";
 
 const state = {
     uid: window.uid,
@@ -45,7 +48,13 @@ const mutations = {
     },
 
     SET_ROOM_DATA(state, payload) {
-        state.roomData = payload;
+        let roomData = payload.map(item =>{
+            Object.assign(item, {
+                alertFlag : false,
+            })
+            return item;
+        })
+        state.roomData = roomData;
     },
 
     CHANGE_MENU_CHECKED(state, payload) {
@@ -70,11 +79,29 @@ const mutations = {
 
     CHANGE_ROOM_ALARM_QTY(state, payload) {
         let { room_id, warn_qty } = payload;
-        let rowData = state.roomData.find(
-            (data) => data.id === room_id
-        );
+        let rowData = state.roomData.find((data) => data.id === room_id);
         rowData.qty = warn_qty;
     },
+
+    UPDATE_ROOM_DATA(state, payload) {
+        let rooms = payload;
+        for (let room of rooms) {
+            let oldRoom = state.roomData.find((item) => item.id === room.id);
+            Object.assign(oldRoom, {
+                persons: room.persons,
+                qty: room.qty,
+                msg_text: room.alarm_msg,
+
+                alertFlag : true,
+            });
+        }
+    },
+
+    CHANGE_ROOM_ALERT_STATUS(state, payload){
+        let { room_id, alertFlag } = payload;
+        let rowData = state.roomData.find((data) => data.id === room_id);
+        rowData.alertFlag = alertFlag;
+    }
 };
 
 const actions = {
@@ -186,6 +213,31 @@ const actions = {
     //设置菜单过滤条件
     setMenuFilters({ state, commit }, payload) {
         commit("SET_MENU_FILTERS", payload);
+    },
+
+    //更新房间信息
+    updateRoomData({ state, commit }, payload) {
+        return new Promise((resolve, reject) => {
+            try {
+                commit("UPDATE_ROOM_DATA", payload);
+                resolve();
+            } catch {
+                reject();
+            }
+        });
+    },
+
+    //改变房间告警状态
+    // CHANGE_ROOM_ALERT_STATUS
+    setRoomAlertStatus(){
+        return new Promise((resolve, reject) => {
+            try {
+                commit("CHANGE_ROOM_ALERT_STATUS", payload);
+                resolve();
+            } catch {
+                reject();
+            }
+        });
     },
 };
 

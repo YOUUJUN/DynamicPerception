@@ -2,6 +2,8 @@
 
 ## Project setup
 ```
+npm install pnpm -g
+
 pnpm install
 ```
 

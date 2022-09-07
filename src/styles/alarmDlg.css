@@ -30,3 +30,14 @@
 .alarm-list .alarm-item:last-child {
     margin-bottom: 0;
 }
+
+/*--alert-popover--*/
+.alert-popover{
+    padding: 0 !important;
+    margin-left: 0.2rem !important;
+}
+
+.alert-popover .popper__arrow{
+    display: none;
+}
+
