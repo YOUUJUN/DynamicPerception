@@ -24,7 +24,7 @@
                 <span>{{ renderInfo.msg_text }}</span>
             </div>
             <div class="footer-right">
-                <el-button size="mini" round @click="handleAlert"
+                <el-button size="mini" round @click="handleAlert(renderInfo)"
                     >立即处理</el-button
                 >
             </div>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { handlePopAlarm } from "../../api/dataSource.js";
 import { mapActions } from "vuex";
 
 export default {
@@ -186,7 +187,7 @@ export default {
     created() {},
 
     methods: {
-        ...mapActions("data", ["setRoomAlertStatus"]),
+        ...mapActions("data", ["setRoomAlertStatus", "resolveRoomAlarm"]),
 
         //控制倒计时
         doCountDown() {
@@ -203,8 +204,37 @@ export default {
         },
 
         //处理警告
-        handleAlert() {
-            console.log("hello");
+        handleAlert(renderInfo) {
+            let {warn_id, id} = renderInfo
+            handlePopAlarm({
+                warn_id,
+            })
+                .then((res) => {
+                    console.log("res-->", res);
+                    if (res.status === 200) {
+                        if (res.data.result === "success") {
+                            let warn_qty = res.data.warn_qty;
+                            this.resolveRoomAlarm({
+                                room_id : id,
+                                warn_qty,
+                            });
+
+                            this.$message({
+                                showClose: true,
+                                message: "处理成功!",
+                                type: "success",
+                            });
+                        }
+                    }
+                })
+                .catch((err) => {
+                    this.$message({
+                        showClose: true,
+                        message: "处理失败!",
+                        type: "warning",
+                    });
+                    console.warn("err", err);
+                });
         },
     },
 };

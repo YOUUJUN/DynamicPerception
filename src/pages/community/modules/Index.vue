@@ -197,7 +197,7 @@ export default {
                 }
             });
         },
-
+ 
         //处理socket房间告警
         handleRoomSocket(data) {
             this.updateRoomData(data);

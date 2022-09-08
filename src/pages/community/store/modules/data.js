@@ -95,6 +95,7 @@ const mutations = {
                     persons: room.persons,
                     qty: room.qty,
                     msg_text: room.alarm_msg,
+                    warn_id : room.warn_id,
 
                     alertFlag: true,
                 });

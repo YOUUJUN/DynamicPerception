@@ -24,7 +24,7 @@
                 <span>{{ renderInfo.msg_text }}</span>
             </div>
             <div class="footer-right">
-                <el-button size="mini" round @click="handleAlert"
+                <el-button size="mini" round @click="handleAlert(renderInfo)"
                     >立即处理</el-button
                 >
             </div>
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import { handlePopAlarm } from "../../api/dataSource.js";
+
 export default {
     props: {
         renderInfo: {
@@ -53,7 +55,6 @@ export default {
     },
 
     watch: {
-
         renderInfo: {
             deep: true,
             immediate: true,
@@ -113,24 +114,48 @@ export default {
     created() {},
 
     methods: {
-
         //控制倒计时
         doCountDown() {
             let countHandle = setInterval(() => {
                 this.count--;
-                if(this.count <= 0){
+                if (this.count <= 0) {
                     this.$emit("countover");
                 }
             }, 1000);
-
-            // setTimeout(() => {
-            //     this.$emit("countover");
-            // }, 1000 * 10)
         },
 
         //处理警告
-        handleAlert() {
-            console.log("hello");
+        handleAlert(renderInfo) {
+            let { warn_id, id } = renderInfo;
+            handlePopAlarm({
+                warn_id,
+            })
+                .then((res) => {
+                    console.log("res-->", res);
+                    if (res.status === 200) {
+                        if (res.data.result === "success") {
+                            let warn_qty = res.data.warn_qty;
+                            this.resolveRoomAlarm({
+                                room_id: id,
+                                warn_qty,
+                            });
+
+                            this.$message({
+                                showClose: true,
+                                message: "处理成功!",
+                                type: "success",
+                            });
+                        }
+                    }
+                })
+                .catch((err) => {
+                    this.$message({
+                        showClose: true,
+                        message: "处理失败!",
+                        type: "warning",
+                    });
+                    console.warn("err", err);
+                });
         },
     },
 };
