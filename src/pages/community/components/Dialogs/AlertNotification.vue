@@ -116,14 +116,16 @@ export default {
 
         //控制倒计时
         doCountDown() {
-            this.countHandle = setInterval(() => {
+            let countHandle = setInterval(() => {
                 this.count--;
-                if (this.count === 0) {
-                    this.count = 10;
-                    clearInterval(this.countHandle);
+                if(this.count <= 0){
                     this.$emit("countover");
                 }
             }, 1000);
+
+            // setTimeout(() => {
+            //     this.$emit("countover");
+            // }, 1000 * 10)
         },
 
         //处理警告

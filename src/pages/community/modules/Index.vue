@@ -1,5 +1,5 @@
 <template>
-    <section class="main-wrap" :class="displayClass">
+    <section ref="cardsWrap" class="main-wrap" :class="displayClass">
         <template>
             <component
                 v-for="item in renderData.data"
@@ -56,6 +56,8 @@ import {
 } from "../api/dataSource.js";
 import AlertNotification from "../components/Dialogs/AlertNotification.vue";
 
+import { isInViewPort } from "@/utils/index.js"
+
 export default {
     components: {
         BedCardBySix,
@@ -92,6 +94,9 @@ export default {
             //房间信息窗体控制
             roomDlgVisible: false,
             roomInfo: {},
+
+            //告警弹窗队列
+            alertNotifyQueue : [],
         };
     },
 
@@ -196,39 +201,61 @@ export default {
         //处理socket房间告警
         handleRoomSocket(data) {
             this.updateRoomData(data);
-            this.openAlarmPopover(data);
+
+            let {id} = data[0]
+            let cards = [...this.$refs.cardsWrap.querySelectorAll('.el-card')]
+            let alertCardIndex = this.renderData.data.findIndex(item => item.id === id);
+
+            if(alertCardIndex === -1){
+                return;
+            }
+            
+            if(!isInViewPort(cards[alertCardIndex])){
+                this.openAlarmNotification(data);
+            }
+
+            // isInViewPort
+            // this.updateRoomData(data);
+            // this.openAlarmNotification(data);
         },
 
         //打开告警弹窗
-        openAlarmPopover(data) {
+        openAlarmNotification(data) {
             let vm = this;
             console.log("data-->", data);
             let params = Object.assign({}, data[0], {
                 msg_text: data[0].alarm_msg,
             });
             const h = this.$createElement;
-            this.$notify({
-                // dangerouslyUseHTMLString: true,
-                // message: "<strong>这是 <i>HTML</i> 片段</strong>",
+
+            if(this.alertNotifyQueue.length > 4){
+                this.handleAlarmPopoverClose();
+            }
+
+            let notifyInstance = '';
+            notifyInstance = this.$notify({
                 message: h(AlertNotification, {
                     props: {
                         renderInfo: params,
-                        popVisible: true,
                     },
 
                     on: {
-                        countover: vm.handleAlarmPopoverClose,
+                        countover: vm.handleAlarmPopoverClose
                     },
                 }),
-                // message : result,
                 duration: 0,
                 showClose: false,
-                customClass : 'alert-notification'
+                customClass : 'alert-notification',
+                position : 'bottom-right',
             });
+
+            this.alertNotifyQueue.push(notifyInstance);
         },
 
         handleAlarmPopoverClose() {
-            console.log("closing--");
+            console.log('close--')
+            let instance = this.alertNotifyQueue.shift()
+            instance?.close();
         },
 
         //打开老人信息窗体
