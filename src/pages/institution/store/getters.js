@@ -290,7 +290,7 @@ const getters = {
     },
 
     /*---分类菜单过滤后的数据---*/
-    classifiedBedData: (state, getters) => {
+    classifiedData: (state, getters) => {
         let filteredBedData = getters.filteredBedData;
         let filteredDeviceData = getters.filteredDeviceData;
         let filteredRoomData = getters.filteredRoomData;
@@ -350,11 +350,11 @@ const getters = {
             role = "bed";
         }
 
-        console.log("renderData==>", getters.classifiedBedData);
+        console.log("renderData==>", getters.classifiedData);
 
         return {
             role, //渲染角色
-            data: getters.classifiedBedData,
+            data: getters.classifiedData,
         };
     },
 

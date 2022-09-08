@@ -105,6 +105,8 @@ const AlarmProcessDlg = () => import("../Dialogs/AlarmProcessDlg.vue");
 const AlertPopover = () => import("../Dialogs/AlertPopover.vue");
 import { getAllRoomAlarmInfo } from "../../api/dataSource.js";
 
+import {mapGetters} from "vuex"
+
 export default {
     components: {
         AlarmProcessDlg,
@@ -131,6 +133,8 @@ export default {
     },
 
     computed: {
+        ...mapGetters(['displayRow']),
+
         getGender() {
             let info = this.renderInfo;
             console.log("info");
@@ -147,7 +151,12 @@ export default {
             get() {
                 let alertFlag = this.renderInfo?.alertFlag ?? false;
                 console.log("alertFlag", alertFlag);
-                return alertFlag;
+
+                if(alertFlag && this.displayRow === 'X6'){
+                    return true
+                }else{
+                    return false
+                }
             },
 
             set(visible) {},
@@ -215,29 +224,6 @@ export default {
                 });
         },
 
-        test(name) {
-            const h = this.$createElement;
-            console.log("ok-->");
-            let shell = document.createElement("div");
-            console.log("alertPop", this.$refs.alertPop);
-            let el = this.$refs.alertPop.$vnode;
-            console.log("el", el);
-            this.$notify({
-                dangerouslyUseHTMLString: true,
-                // message: "<strong>这是 <i>HTML</i> 片段</strong>",
-                message: h(AlertPopover, {
-                    props: {
-                        renderInfo: {
-                            msg_text: "跌倒告警",
-                            persons: [{ name }],
-                        },
-                        popVisible: true,
-                    },
-                }),
-                duration: 0,
-                showClose: false,
-            });
-        },
     },
 };
 </script>
