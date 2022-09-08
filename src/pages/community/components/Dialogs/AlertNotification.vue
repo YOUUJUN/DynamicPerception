@@ -33,14 +33,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
 export default {
     props: {
-        popVisible: {
-            type: Boolean,
-        },
-
         renderInfo: {
             type: Object,
             required: true,
@@ -58,81 +52,14 @@ export default {
         };
     },
 
-    computed: {
-        // alertLevelClass() {
-        //     let { alarm_msg } = this.renderInfo;
-        //     console.log("alarm_msg", alarm_msg);
-        //     let alertClass = "";
-        //     switch (alarm_msg) {
-        //         case "跌倒告警":
-        //         case "烟雾告警":
-        //         case "燃气告警":
-        //         case "紧急呼叫":
-        //             alertClass = "level_1_warning";
-        //             break;
-        //         case "心率异常":
-        //         case "呼吸异常":
-        //         case "离床未归":
-        //         case "翻身护理":
-        //         case "水流异常":
-        //         case "用水异常":
-        //             alertClass = "level_2_warning";
-        //             break;
-        //     }
-        //     return alertClass;
-        // },
-        // alertImgPath() {
-        //     let { alarm_msg } = this.renderInfo;
-        //     console.log("alarm_msg", alarm_msg);
-        //     let imgPath = "";
-        //     switch (alarm_msg) {
-        //         case "跌倒告警":
-        //             break;
-        //         case "烟雾告警":
-        //             imgPath = "@/static/img/smokeAlarm.png";
-        //             break;
-        //         case "燃气告警":
-        //             imgPath = "@/static/img/gasAlarm.png";
-        //             break;
-        //         case "紧急呼叫":
-        //             imgPath = "@/static/img/SOS.png";
-        //             break;
-        //         case "心率异常":
-        //             break;
-        //         case "呼吸异常":
-        //             break;
-        //         case "离床未归":
-        //             imgPath = "@/static/img/fallBed.png";
-        //             break;
-        //         case "翻身护理":
-        //             break;
-        //         case "水流异常":
-        //             break;
-        //         case "用水异常":
-        //             break;
-        //     }
-        //     return imgPath;
-        // },
-    },
-
     watch: {
-        popVisible: {
-            immediate: true,
-            handler(newValue) {
-                console.log("newValue2", newValue);
-                if (newValue === true) {
-                    this.doCountDown();
-                } else {
-                    this.count = 10;
-                    clearInterval(this.countHandle);
-                }
-            },
-        },
 
         renderInfo: {
             deep: true,
             immediate: true,
             handler(newValue) {
+                this.doCountDown();
+
                 console.log("newValue", newValue);
                 let { msg_text } = newValue;
                 console.log("msg_text", msg_text);
@@ -186,18 +113,15 @@ export default {
     created() {},
 
     methods: {
-        ...mapActions("data", ["setRoomAlertStatus"]),
 
         //控制倒计时
         doCountDown() {
             this.countHandle = setInterval(() => {
                 this.count--;
                 if (this.count === 0) {
-                    //设置alertFlag
-                    this.setRoomAlertStatus({
-                        room_id: this.renderInfo.id,
-                        alertFlag: false,
-                    });
+                    this.count = 10;
+                    clearInterval(this.countHandle);
+                    this.$emit("countover");
                 }
             }, 1000);
         },

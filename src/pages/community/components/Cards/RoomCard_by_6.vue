@@ -8,11 +8,16 @@
         v-model="alertVisible"
     >
         <alert-popover
+            ref="alertPop"
             :renderInfo="renderInfo"
             :popVisible="alertVisible"
         ></alert-popover>
 
-        <el-card slot="reference" class="room-card-by6-wrap" :class="alertClass">
+        <el-card
+            slot="reference"
+            class="room-card-by6-wrap"
+            :class="alertClass"
+        >
             <div class="card-header">
                 <div class="card-header-left"></div>
 
@@ -99,6 +104,7 @@
 const AlarmProcessDlg = () => import("../Dialogs/AlarmProcessDlg.vue");
 const AlertPopover = () => import("../Dialogs/AlertPopover.vue");
 import { getAllRoomAlarmInfo } from "../../api/dataSource.js";
+
 export default {
     components: {
         AlarmProcessDlg,
@@ -153,10 +159,10 @@ export default {
             deep: true,
             handler(newValue) {
                 let { msg_text, alertFlag } = newValue;
-                let alertClass = '';
-                
-                if(!alertFlag){
-                    this.alertClass = '';
+                let alertClass = "";
+
+                if (!alertFlag) {
+                    this.alertClass = "";
                     return alertClass;
                 }
                 switch (msg_text) {
@@ -207,6 +213,30 @@ export default {
                 .catch((err) => {
                     console.warn("err", err);
                 });
+        },
+
+        test(name) {
+            const h = this.$createElement;
+            console.log("ok-->");
+            let shell = document.createElement("div");
+            console.log("alertPop", this.$refs.alertPop);
+            let el = this.$refs.alertPop.$vnode;
+            console.log("el", el);
+            this.$notify({
+                dangerouslyUseHTMLString: true,
+                // message: "<strong>这是 <i>HTML</i> 片段</strong>",
+                message: h(AlertPopover, {
+                    props: {
+                        renderInfo: {
+                            msg_text: "跌倒告警",
+                            persons: [{ name }],
+                        },
+                        popVisible: true,
+                    },
+                }),
+                duration: 0,
+                showClose: false,
+            });
         },
     },
 };

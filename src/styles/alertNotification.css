@@ -1,0 +1,16 @@
+.alert-notification.el-notification {
+    width: auto;
+    padding: 0;
+    border: none;
+    border-radius: unset;
+}
+
+.alert-notification.el-notification .el-notification__group {
+    margin: 0;
+}
+
+.alert-notification.el-notification .el-notification__content {
+    display: flex;
+    margin: 0;
+    width: 150px;
+}

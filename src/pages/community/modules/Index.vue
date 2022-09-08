@@ -54,6 +54,7 @@ import {
     getElderlyHealthReport,
     getRoomInfo,
 } from "../api/dataSource.js";
+import AlertNotification from "../components/Dialogs/AlertNotification.vue";
 
 export default {
     components: {
@@ -70,6 +71,8 @@ export default {
         ElderInfoDlg,
         HealthReportDlg,
         RoomInfoDlg,
+
+        AlertNotification,
     },
 
     data() {
@@ -94,7 +97,6 @@ export default {
 
     computed: {
         ...mapGetters(["renderData", "displayRow"]),
-
 
         displayClass() {
             let displayRow = this.displayRow;
@@ -167,42 +169,67 @@ export default {
     },
 
     methods: {
-        ...mapActions('data', ['updateRoomData']),
+        ...mapActions("data", ["updateRoomData"]),
 
         //设置socket数据处理
-        setSocketHandler(){
-            this.$socket.registerCallBack('init', (msg) => {
-                console.log('socket', msg);
-                let jsonData = '';
-                try{
+        setSocketHandler() {
+            this.$socket.registerCallBack("init", (msg) => {
+                console.log("socket", msg);
+                let jsonData = "";
+                try {
                     jsonData = JSON.parse(msg?.data ?? null);
-                }catch(err){
+                } catch (err) {
                     return;
                 }
-                console.log('jsonData', jsonData);
+                console.log("jsonData", jsonData);
 
                 let operation = jsonData?.operation;
                 let data = jsonData?.data ?? [];
-                switch(operation){
-                    case 'fm_room_all_iot':
-                        this.handleRoomSocket(data)
+                switch (operation) {
+                    case "fm_room_all_iot":
+                        this.handleRoomSocket(data);
                         break;
                 }
-            })
+            });
         },
 
         //处理socket房间告警
-        handleRoomSocket(data){
+        handleRoomSocket(data) {
             this.updateRoomData(data);
+            this.openAlarmPopover(data);
         },
-
 
         //打开告警弹窗
-        openAlarmPopover(){
-            
+        openAlarmPopover(data) {
+            let vm = this;
+            console.log("data-->", data);
+            let params = Object.assign({}, data[0], {
+                msg_text: data[0].alarm_msg,
+            });
+            const h = this.$createElement;
+            this.$notify({
+                // dangerouslyUseHTMLString: true,
+                // message: "<strong>这是 <i>HTML</i> 片段</strong>",
+                message: h(AlertNotification, {
+                    props: {
+                        renderInfo: params,
+                        popVisible: true,
+                    },
+
+                    on: {
+                        countover: vm.handleAlarmPopoverClose,
+                    },
+                }),
+                // message : result,
+                duration: 0,
+                showClose: false,
+                customClass : 'alert-notification'
+            });
         },
 
-
+        handleAlarmPopoverClose() {
+            console.log("closing--");
+        },
 
         //打开老人信息窗体
         openElderDlg(id) {
@@ -261,7 +288,6 @@ export default {
                 .catch((err) => {
                     console.warn("err", err);
                 });
-            
         },
 
         //通过时间获取老人健康报告信息
@@ -279,6 +305,8 @@ export default {
 </script>
 
 <style scoped>
+@import url("~@/styles/alertNotification.css");
+
 .main-wrap {
     display: flex;
     flex-direction: row;
