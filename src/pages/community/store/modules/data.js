@@ -16,7 +16,7 @@ const state = {
     },
 
     //所有房间数据
-    allRoomDic : [],
+    allRoomDic: [],
 
     //初始床位和房间数据源
     originData: [],
@@ -42,16 +42,16 @@ const mutations = {
         ];
     },
 
-    SET_ALL_ROOM_DIC(state, payload){
+    SET_ALL_ROOM_DIC(state, payload) {
         let rooms = [];
-        for(let plot of payload[0].items){
-            let roomData = plot.items.map(item => {
+        for (let plot of payload[0].items) {
+            let roomData = plot.items.map((item) => {
                 Object.assign(item, {
-                    res_community_id : payload[0].id,
-                    community_id : plot.id,
-                })
+                    res_community_id: payload[0].id,
+                    community_id: plot.id,
+                });
                 return item;
-            })
+            });
             rooms.push(...roomData);
         }
         state.allRoomDic = rooms;
@@ -112,46 +112,47 @@ const mutations = {
         for (let room of rooms) {
             let oldRoom = state.roomData.find((item) => item.id === room.id);
             Object.assign(oldRoom, {
-                alertFlag: false,
+                persons: room.persons,
+                qty: room.qty,
+                msg_text: room.alarm_msg,
+                warn_id: room.warn_id,
             });
-            setTimeout(() => {
-                Object.assign(oldRoom, {
-                    persons: room.persons,
-                    qty: room.qty,
-                    msg_text: room.alarm_msg,
-                    warn_id : room.warn_id,
-
-                    alertFlag: true,
-                });
-            }, 500);
         }
     },
 
-    ADD_ROOM_DATA(state, payload){
-        let newRooms = payload.map(item => {
-            console.log('state.allRoomDic', state.allRoomDic);
-            let roomData = state.allRoomDic.find(room => room.id === item.id)
-            console.log('roomData1', roomData);
+    ADD_ROOM_DATA(state, payload) {
+        let newRooms = payload.map((item) => {
+            console.log("state.allRoomDic", state.allRoomDic);
+            let roomData = state.allRoomDic.find((room) => room.id === item.id);
+            console.log("roomData1", roomData);
             Object.assign(item, roomData, {
                 alertFlag: true,
-            })
+                msg_text: item.alarm_msg,
+            });
             return item;
         });
-        console.log('newRooms', newRooms);
+        console.log("newRooms", newRooms);
         state.roomData.unshift(...newRooms);
-        console.log('roomData', state.roomData);
+        console.log("roomData", state.roomData);
     },
 
-    DELETE_ROOM_DATA(state, payload){
+    DELETE_ROOM_DATA(state, payload) {
         let { room_id } = payload;
-        let roomIndex = state.roomData.findIndex(item => item.id === room_id);
+        let roomIndex = state.roomData.findIndex((item) => item.id === room_id);
         state.roomData.splice(roomIndex, 1);
     },
 
     CHANGE_ROOM_ALERT_STATUS(state, payload) {
         let { room_id, alertFlag } = payload;
         let rowData = state.roomData.find((data) => data.id === room_id);
-        rowData.alertFlag = alertFlag;
+        if (alertFlag === true) {
+            rowData.alertFlag = false;
+            setTimeout(() => {
+                rowData.alertFlag = alertFlag;
+            }, 500);
+        } else {
+            rowData.alertFlag = alertFlag;
+        }
     },
 };
 
@@ -281,7 +282,7 @@ const actions = {
     },
 
     //添加新告警房间
-    addRoomData({ state, commit }, payload){
+    addRoomData({ state, commit }, payload) {
         return new Promise((resolve, reject) => {
             try {
                 commit("ADD_ROOM_DATA", payload);
@@ -293,7 +294,7 @@ const actions = {
     },
 
     //删除告警房间
-    deleteRoomData({ state, commit }, payload){
+    deleteRoomData({ state, commit }, payload) {
         return new Promise((resolve, reject) => {
             try {
                 commit("DELETE_ROOM_DATA", payload);

@@ -223,15 +223,10 @@ export default {
         //处理socket房间告警
         handleRoomSocket(data) {
             let { id } = data[0];
-            console.log(
-                "ifexit",
-                this.roomData.find((item) => item.id === id)
-            );
             if (this.roomData.find((item) => item.id === id)) {
                 this.updateRoomData(data);
             } else {
                 this.addRoomData(data);
-                this.$forceUpdate();
             }
             console.log("renderData", this.renderData);
 
@@ -240,16 +235,27 @@ export default {
                 (item) => item.id === id
             );
 
-            // if(alertCardIndex === -1){
-            //     this.openAlarmNotification(data);
-            //     return;
-            // }else if(!isInViewPort(cards[alertCardIndex])){
-            //     this.openAlarmNotification(data);
-            // }
+            if(alertCardIndex === -1){
+                this.openAlarmNotification(data);
+                return;
+            }else if(!isInViewPort(cards[alertCardIndex])){
+                this.openAlarmNotification(data);
+            }else{
+                this.setRoomAlertStatus({
+                    room_id: id,
+                    alertFlag: true,
+                });
+            }
 
             // isInViewPort
-            this.updateRoomData(data);
-            this.openAlarmNotification(data);
+            // setTimeout(() => {
+            //     this.setRoomAlertStatus({
+            //         room_id: id,
+            //         alertFlag: true,
+            //     });
+            // }, 500);
+
+            // this.openAlarmNotification(data);
         },
 
         //打开页面右下角告警弹窗
