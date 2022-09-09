@@ -15,6 +15,9 @@ const state = {
         filters: [], //菜单过滤项
     },
 
+    //所有房间数据
+    allRoomDic : [],
+
     //初始床位和房间数据源
     originData: [],
 
@@ -37,6 +40,21 @@ const mutations = {
                 level: 1,
             },
         ];
+    },
+
+    SET_ALL_ROOM_DIC(state, payload){
+        let rooms = [];
+        for(let plot of payload[0].items){
+            let roomData = plot.items.map(item => {
+                Object.assign(item, {
+                    res_community_id : payload[0].id,
+                    community_id : plot.id,
+                })
+                return item;
+            })
+            rooms.push(...roomData);
+        }
+        state.allRoomDic = rooms;
     },
 
     SET_ORIGIN_DATA(state, payload) {
@@ -109,6 +127,27 @@ const mutations = {
         }
     },
 
+    ADD_ROOM_DATA(state, payload){
+        let newRooms = payload.map(item => {
+            console.log('state.allRoomDic', state.allRoomDic);
+            let roomData = state.allRoomDic.find(room => room.id === item.id)
+            console.log('roomData1', roomData);
+            Object.assign(item, roomData, {
+                alertFlag: true,
+            })
+            return item;
+        });
+        console.log('newRooms', newRooms);
+        state.roomData.unshift(...newRooms);
+        console.log('roomData', state.roomData);
+    },
+
+    DELETE_ROOM_DATA(state, payload){
+        let { room_id } = payload;
+        let roomIndex = state.roomData.findIndex(item => item.id === room_id);
+        state.roomData.splice(roomIndex, 1);
+    },
+
     CHANGE_ROOM_ALERT_STATUS(state, payload) {
         let { room_id, alertFlag } = payload;
         let rowData = state.roomData.find((data) => data.id === room_id);
@@ -129,6 +168,7 @@ const actions = {
                     let originData = res.data.data;
                     commit("SET_MENU_DATA", navData);
                     commit("SET_ORIGIN_DATA", originData);
+                    commit("SET_ALL_ROOM_DIC", navData);
                     resolve();
                 })
                 .catch((err) => {
@@ -233,6 +273,30 @@ const actions = {
         return new Promise((resolve, reject) => {
             try {
                 commit("UPDATE_ROOM_DATA", payload);
+                resolve();
+            } catch {
+                reject();
+            }
+        });
+    },
+
+    //添加新告警房间
+    addRoomData({ state, commit }, payload){
+        return new Promise((resolve, reject) => {
+            try {
+                commit("ADD_ROOM_DATA", payload);
+                resolve();
+            } catch {
+                reject();
+            }
+        });
+    },
+
+    //删除告警房间
+    deleteRoomData({ state, commit }, payload){
+        return new Promise((resolve, reject) => {
+            try {
+                commit("DELETE_ROOM_DATA", payload);
                 resolve();
             } catch {
                 reject();

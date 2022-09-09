@@ -142,7 +142,8 @@ export default {
                             this.$listeners.resolveAlert({
                                 room_id: id,
                                 alertFlag: false,
-                                notifyInstance : this.$parent
+                                notifyInstance : this.$parent,
+                                qty,
                             })
 
                             this.$message({

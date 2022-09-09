@@ -47,6 +47,10 @@ export default {
             type: Object,
             required: true,
         },
+
+        popOverVisible : {
+            type : Boolean,
+        },
     },
 
     data() {
@@ -68,7 +72,7 @@ export default {
     },
 
     methods: {
-        ...mapActions("data", ["resolveBedAlarm", "resolveRoomAlarm"]),
+        ...mapActions("data", ["resolveBedAlarm", "resolveRoomAlarm", "deleteRoomData"]),
 
         //处理告警
         handleAlarmResolve(item, index) {
@@ -139,6 +143,14 @@ export default {
                             room_id,
                             warn_qty,
                         });
+
+                        if(this.renderData.length === 0){
+                            console.log("无剩余未处理")
+                            this.deleteRoomData({
+                                room_id
+                            })
+                            this.$emit('update:popOverVisible', false);
+                        }
 
                         this.$message({
                             showClose: true,

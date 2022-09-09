@@ -9,7 +9,7 @@
         <alert-popover
             ref="alertPop"
             :renderInfo="renderInfo"
-            :popVisible="alertVisible"
+            :alertVisible="alertVisible"
         ></alert-popover>
 
         <el-card slot="reference" class="room-card-by12-wrap" :class="alertClass">
@@ -39,6 +39,7 @@
                     <alarm-process-dlg
                         :alarmData="alarmList"
                         :bedInfo="renderInfo"
+                        :popOverVisible.sync="popOverVisible"
                     ></alarm-process-dlg>
 
                     <el-button

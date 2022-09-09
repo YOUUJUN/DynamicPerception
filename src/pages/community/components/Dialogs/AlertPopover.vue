@@ -38,7 +38,7 @@ import { mapActions } from "vuex";
 
 export default {
     props: {
-        popVisible: {
+        alertVisible: {
             type: Boolean,
         },
 
@@ -59,12 +59,10 @@ export default {
         };
     },
 
-    computed: {
-        
-    },
+    computed: {},
 
     watch: {
-        popVisible: {
+        alertVisible: {
             immediate: true,
             handler(newValue) {
                 console.log("newValue2", newValue);
@@ -134,7 +132,7 @@ export default {
     created() {},
 
     methods: {
-        ...mapActions("data", ["setRoomAlertStatus", "resolveRoomAlarm"]),
+        ...mapActions("data", ["setRoomAlertStatus", "resolveRoomAlarm", "deleteRoomData"]),
 
         //控制倒计时
         doCountDown() {
@@ -152,7 +150,7 @@ export default {
 
         //处理警告
         handleAlert(renderInfo) {
-            let {warn_id, id, qty} = renderInfo
+            let { warn_id, id, qty } = renderInfo;
             handlePopAlarm({
                 warn_id,
             })
@@ -162,9 +160,16 @@ export default {
                         if (res.data.result === "success") {
                             let warn_qty = res.data.warn_qty;
                             this.resolveRoomAlarm({
-                                room_id : id,
+                                room_id: id,
                                 alertFlag: false,
                             });
+
+                            if (this.renderInfo.qty === 0) {
+                                console.log("无剩余未处理");
+                                this.deleteRoomData({
+                                    room_id : id,
+                                });
+                            }
 
                             this.$message({
                                 showClose: true,

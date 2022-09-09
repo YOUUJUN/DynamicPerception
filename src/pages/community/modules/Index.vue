@@ -103,7 +103,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(["renderData", "displayRow"]),
+        ...mapGetters(["renderData", "displayRow", "roomData"]),
 
         displayClass() {
             let displayRow = this.displayRow;
@@ -159,6 +159,14 @@ export default {
         },
     },
 
+    watch: {
+        renderData: {
+            handler(newValue) {
+                console.log("renderData--now", newValue);
+            },
+        },
+    },
+
     provide() {
         return {
             openElderDlg_inject: this.openElderDlg,
@@ -180,6 +188,8 @@ export default {
             "updateRoomData",
             "setRoomAlertStatus",
             "resolveRoomAlarm",
+            "addRoomData",
+            "deleteRoomData",
         ]),
 
         //设置socket数据处理
@@ -212,9 +222,19 @@ export default {
 
         //处理socket房间告警
         handleRoomSocket(data) {
-            this.updateRoomData(data);
-
             let { id } = data[0];
+            console.log(
+                "ifexit",
+                this.roomData.find((item) => item.id === id)
+            );
+            if (this.roomData.find((item) => item.id === id)) {
+                this.updateRoomData(data);
+            } else {
+                this.addRoomData(data);
+                this.$forceUpdate();
+            }
+            console.log("renderData", this.renderData);
+
             let cards = [...this.$refs.cardsWrap.querySelectorAll(".el-card")];
             let alertCardIndex = this.renderData.data.findIndex(
                 (item) => item.id === id
@@ -269,8 +289,10 @@ export default {
         //处理页面右下角告警弹窗关闭
         handleAlarmPopoverClose(target) {
             console.log("close--");
-            if(target){
-                let instanceIndex = this.alertNotifyQueue.findIndex(item => item === target)
+            if (target) {
+                let instanceIndex = this.alertNotifyQueue.findIndex(
+                    (item) => item === target
+                );
                 this.alertNotifyQueue[instanceIndex]?.close();
                 this.alertNotifyQueue.splice(instanceIndex, 1);
                 return;
@@ -282,9 +304,16 @@ export default {
 
         //处理页面右下角弹窗告警
         handleResolveAlert(params) {
-            let { room_id, alertFlag, notifyInstance } = params;
+            let { room_id, alertFlag, notifyInstance, qty } = params;
             this.resolveRoomAlarm({ room_id, alertFlag });
-            this.handleAlarmPopoverClose(notifyInstance)
+            this.handleAlarmPopoverClose(notifyInstance);
+
+            if (qty === 1) {
+                console.log("无剩余未处理");
+                this.deleteRoomData({
+                    room_id,
+                });
+            }
         },
 
         //打开老人信息窗体
