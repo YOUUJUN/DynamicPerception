@@ -253,21 +253,15 @@ export default {
                     },
 
                     on: {
-                        countover: vm.handleAlarmPopoverClose,
-                        resolveAlert: vm.handleResolveAlert,
+                        countover: this.handleAlarmPopoverClose,
+                        resolveAlert: this.handleResolveAlert,
                     },
                 }),
                 duration: 0,
                 showClose: false,
                 customClass: "alert-notification",
                 position: "bottom-right",
-                ref: "myRef",
-                // 如果你在渲染函数中给多个元素都应用了相同的 ref 名，
-                // 那么 `$refs.myRef` 会变成一个数组。
-                refInFor: true,
             });
-            console.log("ref", this.$refs.myRef);
-            console.log("notifyInstance", notifyInstance);
 
             this.alertNotifyQueue.push(notifyInstance);
         },
@@ -279,7 +273,6 @@ export default {
                 let instanceIndex = this.alertNotifyQueue.findIndex(item => item === target)
                 this.alertNotifyQueue[instanceIndex]?.close();
                 this.alertNotifyQueue.splice(instanceIndex, 1);
-                console.log('alertNotifyQueue', this.alertNotifyQueue)
                 return;
             }
 
