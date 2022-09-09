@@ -83,6 +83,12 @@ const mutations = {
         rowData.qty = warn_qty;
     },
 
+    REDUCE_ROOM_ALARM_QTY(state, payload) {
+        let { room_id } = payload;
+        let rowData = state.roomData.find((data) => data.id === room_id);
+        rowData.qty--;
+    },
+
     UPDATE_ROOM_DATA(state, payload) {
         let rooms = payload;
         for (let room of rooms) {
@@ -203,7 +209,8 @@ const actions = {
     resolveRoomAlarm({ state, commit }, payload) {
         return new Promise((resolve, reject) => {
             try {
-                commit("CHANGE_ROOM_ALARM_QTY", payload);
+                commit("REDUCE_ROOM_ALARM_QTY", payload);
+                commit("CHANGE_ROOM_ALERT_STATUS", payload);
                 resolve();
             } catch {
                 reject();
@@ -234,7 +241,6 @@ const actions = {
     },
 
     //改变房间告警状态
-    // CHANGE_ROOM_ALERT_STATUS
     setRoomAlertStatus({ state, commit }, payload) {
         return new Promise((resolve, reject) => {
             try {

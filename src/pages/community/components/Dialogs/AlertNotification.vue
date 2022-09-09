@@ -41,6 +41,8 @@ export default {
             type: Object,
             required: true,
         },
+
+        notifyInstance : {}
     },
 
     data() {
@@ -114,7 +116,7 @@ export default {
     created() {},
 
     methods: {
-        ...mapActions("data", ["resolveRoomAlarm"]),
+        ...mapActions("data", ["setRoomAlertStatus", "resolveRoomAlarm"]),
 
         //控制倒计时
         doCountDown() {
@@ -137,11 +139,13 @@ export default {
                     console.log("res-->", res);
                     if (res.status === 200) {
                         if (res.data.result === "success") {
+                            console.log('this-->', this);
                             let warn_qty = res?.data?.warn_qty;
-                            this.resolveRoomAlarm({
+                            this.$listeners.resolveAlert({
                                 room_id: id,
-                                warn_qty : qty - 1,
-                            });
+                                alertFlag: false,
+                                notifyInstance : this.$parent
+                            })
 
                             this.$message({
                                 showClose: true,

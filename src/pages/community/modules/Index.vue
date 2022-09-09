@@ -58,7 +58,7 @@ import AlertNotification from "../components/Dialogs/AlertNotification.vue";
 
 import moment from "moment";
 
-import { isInViewPort } from "@/utils/index.js"
+import { isInViewPort } from "@/utils/index.js";
 
 export default {
     components: {
@@ -98,7 +98,7 @@ export default {
             roomInfo: {},
 
             //告警弹窗队列
-            alertNotifyQueue : [],
+            alertNotifyQueue: [],
         };
     },
 
@@ -176,7 +176,11 @@ export default {
     },
 
     methods: {
-        ...mapActions("data", ["updateRoomData"]),
+        ...mapActions("data", [
+            "updateRoomData",
+            "setRoomAlertStatus",
+            "resolveRoomAlarm",
+        ]),
 
         //设置socket数据处理
         setSocketHandler() {
@@ -193,26 +197,33 @@ export default {
                 let operation = jsonData?.operation;
                 let data = jsonData?.data ?? [];
                 switch (operation) {
+                    //处理房间告警
                     case "fm_room_all_iot":
+                        this.handleRoomSocket(data);
+                        break;
+
+                    //处理设备离线告警
+                    case "fm_offline_iot":
                         this.handleRoomSocket(data);
                         break;
                 }
             });
         },
- 
+
         //处理socket房间告警
         handleRoomSocket(data) {
             this.updateRoomData(data);
 
-            let {id} = data[0]
-            let cards = [...this.$refs.cardsWrap.querySelectorAll('.el-card')]
-            let alertCardIndex = this.renderData.data.findIndex(item => item.id === id);
+            let { id } = data[0];
+            let cards = [...this.$refs.cardsWrap.querySelectorAll(".el-card")];
+            let alertCardIndex = this.renderData.data.findIndex(
+                (item) => item.id === id
+            );
 
-            if(alertCardIndex === -1){
-                return;
-            }
-            
-            // if(!isInViewPort(cards[alertCardIndex])){
+            // if(alertCardIndex === -1){
+            //     this.openAlarmNotification(data);
+            //     return;
+            // }else if(!isInViewPort(cards[alertCardIndex])){
             //     this.openAlarmNotification(data);
             // }
 
@@ -221,8 +232,9 @@ export default {
             this.openAlarmNotification(data);
         },
 
-        //打开告警弹窗
+        //打开页面右下角告警弹窗
         openAlarmNotification(data) {
+            console.log("this-->", this);
             let vm = this;
             console.log("data-->", data);
             let params = Object.assign({}, data[0], {
@@ -230,7 +242,7 @@ export default {
             });
             const h = this.$createElement;
 
-            if(this.alertNotifyQueue.length > 4){
+            if (this.alertNotifyQueue.length > 4) {
                 this.handleAlarmPopoverClose();
             }
 
@@ -241,22 +253,45 @@ export default {
                     },
 
                     on: {
-                        countover: vm.handleAlarmPopoverClose
+                        countover: vm.handleAlarmPopoverClose,
+                        resolveAlert: vm.handleResolveAlert,
                     },
                 }),
                 duration: 0,
                 showClose: false,
-                customClass : 'alert-notification',
-                position : 'bottom-right',
+                customClass: "alert-notification",
+                position: "bottom-right",
+                ref: "myRef",
+                // 如果你在渲染函数中给多个元素都应用了相同的 ref 名，
+                // 那么 `$refs.myRef` 会变成一个数组。
+                refInFor: true,
             });
+            console.log("ref", this.$refs.myRef);
+            console.log("notifyInstance", notifyInstance);
 
             this.alertNotifyQueue.push(notifyInstance);
         },
 
-        handleAlarmPopoverClose() {
-            console.log('close--')
-            let instance = this.alertNotifyQueue.shift()
+        //处理页面右下角告警弹窗关闭
+        handleAlarmPopoverClose(target) {
+            console.log("close--");
+            if(target){
+                let instanceIndex = this.alertNotifyQueue.findIndex(item => item === target)
+                this.alertNotifyQueue[instanceIndex]?.close();
+                this.alertNotifyQueue.splice(instanceIndex, 1);
+                console.log('alertNotifyQueue', this.alertNotifyQueue)
+                return;
+            }
+
+            let instance = this.alertNotifyQueue.shift();
             instance?.close();
+        },
+
+        //处理页面右下角弹窗告警
+        handleResolveAlert(params) {
+            let { room_id, alertFlag, notifyInstance } = params;
+            this.resolveRoomAlarm({ room_id, alertFlag });
+            this.handleAlarmPopoverClose(notifyInstance)
         },
 
         //打开老人信息窗体
@@ -287,7 +322,7 @@ export default {
                         let reportInfo = res.data.data[0] ?? {};
                         this.partner_id = id;
                         this.$refs.reportDlg.setReportDate(
-                            moment().subtract(1, 'days').format('YYYY-MM-DD')
+                            moment().subtract(1, "days").format("YYYY-MM-DD")
                         );
                         this.reportInfo = reportInfo;
                         console.log("reportInfo", this.reportInfo);
@@ -321,7 +356,7 @@ export default {
         //通过时间获取老人健康报告信息
         fetchElderHealthReportByTime(
             id,
-            date = moment().subtract(1, 'days').format('YYYY-MM-DD')
+            date = moment().subtract(1, "days").format("YYYY-MM-DD")
         ) {
             return getElderlyHealthReport({
                 partner_id: id,
