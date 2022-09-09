@@ -177,6 +177,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
     inject: ["fetchElderHealthReportByTime_inject"],
 
@@ -203,7 +205,7 @@ export default {
             //日期选择控制
             pickerOptions: {
                 disabledDate(time) {
-                    return time.getTime() > Date.now();
+                    return moment(time).isAfter(moment().subtract(1, 'days'))
                 },
                 shortcuts: [
                     {

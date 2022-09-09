@@ -205,7 +205,7 @@ export default {
 
         //处理警告
         handleAlert(renderInfo) {
-            let {warn_id, id} = renderInfo
+            let {warn_id, id, qty} = renderInfo
             handlePopAlarm({
                 warn_id,
             })
@@ -216,7 +216,7 @@ export default {
                             let warn_qty = res.data.warn_qty;
                             this.resolveRoomAlarm({
                                 room_id : id,
-                                warn_qty,
+                                warn_qty : qty - 1,
                             });
 
                             this.$message({

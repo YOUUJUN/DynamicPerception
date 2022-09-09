@@ -34,7 +34,7 @@
 
 <script>
 import { handlePopAlarm } from "../../api/dataSource.js";
-
+import { mapActions } from "vuex";
 export default {
     props: {
         renderInfo: {
@@ -114,6 +114,8 @@ export default {
     created() {},
 
     methods: {
+        ...mapActions("data", ["resolveRoomAlarm"]),
+
         //控制倒计时
         doCountDown() {
             let countHandle = setInterval(() => {
@@ -126,7 +128,8 @@ export default {
 
         //处理警告
         handleAlert(renderInfo) {
-            let { warn_id, id } = renderInfo;
+            console.log('renderInfo', renderInfo);
+            let { warn_id, id, qty } = renderInfo;
             handlePopAlarm({
                 warn_id,
             })
@@ -134,10 +137,10 @@ export default {
                     console.log("res-->", res);
                     if (res.status === 200) {
                         if (res.data.result === "success") {
-                            let warn_qty = res.data.warn_qty;
+                            let warn_qty = res?.data?.warn_qty;
                             this.resolveRoomAlarm({
                                 room_id: id,
-                                warn_qty,
+                                warn_qty : qty - 1,
                             });
 
                             this.$message({

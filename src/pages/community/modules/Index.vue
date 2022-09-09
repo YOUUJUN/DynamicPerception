@@ -56,6 +56,8 @@ import {
 } from "../api/dataSource.js";
 import AlertNotification from "../components/Dialogs/AlertNotification.vue";
 
+import moment from "moment";
+
 import { isInViewPort } from "@/utils/index.js"
 
 export default {
@@ -210,13 +212,13 @@ export default {
                 return;
             }
             
-            if(!isInViewPort(cards[alertCardIndex])){
-                this.openAlarmNotification(data);
-            }
+            // if(!isInViewPort(cards[alertCardIndex])){
+            //     this.openAlarmNotification(data);
+            // }
 
             // isInViewPort
-            // this.updateRoomData(data);
-            // this.openAlarmNotification(data);
+            this.updateRoomData(data);
+            this.openAlarmNotification(data);
         },
 
         //打开告警弹窗
@@ -232,8 +234,7 @@ export default {
                 this.handleAlarmPopoverClose();
             }
 
-            let notifyInstance = '';
-            notifyInstance = this.$notify({
+            let notifyInstance = this.$notify({
                 message: h(AlertNotification, {
                     props: {
                         renderInfo: params,
@@ -286,7 +287,7 @@ export default {
                         let reportInfo = res.data.data[0] ?? {};
                         this.partner_id = id;
                         this.$refs.reportDlg.setReportDate(
-                            new Date().Format("yyyy-MM-dd")
+                            moment().subtract(1, 'days').format('YYYY-MM-DD')
                         );
                         this.reportInfo = reportInfo;
                         console.log("reportInfo", this.reportInfo);
@@ -320,7 +321,7 @@ export default {
         //通过时间获取老人健康报告信息
         fetchElderHealthReportByTime(
             id,
-            date = new Date().Format("yyyy-MM-dd")
+            date = moment().subtract(1, 'days').format('YYYY-MM-DD')
         ) {
             return getElderlyHealthReport({
                 partner_id: id,
