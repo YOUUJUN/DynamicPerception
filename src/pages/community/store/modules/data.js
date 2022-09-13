@@ -169,11 +169,15 @@ const mutations = {
         let beds = payload;
         for (let bed of beds) {
             let oldBed = state.originData.find((item) => item.id === bed.id);
-            Object.assign(oldBed, bed, {
+            Object.assign(oldBed, {
                 qty: bed.qty,
                 alarming : bed.pop_show.state,
                 msg_text: bed.alarming,
                 warn_id: bed.warn_id,
+                status : bed.status ?? '--',
+                heart : bed?.heart ?? '--',
+                alarming : bed?.alarming ?? '--',
+                pop_show : bed?.pop_show,
             });
         }
     },

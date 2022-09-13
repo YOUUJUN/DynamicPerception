@@ -65,7 +65,6 @@ export default {
         alertVisible: {
             immediate: true,
             handler(newValue) {
-                console.log("newValue2", newValue);
                 if (newValue === true) {
                     this.doCountDown();
                 } else {
@@ -79,9 +78,7 @@ export default {
             deep: true,
             immediate: true,
             handler(newValue) {
-                console.log("newValue", newValue);
                 let { msg_text } = newValue;
-                console.log("msg_text", msg_text);
                 let imgPath = "";
                 let alertClass = "";
                 switch (msg_text) {
@@ -103,6 +100,7 @@ export default {
                         break;
                     case "心率异常":
                         alertClass = "level_2_warning";
+                        imgPath = require("@/static/img/alarmingHeart.png");
                         break;
                     case "呼吸异常":
                         alertClass = "level_2_warning";
@@ -114,6 +112,7 @@ export default {
                         break;
                     case "翻身护理":
                         alertClass = "level_2_warning";
+                        imgPath = require("@/static/img/alarmingturning.png");
                         break;
                     case "水流异常":
                         alertClass = "level_2_warning";

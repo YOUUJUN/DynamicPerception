@@ -85,6 +85,7 @@ export default {
                         break;
                     case "心率异常":
                         alertClass = "level_2_warning";
+                        imgPath = require("@/static/img/alarmingHeart.png");
                         break;
                     case "呼吸异常":
                         alertClass = "level_2_warning";
@@ -92,10 +93,11 @@ export default {
                         break;
                     case "离床未归":
                         alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/fallBed.png");
+                        imgPath = require("@/static/img/alarmingOffbed.png");
                         break;
                     case "翻身护理":
                         alertClass = "level_2_warning";
+                        imgPath = require("@/static/img/alarmingturning.png");
                         break;
                     case "水流异常":
                         alertClass = "level_2_warning";
