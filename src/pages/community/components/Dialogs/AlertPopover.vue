@@ -106,6 +106,7 @@ export default {
                         break;
                     case "呼吸异常":
                         alertClass = "level_2_warning";
+                        imgPath = require("@/static/img/alarmingbreathing.png");
                         break;
                     case "离床未归":
                         alertClass = "level_2_warning";
@@ -116,9 +117,11 @@ export default {
                         break;
                     case "水流异常":
                         alertClass = "level_2_warning";
+                        imgPath = require("@/static/img/abnormalWater.png")
                         break;
                     case "用水异常":
                         alertClass = "level_2_warning";
+                        imgPath = require("@/static/img/usingWater.png")
                         break;
                 }
 

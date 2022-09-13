@@ -58,7 +58,13 @@ const mutations = {
     },
 
     SET_ORIGIN_DATA(state, payload) {
-        state.originData = payload;
+        let originData = payload.map((item) => {
+            Object.assign(item, {
+                alertFlag: false,
+            });
+            return item;
+        });
+        state.originData = originData;
     },
 
     SET_OFFLINE_DATA(state, payload) {
@@ -87,13 +93,7 @@ const mutations = {
         state.menu.filters = payload;
     },
 
-    CHANGE_BED_ALARM_QTY(state, payload) {
-        let { partner_id, warn_qty } = payload;
-        let rowData = state.originData.find(
-            (data) => data.partner_id === partner_id
-        );
-        rowData.qty = warn_qty;
-    },
+    /*---------房间-----------*/
 
     CHANGE_ROOM_ALARM_QTY(state, payload) {
         let { room_id, warn_qty } = payload;
@@ -153,6 +153,48 @@ const mutations = {
         } else {
             rowData.alertFlag = alertFlag;
         }
+    },
+
+
+    /*---------床位-----------*/
+
+    UPDATE_BED_DATA(state, payload) {
+        let beds = payload;
+        for (let bed of beds) {
+            let oldBed = state.originData.find((item) => item.id === bed.id);
+            Object.assign(oldBed, {
+                qty: bed.qty,
+                alarming : bed.pop_show.state,
+                msg_text: bed.alarming,
+            });
+        }
+    },
+
+    CHANGE_BED_ALERT_STATUS(state, payload) {
+        let { bed_id, alertFlag } = payload;
+        let rowData = state.originData.find((data) => data.id === bed_id);
+        if (alertFlag === true) {
+            rowData.alertFlag = false;
+            setTimeout(() => {
+                rowData.alertFlag = alertFlag;
+            }, 500);
+        } else {
+            rowData.alertFlag = alertFlag;
+        }
+    },
+
+    CHANGE_BED_ALARM_QTY(state, payload) {
+        let { bed_id, warn_qty } = payload;
+        let rowData = state.originData.find(
+            (data) => data.id === bed_id
+        );
+        rowData.qty = warn_qty;
+    },
+
+    REDUCE_BED_ALARM_QTY(state, payload) {
+        let { bed_id } = payload;
+        let rowData = state.originData.find((data) => data.id === bed_id);
+        rowData.qty--;
     },
 };
 
@@ -234,18 +276,6 @@ const actions = {
         });
     },
 
-    //处理床铺告警
-    resolveBedAlarm({ state, commit }, payload) {
-        return new Promise((resolve, reject) => {
-            try {
-                commit("CHANGE_BED_ALARM_QTY", payload);
-                resolve();
-            } catch {
-                reject();
-            }
-        });
-    },
-
     //处理房间告警
     resolveRoomAlarm({ state, commit }, payload) {
         return new Promise((resolve, reject) => {
@@ -268,6 +298,9 @@ const actions = {
     setMenuFilters({ state, commit }, payload) {
         commit("SET_MENU_FILTERS", payload);
     },
+
+
+    /*---------房间-----------*/
 
     //更新房间信息
     updateRoomData({ state, commit }, payload) {
@@ -316,6 +349,47 @@ const actions = {
             }
         });
     },
+
+
+    /*---------床位-----------*/
+
+    //更新床位信息
+    updateBedData({ state, commit }, payload) {
+        return new Promise((resolve, reject) => {
+            try {
+                commit("UPDATE_BED_DATA", payload);
+                resolve();
+            } catch {
+                reject();
+            }
+        });
+    },
+
+    //改变床位告警状态
+    setBedAlertStatus({ state, commit }, payload) {
+        return new Promise((resolve, reject) => {
+            try {
+                commit("CHANGE_BED_ALERT_STATUS", payload);
+                resolve();
+            } catch {
+                reject();
+            }
+        });
+    },
+
+    //处理床位告警
+    resolveBedAlarm({ state, commit }, payload) {
+        return new Promise((resolve, reject) => {
+            try {
+                commit("REDUCE_BED_ALARM_QTY", payload);
+                commit("CHANGE_BED_ALERT_STATUS", payload);
+                resolve();
+            } catch {
+                reject();
+            }
+        });
+    },
+
 };
 
 export default {

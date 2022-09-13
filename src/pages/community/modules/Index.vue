@@ -103,7 +103,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(["renderData", "displayRow", "roomData"]),
+        ...mapGetters(["renderData", "displayRow", "roomData", "originData"]),
 
         displayClass() {
             let displayRow = this.displayRow;
@@ -190,6 +190,9 @@ export default {
             "resolveRoomAlarm",
             "addRoomData",
             "deleteRoomData",
+            "updateBedData",
+            "setBedAlertStatus",
+            "resolveBedAlarm",
         ]),
 
         //设置socket数据处理
@@ -207,6 +210,22 @@ export default {
                 let operation = jsonData?.operation;
                 let data = jsonData?.data ?? [];
                 switch (operation) {
+                    //处理床位告警
+                    case "f_bed_warning_iot":
+                        data = data.map((item) => {
+                            Object.assign(item, {
+                                alarm_msg: item.alarming,
+                                persons : [
+                                    {
+                                        name : item.pop_show.name
+                                    }
+                                ]
+                            });
+                            return item;
+                        });
+                        this.handleBedSocket(data);
+                        break;
+
                     //处理房间告警
                     case "fm_room_all_iot":
                         this.handleRoomSocket(data);
@@ -214,10 +233,37 @@ export default {
 
                     //处理设备离线告警
                     case "fm_offline_iot":
-                        this.handleRoomSocket(data);
                         break;
                 }
             });
+        },
+
+        //处理socket床位告警
+        handleBedSocket(data) {
+            let { id } = data[0];
+            if (this.originData.find((item) => item.id === id)) {
+                this.updateBedData(data);
+            }
+
+            let cards = [...this.$refs.cardsWrap.querySelectorAll(".el-card")];
+            let alertCardIndex = this.renderData.data.findIndex(
+                (item) => item.id === id
+            );
+
+            if (alertCardIndex === -1) {
+                //未渲染当前卡片右下角弹窗
+                this.openAlarmNotification(data, this.handleResolveBedAlert);
+                return;
+            } else if (!isInViewPort(cards[alertCardIndex])) {
+                //卡片不在可视区域内右下角弹窗
+                this.openAlarmNotification(data, this.handleResolveBedAlert);
+            } else {
+                //卡片在可视区域内卡片弹窗
+                this.setBedAlertStatus({
+                    bed_id: id,
+                    alertFlag: true,
+                });
+            }
         },
 
         //处理socket房间告警
@@ -235,12 +281,15 @@ export default {
                 (item) => item.id === id
             );
 
-            if(alertCardIndex === -1){
-                this.openAlarmNotification(data);
+            if (alertCardIndex === -1) {
+                //未渲染当前卡片右下角弹窗
+                this.openAlarmNotification(data, this.handleResolveRoomAlert);
                 return;
-            }else if(!isInViewPort(cards[alertCardIndex])){
-                this.openAlarmNotification(data);
-            }else{
+            } else if (!isInViewPort(cards[alertCardIndex])) {
+                //卡片不在可视区域内右下角弹窗
+                this.openAlarmNotification(data, this.handleResolveRoomAlert);
+            } else {
+                //卡片在可视区域内卡片弹窗
                 this.setRoomAlertStatus({
                     room_id: id,
                     alertFlag: true,
@@ -255,11 +304,11 @@ export default {
             //     });
             // }, 500);
 
-            // this.openAlarmNotification(data);
+            // this.openAlarmNotification(data, this.handleResolveRoomAlert);
         },
 
         //打开页面右下角告警弹窗
-        openAlarmNotification(data) {
+        openAlarmNotification(data, alertCallBack) {
             console.log("this-->", this);
             let vm = this;
             console.log("data-->", data);
@@ -280,7 +329,7 @@ export default {
 
                     on: {
                         countover: this.handleAlarmPopoverClose,
-                        resolveAlert: this.handleResolveAlert,
+                        resolveAlert: alertCallBack,
                     },
                 }),
                 duration: 0,
@@ -308,16 +357,23 @@ export default {
             instance?.close();
         },
 
-        //处理页面右下角弹窗告警
-        handleResolveAlert(params) {
-            let { room_id, alertFlag, notifyInstance, qty } = params;
+        //处理页面右下角床铺弹窗告警
+        handleResolveBedAlert(params) {
+            let { id, alertFlag, notifyInstance, qty } = params;
+            this.resolveBedAlarm({ bed_id: id, alertFlag });
+            this.handleAlarmPopoverClose(notifyInstance);
+        },
+
+        //处理页面右下角房间弹窗告警
+        handleResolveRoomAlert(params) {
+            let { id, alertFlag, notifyInstance, qty } = params;
             this.resolveRoomAlarm({ room_id, alertFlag });
             this.handleAlarmPopoverClose(notifyInstance);
 
             if (qty === 1) {
                 console.log("无剩余未处理");
                 this.deleteRoomData({
-                    room_id,
+                    room_id: id,
                 });
             }
         },

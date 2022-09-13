@@ -7,7 +7,9 @@
                 trigger="click"
             >
                 <bed-card-by-six :renderInfo="renderInfo"></bed-card-by-six>
-                <span slot="reference" class="card-name">{{ renderInfo.name }}</span>
+                <span slot="reference" class="card-name">{{
+                    renderInfo.name
+                }}</span>
             </el-popover>
         </div>
 
@@ -19,8 +21,11 @@
                 trigger="click"
                 v-model="popOverVisible"
             >
-
-                <alarm-process-dlg :alarmData="alarmList" :bedInfo="renderInfo"></alarm-process-dlg>
+                <alarm-process-dlg
+                    :alarmData="alarmList"
+                    :bedInfo="renderInfo"
+                    :popOverVisible.sync="popOverVisible"
+                ></alarm-process-dlg>
 
                 <el-button
                     v-if="renderInfo.qty != 0"
@@ -37,7 +42,12 @@
         </div>
 
         <div class="card-footer">
-            <el-button class="btn" type="info" size="mini" round @click="openHealthReportDlg(renderInfo.partner_id)"
+            <el-button
+                class="btn"
+                type="info"
+                size="mini"
+                round
+                @click="openHealthReportDlg(renderInfo.partner_id)"
                 >查看报告</el-button
             >
         </div>
@@ -45,12 +55,11 @@
 </template>
 
 <script>
-const AlarmProcessDlg = () => import('../Dialogs/AlarmProcessDlg.vue')
+const AlarmProcessDlg = () => import("../Dialogs/AlarmProcessDlg.vue");
 const BedCardBySix = () => import("../Cards/BedCard_by_6.vue");
 import { getUnsolvedAlarmInfo } from "../../api/dataSource.js";
 export default {
-
-    components : {
+    components: {
         BedCardBySix,
         AlarmProcessDlg,
     },
@@ -71,8 +80,7 @@ export default {
         };
     },
 
-
-    inject : ['openHealthReportDlg_inject'],
+    inject: ["openHealthReportDlg_inject"],
 
     methods: {
         //获取待处理告警信息
@@ -95,9 +103,9 @@ export default {
         },
 
         //打开健康报告窗体
-        openHealthReportDlg(id){
-            this.openHealthReportDlg_inject(id)
-        }
+        openHealthReportDlg(id) {
+            this.openHealthReportDlg_inject(id);
+        },
     },
 };
 </script>
@@ -111,9 +119,9 @@ export default {
     padding: 0.7rem 0 !important;
 }
 
-.bedBySix-popover{
+.bedBySix-popover {
     width: 24rem;
-    padding:0;
+    padding: 0;
 }
 </style>
 
@@ -170,7 +178,7 @@ export default {
 </style>
 
 <style scoped>
-.bedBySix-popover .bed-card-by6-wrap{
+.bedBySix-popover .bed-card-by6-wrap {
     box-shadow: unset;
     border: none;
 }

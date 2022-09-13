@@ -25,8 +25,11 @@
                 trigger="click"
                 v-model="popOverVisible"
             >
-            
-                <alarm-process-dlg :alarmData="alarmList" :bedInfo="renderInfo"></alarm-process-dlg>
+                <alarm-process-dlg
+                    :alarmData="alarmList"
+                    :bedInfo="renderInfo"
+                    :popOverVisible.sync="popOverVisible"
+                ></alarm-process-dlg>
 
                 <el-button
                     v-if="renderInfo.qty != 0"
@@ -105,7 +108,12 @@
         </ul>
 
         <div class="card-footer">
-            <el-button class="btn" type="info" size="small" round @click="openHealthReportDlg(renderInfo.partner_id)"
+            <el-button
+                class="btn"
+                type="info"
+                size="small"
+                round
+                @click="openHealthReportDlg(renderInfo.partner_id)"
                 >查看报告</el-button
             >
         </div>
@@ -113,12 +121,11 @@
 </template>
 
 <script>
-const AlarmProcessDlg = () => import('../Dialogs/AlarmProcessDlg.vue')
+const AlarmProcessDlg = () => import("../Dialogs/AlarmProcessDlg.vue");
 import { getUnsolvedAlarmInfo } from "../../api/dataSource.js";
 export default {
-
-    components : {
-        AlarmProcessDlg
+    components: {
+        AlarmProcessDlg,
     },
 
     props: {
@@ -126,7 +133,7 @@ export default {
             type: Object,
         },
 
-        reportDlgVisible : {}
+        reportDlgVisible: {},
     },
 
     data() {
@@ -153,7 +160,7 @@ export default {
         },
     },
 
-    inject : ['openElderDlg_inject', 'openHealthReportDlg_inject'],
+    inject: ["openElderDlg_inject", "openHealthReportDlg_inject"],
 
     methods: {
         //获取待处理告警信息
@@ -177,13 +184,13 @@ export default {
 
         //打开老人信息窗体
         openElderDlg(id) {
-            this.openElderDlg_inject(id)
+            this.openElderDlg_inject(id);
         },
 
         //打开健康报告窗体
-        openHealthReportDlg(id){
-            this.openHealthReportDlg_inject(id)
-        }
+        openHealthReportDlg(id) {
+            this.openHealthReportDlg_inject(id);
+        },
     },
 };
 </script>
@@ -199,7 +206,6 @@ export default {
 </style>
 
 <style scoped>
-
 .bed-card-by6-wrap {
     width: auto;
     height: 26rem;
@@ -217,7 +223,7 @@ export default {
     font-size: 2.2rem;
     color: #18171d;
     text-align: center;
-    padding: 0 .6rem;
+    padding: 0 0.6rem;
 }
 
 .card-num {
