@@ -260,7 +260,7 @@ export default {
             } else {
                 //卡片在可视区域内卡片弹窗
                 this.setBedAlertStatus({
-                    bed_id: id,
+                    id,
                     alertFlag: true,
                 });
             }
@@ -291,7 +291,7 @@ export default {
             } else {
                 //卡片在可视区域内卡片弹窗
                 this.setRoomAlertStatus({
-                    room_id: id,
+                    id,
                     alertFlag: true,
                 });
             }
@@ -299,7 +299,7 @@ export default {
             // isInViewPort
             // setTimeout(() => {
             //     this.setRoomAlertStatus({
-            //         room_id: id,
+            //         id,
             //         alertFlag: true,
             //     });
             // }, 500);
@@ -360,20 +360,20 @@ export default {
         //处理页面右下角床铺弹窗告警
         handleResolveBedAlert(params) {
             let { id, alertFlag, notifyInstance, qty } = params;
-            this.resolveBedAlarm({ bed_id: id, alertFlag });
+            this.resolveBedAlarm({ id, alertFlag });
             this.handleAlarmPopoverClose(notifyInstance);
         },
 
         //处理页面右下角房间弹窗告警
         handleResolveRoomAlert(params) {
             let { id, alertFlag, notifyInstance, qty } = params;
-            this.resolveRoomAlarm({ room_id, alertFlag });
+            this.resolveRoomAlarm({ id, alertFlag });
             this.handleAlarmPopoverClose(notifyInstance);
 
             if (qty === 1) {
                 console.log("无剩余未处理");
                 this.deleteRoomData({
-                    room_id: id,
+                    id,
                 });
             }
         },

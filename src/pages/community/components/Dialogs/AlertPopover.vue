@@ -135,7 +135,37 @@ export default {
     created() {},
 
     methods: {
-        ...mapActions("data", ["setRoomAlertStatus", "resolveRoomAlarm", "deleteRoomData"]),
+        ...mapActions("data", ["setRoomAlertStatus", "resolveRoomAlarm", "deleteRoomData", "setBedAlertStatus", "resolveBedAlarm"]),
+
+        //设置告警状态
+        setAlertStatus (...params) {
+            let category = this.renderInfo?.category;
+            if(category === 'bed'){
+                return this.setBedAlertStatus.apply(this, params);
+            }else if(category === 'room'){
+                return this.setRoomAlertStatus.apply(this, params);
+            }
+        },
+
+        //处理告警
+        resolveAlarm (...params) {
+            let category = this.renderInfo?.category;
+            if(category === 'bed'){
+                return this.resolveBedAlarm.apply(this, params);
+            }else if(category === 'room'){
+                return this.resolveRoomAlarm.apply(this, params);
+            }
+        },
+
+        //删除数据
+        deleteData (...params) {
+            let category = this.renderInfo?.category;
+            if(category === 'bed'){
+                return () => {};
+            }else if(category === 'room'){
+                return this.deleteRoomData.apply(this, params);
+            }
+        },
 
         //控制倒计时
         doCountDown() {
@@ -143,8 +173,8 @@ export default {
                 this.count--;
                 if (this.count === 0) {
                     //设置alertFlag
-                    this.setRoomAlertStatus({
-                        room_id: this.renderInfo.id,
+                    this.setAlertStatus({
+                        id: this.renderInfo.id,
                         alertFlag: false,
                     });
                 }
@@ -153,6 +183,7 @@ export default {
 
         //处理警告
         handleAlert(renderInfo) {
+            console.log('renderInfo', renderInfo);
             let { warn_id, id, qty } = renderInfo;
             handlePopAlarm({
                 warn_id,
@@ -162,15 +193,15 @@ export default {
                     if (res.status === 200) {
                         if (res.data.result === "success") {
                             let warn_qty = res.data.warn_qty;
-                            this.resolveRoomAlarm({
-                                room_id: id,
+                            this.resolveAlarm({
+                                id,
                                 alertFlag: false,
                             });
 
                             if (this.renderInfo.qty === 0) {
                                 console.log("无剩余未处理");
-                                this.deleteRoomData({
-                                    room_id : id,
+                                this.deleteData({
+                                    id,
                                 });
                             }
 

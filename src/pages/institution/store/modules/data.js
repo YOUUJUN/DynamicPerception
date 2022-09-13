@@ -69,9 +69,9 @@ const mutations = {
     },
 
     CHANGE_ROOM_ALARM_QTY(state, payload) {
-        let { room_id, warn_qty } = payload;
+        let { id, warn_qty } = payload;
         let rowData = state.roomData.find(
-            (data) => data.id === room_id
+            (data) => data.id === id
         );
         rowData.qty = warn_qty;
     },

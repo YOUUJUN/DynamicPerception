@@ -1,0 +1,36 @@
+/*--alert-popover--*/
+.alert-popover{
+    padding: 0 !important;
+    margin-left: 0.2rem !important;
+}
+
+.alert-popover .popper__arrow{
+    display: none;
+}
+
+.alert-card-level-1{
+    border: 2px solid #dd1d1d;
+}
+
+.alert-card-level-1 .card-num{
+    background-color:#dd1d1d !important;
+}
+
+.alert-card-level-1 .alert-card-item{
+    color: #dd1d1d !important;
+}
+
+
+
+
+.alert-card-level-2{
+    border: 2px solid #fd7f0e;
+}
+
+.alert-card-level-2 .card-num{
+    background-color:#fd7f0e !important;
+}
+
+.alert-card-level-2 .alert-card-item{
+    color: #fd7f0e !important;
+}

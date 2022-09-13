@@ -244,7 +244,7 @@ export default {
 </style>
 
 <style scoped>
-@import url("~@/styles/alarmDlg.css");
+@import url("~@/styles/alarmPopover.css");
 
 .room-card-by6-wrap {
     width: auto;

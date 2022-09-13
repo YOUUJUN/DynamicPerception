@@ -126,6 +126,8 @@ export default {
 </style>
 
 <style scoped>
+@import url("~@/styles/alarmPopover.css");
+
 .bed-card-by12-wrap {
     width: auto;
     height: 13rem;

@@ -136,7 +136,7 @@ export default {
                         let warn_qty = res.data.warn_qty;
                         this.renderData.splice(index, 1);
                         this.resolveRoomAlarm({
-                            room_id,
+                            id : room_id,
                             warn_qty,
                         });
 

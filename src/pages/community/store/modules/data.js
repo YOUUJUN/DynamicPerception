@@ -60,7 +60,13 @@ const mutations = {
     SET_ORIGIN_DATA(state, payload) {
         let originData = payload.map((item) => {
             Object.assign(item, {
+                persons : [
+                    {
+                        name : item.pop_show.name
+                    }
+                ],
                 alertFlag: false,
+                category : 'bed',
             });
             return item;
         });
@@ -75,6 +81,7 @@ const mutations = {
         let roomData = payload.map((item) => {
             Object.assign(item, {
                 alertFlag: false,
+                category : 'room',
             });
             return item;
         });
@@ -96,14 +103,14 @@ const mutations = {
     /*---------房间-----------*/
 
     CHANGE_ROOM_ALARM_QTY(state, payload) {
-        let { room_id, warn_qty } = payload;
-        let rowData = state.roomData.find((data) => data.id === room_id);
+        let { id, warn_qty } = payload;
+        let rowData = state.roomData.find((data) => data.id === id);
         rowData.qty = warn_qty;
     },
 
     REDUCE_ROOM_ALARM_QTY(state, payload) {
-        let { room_id } = payload;
-        let rowData = state.roomData.find((data) => data.id === room_id);
+        let { id } = payload;
+        let rowData = state.roomData.find((data) => data.id === id);
         rowData.qty--;
     },
 
@@ -137,14 +144,14 @@ const mutations = {
     },
 
     DELETE_ROOM_DATA(state, payload) {
-        let { room_id } = payload;
-        let roomIndex = state.roomData.findIndex((item) => item.id === room_id);
+        let { id } = payload;
+        let roomIndex = state.roomData.findIndex((item) => item.id === id);
         state.roomData.splice(roomIndex, 1);
     },
 
     CHANGE_ROOM_ALERT_STATUS(state, payload) {
-        let { room_id, alertFlag } = payload;
-        let rowData = state.roomData.find((data) => data.id === room_id);
+        let { id, alertFlag } = payload;
+        let rowData = state.roomData.find((data) => data.id === id);
         if (alertFlag === true) {
             rowData.alertFlag = false;
             setTimeout(() => {
@@ -162,17 +169,18 @@ const mutations = {
         let beds = payload;
         for (let bed of beds) {
             let oldBed = state.originData.find((item) => item.id === bed.id);
-            Object.assign(oldBed, {
+            Object.assign(oldBed, bed, {
                 qty: bed.qty,
                 alarming : bed.pop_show.state,
                 msg_text: bed.alarming,
+                warn_id: bed.warn_id,
             });
         }
     },
 
     CHANGE_BED_ALERT_STATUS(state, payload) {
-        let { bed_id, alertFlag } = payload;
-        let rowData = state.originData.find((data) => data.id === bed_id);
+        let { id, alertFlag } = payload;
+        let rowData = state.originData.find((data) => data.id === id);
         if (alertFlag === true) {
             rowData.alertFlag = false;
             setTimeout(() => {
@@ -184,16 +192,16 @@ const mutations = {
     },
 
     CHANGE_BED_ALARM_QTY(state, payload) {
-        let { bed_id, warn_qty } = payload;
+        let { id, warn_qty } = payload;
         let rowData = state.originData.find(
-            (data) => data.id === bed_id
+            (data) => data.id === id
         );
         rowData.qty = warn_qty;
     },
 
     REDUCE_BED_ALARM_QTY(state, payload) {
-        let { bed_id } = payload;
-        let rowData = state.originData.find((data) => data.id === bed_id);
+        let { id } = payload;
+        let rowData = state.originData.find((data) => data.id === id);
         rowData.qty--;
     },
 };

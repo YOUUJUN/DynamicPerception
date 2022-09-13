@@ -1,0 +1,14 @@
+.dync-table-wrap {
+    position: relative !important;
+    overflow: auto;
+}
+.dync-table-wrap .o_list_table {
+    position: static !important;
+}
+
+.dync-table-wrap .o_list_table thead th{
+    position: sticky !important;
+    top: 0;
+    background-color: #eee;
+    z-index: 1;
+}
