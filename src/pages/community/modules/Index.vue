@@ -63,6 +63,8 @@ import moment from "moment";
 
 import { isInViewPort, sleep } from "@/utils/index.js";
 
+import { getAudioUrl } from "@/api/dict.js";
+
 export default {
     components: {
         BedCardBySix,
@@ -231,7 +233,7 @@ export default {
 
                         //触发语音告警
                         data.forEach(item => {
-                            this.doTalk(item.audio_url);
+                            this.doTalk(getAudioUrl(item.audio_name));
                         })
 
                         this.handleBedSocket(data);
@@ -251,7 +253,7 @@ export default {
 
                         //触发语音告警
                         if (audioAlert) {
-                            this.doTalk(audioAlert.audio_url)
+                            this.doTalk(getAudioUrl(item.audio_name));
                         }
 
                         this.handleOfflineSocket(data);
