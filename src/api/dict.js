@@ -13,5 +13,26 @@ export function getAudioUrl(name) {
         turn: "",
     };
 
-    return audioUrl[name] ?? ''
+    return audioUrl[name] ?? "";
+}
+
+export function getDeviceImgUrl(name) {
+    const devicePic = {
+        gateway_device: require("@/static/offlineImg/gateway_device.png"), // 网关
+        "fanmis:vital_signs_millimeter_wave": require("@/static/offlineImg/vital_signs_millimeter_wave.png"), // 体征监测雷达   两个统一为一个
+        "whst:vital_signs": require("@/static/offlineImg/vital_signs_millimeter_wave.png"), // 体征监测雷达   两个统一为一个
+        "fanmis:pressure_sensor": require("@/static/offlineImg/pressure_sensor.png"), // 压力传感器
+        "fanmis:water_flow_sensor": require("@/static/offlineImg/water_flow_sensor.png"), // 水流探测器
+        "fanmis:water_sensor": require("@/static/offlineImg/water_sensor.png"), // 水浸传感器
+        "fanmis:fire_sensor": require("@/static/offlineImg/fire_sensor.png"), // 烟感探测器
+        "fanmis:gas_sensor": require("@/static/offlineImg/gas_sensor.png"), // 燃气探测器
+        "fanmis:millimeter_wave": require("@/static/offlineImg/millimeter_wave.png"), // 跌倒监测雷达
+        "fanmis:door_sensor": require("@/static/offlineImg/door_sensor.png"), // 门磁
+        "fanmis:motion_sensor": require("@/static/offlineImg/motion_sensor.png"), // 红外
+        "fanmis:personal_emerg_button": require("@/static/offlineImg/personal_emerg_button.png"), // 紧急按钮
+        female: require("@/static/offlineImg/female.png"),
+        male: require("@/static/offlineImg/male.png"),
+    };
+
+    return devicePic[name] ?? devicePic.gateway_device;
 }

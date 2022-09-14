@@ -17,7 +17,7 @@
                         :class="{ offlineAlert: item.status === '离线' }"
                     >
                         <div class="card-item-left">
-                            <img :src="item.img" class="status-icon" />
+                            <img :src="getDeviceImgUrl(item.type_uid)" class="status-icon" />
                             <el-tooltip
                                 effect="dark"
                                 :content="item.name"
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import { getDeviceImgUrl } from "@/api/dict.js";
 export default {
     props: {
         renderInfo: {
@@ -54,7 +55,9 @@ export default {
         console.log("renderInfo", this.renderInfo);
     },
 
-    computed: {},
+    computed: {
+
+    },
 
     inject: ["openRoomInfoDlg_inject"],
 
@@ -63,6 +66,11 @@ export default {
         openRoomInfoDlg(id) {
             this.openRoomInfoDlg_inject(id);
         },
+
+        //获取设备图片路径
+        getDeviceImgUrl(...params){
+            return getDeviceImgUrl.apply(this, params);
+        }
     },
 };
 </script>

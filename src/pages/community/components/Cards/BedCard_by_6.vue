@@ -16,16 +16,8 @@
         <el-card slot="reference" class="bed-card-by6-wrap" :class="alertClass">
             <div class="card-header">
                 <img
-                    v-if="getGender === 'male'"
                     class="card-avatar"
-                    src="@/static/offlineImg/male.png"
-                    @click="openElderDlg(renderInfo.id)"
-                />
-
-                <img
-                    v-else
-                    class="card-avatar"
-                    src="@/static/offlineImg/female.png"
+                    :src="elderAvatar(renderInfo)"
                     @click="openElderDlg(renderInfo.id)"
                 />
 
@@ -125,7 +117,7 @@
             <div class="card-footer">
                 <el-button
                     class="btn"
-                    type="info"
+                    type="primary"
                     size="small"
                     round
                     @click="openHealthReportDlg(renderInfo.partner_id)"
@@ -141,6 +133,7 @@ const AlarmProcessDlg = () => import("../Dialogs/AlarmProcessDlg.vue");
 const AlertPopover = () => import("../Dialogs/AlertPopover.vue");
 import { getUnsolvedAlarmInfo } from "../../api/dataSource.js";
 import {mapGetters} from "vuex"
+import { getDeviceImgUrl } from "@/api/dict.js";
 
 export default {
     components: {
@@ -172,16 +165,14 @@ export default {
     computed: {
         ...mapGetters(['displayRow']),
 
-        getGender() {
-            let info = this.renderInfo;
-            console.log("info");
-            let avatarUrl = info?.pop_show?.img;
-            let imgName = avatarUrl && avatarUrl.split("/").pop();
-            if (imgName?.trim() === "male.png") {
-                return "male";
-            } else {
-                return "female";
-            }
+        elderAvatar() {
+            return (elderInfo) => {
+                if (elderInfo?.pop_show?.gender === "男") {
+                    return getDeviceImgUrl("male");
+                } else {
+                    return getDeviceImgUrl("female");
+                }
+            };
         },
 
         alertVisible: {

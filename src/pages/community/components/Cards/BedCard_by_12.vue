@@ -56,7 +56,7 @@
             <div class="card-footer">
                 <el-button
                     class="btn"
-                    type="info"
+                    type="primary"
                     size="mini"
                     round
                     @click="openHealthReportDlg(renderInfo.partner_id)"
@@ -242,7 +242,7 @@ export default {
 }
 
 .card-footer {
-    padding: 0 0.5rem;
+    padding: 0 1.2rem;
 }
 
 .card-footer .btn {
