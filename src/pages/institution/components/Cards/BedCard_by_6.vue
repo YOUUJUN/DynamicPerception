@@ -1,124 +1,151 @@
 
 <template>
-    <el-card class="bed-card-by6-wrap">
-        <div class="card-header">
-            <img
-                v-if="getGender === 'male'"
-                class="card-avatar"
-                src="@/static/offlineImg/male.png"
-                @click="openElderDlg(renderInfo.id)"
-            />
+    <el-popover
+        popper-class="alert-popover"
+        width="150"
+        placement="right-start"
+        trigger="manual"
+        v-model="alertVisible"
+    >
+        <alert-popover
+            ref="alertPop"
+            :renderInfo="renderInfo"
+            :alertVisible="alertVisible"
+        ></alert-popover>
 
-            <img
-                v-else
-                class="card-avatar"
-                src="@/static/offlineImg/female.png"
-                @click="openElderDlg(renderInfo.id)"
-            />
+        <el-card slot="reference" class="bed-card-by6-wrap" :class="alertClass">
+            <div class="card-header">
+                <img
+                    v-if="getGender === 'male'"
+                    class="card-avatar"
+                    src="@/static/offlineImg/male.png"
+                    @click="openElderDlg(renderInfo.id)"
+                />
 
-            <span class="card-name">{{ renderInfo.name }}</span>
+                <img
+                    v-else
+                    class="card-avatar"
+                    src="@/static/offlineImg/female.png"
+                    @click="openElderDlg(renderInfo.id)"
+                />
 
-            <el-popover
-                popper-class="alarm-popover"
-                width="220"
-                placement="right"
-                trigger="click"
-                v-model="popOverVisible"
-            >
-            
-                <alarm-process-dlg :alarmData="alarmList" :bedInfo="renderInfo"></alarm-process-dlg>
+                <span class="card-name">{{ renderInfo.name }}</span>
 
-                <el-button
-                    v-if="renderInfo.qty != 0"
-                    slot="reference"
-                    class="card-num"
-                    type="danger"
-                    circle
-                    size="mini"
-                    trigger="manual"
-                    @click="fetchUnsolvedAlarms(renderInfo.id)"
-                    >{{ renderInfo.qty }}</el-button
+                <el-popover
+                    popper-class="alarm-popover"
+                    width="220"
+                    placement="right"
+                    trigger="click"
+                    v-model="popOverVisible"
                 >
-            </el-popover>
-        </div>
+                    <alarm-process-dlg
+                        :alarmData="alarmList"
+                        :bedInfo="renderInfo"
+                        :popOverVisible.sync="popOverVisible"
+                    ></alarm-process-dlg>
 
-        <ul class="card-body">
-            <li class="card-item">
-                <div class="card-item-left">
-                    <img
-                        src="@/static/img/normalStatus.png"
-                        class="status-icon"
-                    />
-                    <span class="status-label">状态</span>
-                </div>
-                <div class="card-item-right">
-                    <span class="status-name">{{ renderInfo.status }}</span>
-                </div>
-            </li>
-
-            <li class="card-item">
-                <div class="card-item-left">
-                    <img
-                        src="@/static/img/normalHeart.png"
-                        class="status-icon"
-                    />
-                    <span class="status-label">心率</span>
-                </div>
-                <div class="card-item-right">
-                    <span class="status-name">{{ renderInfo.heart }}</span>
-                </div>
-            </li>
-
-            <li class="card-item">
-                <div class="card-item-left">
-                    <img
-                        src="@/static/img/normalBreathing.png"
-                        class="status-icon"
-                    />
-                    <span class="status-label">呼吸</span>
-                </div>
-                <div class="card-item-right">
-                    <span class="status-name">{{ renderInfo.breathing }}</span>
-                </div>
-            </li>
-
-            <li class="card-item">
-                <div class="card-item-left">
-                    <img
-                        src="@/static/img/normalAlarming.png"
-                        class="status-icon"
-                    />
-                    <span class="status-label">告警</span>
-                </div>
-                <div class="card-item-right">
-                    <el-tooltip
-                        effect="dark"
-                        :content="renderInfo.pop_show.state"
-                        placement="top-start"
+                    <el-button
+                        v-if="renderInfo.qty != 0"
+                        slot="reference"
+                        class="card-num"
+                        type="danger"
+                        circle
+                        size="mini"
+                        trigger="manual"
+                        @click="fetchUnsolvedAlarms(renderInfo.id)"
+                        >{{ renderInfo.qty }}</el-button
                     >
-                        <span class="status-name">{{
-                            renderInfo.pop_show.state
-                        }}</span>
-                    </el-tooltip>
-                </div>
-            </li>
-        </ul>
+                </el-popover>
+            </div>
 
-        <div class="card-footer">
-            <el-button class="btn" type="info" size="small" round @click="openHealthReportDlg(renderInfo.partner_id)"
-                >查看报告</el-button
-            >
-        </div>
-    </el-card>
+            <ul class="card-body">
+                <li class="card-item">
+                    <div class="card-item-left">
+                        <img
+                            src="@/static/img/normalStatus.png"
+                            class="status-icon"
+                        />
+                        <span class="status-label">状态</span>
+                    </div>
+                    <div class="card-item-right">
+                        <span class="status-name">{{ renderInfo.status }}</span>
+                    </div>
+                </li>
+
+                <li class="card-item">
+                    <div class="card-item-left">
+                        <img
+                            src="@/static/img/normalHeart.png"
+                            class="status-icon"
+                        />
+                        <span class="status-label">心率</span>
+                    </div>
+                    <div class="card-item-right">
+                        <span class="status-name">{{ renderInfo.heart }}</span>
+                    </div>
+                </li>
+
+                <li class="card-item">
+                    <div class="card-item-left">
+                        <img
+                            src="@/static/img/normalBreathing.png"
+                            class="status-icon"
+                        />
+                        <span class="status-label">呼吸</span>
+                    </div>
+                    <div class="card-item-right">
+                        <span class="status-name">{{
+                            renderInfo.breathing
+                        }}</span>
+                    </div>
+                </li>
+
+                <li class="card-item alert-card-item">
+                    <div class="card-item-left">
+                        <img
+                            src="@/static/img/normalAlarming.png"
+                            class="status-icon"
+                        />
+                        <span class="status-label">告警</span>
+                    </div>
+                    <div class="card-item-right">
+                        <el-tooltip
+                            effect="dark"
+                            :content="renderInfo.pop_show.state"
+                            placement="top-start"
+                        >
+                            <span class="status-name">{{
+                                renderInfo.pop_show.state
+                            }}</span>
+                        </el-tooltip>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="card-footer">
+                <el-button
+                    class="btn"
+                    type="info"
+                    size="small"
+                    round
+                    @click="openHealthReportDlg(renderInfo.partner_id)"
+                    >查看报告</el-button
+                >
+            </div>
+        </el-card>
+    </el-popover>
 </template>
 
 <script>
-const AlarmProcessDlg = () => import('../Dialogs/AlarmProcessDlg.vue')
+const AlarmProcessDlg = () => import("../Dialogs/AlarmProcessDlg.vue");
+const AlertPopover = () => import("../Dialogs/AlertPopover.vue");
 import { getUnsolvedAlarmInfo } from "../../api/dataSource.js";
-export default {
+import {mapGetters} from "vuex"
 
-    components : {
-        AlarmProcessDlg
+export default {
+    components: {
+        AlarmProcessDlg,
+        AlertPopover,
     },
 
     props: {
@@ -126,7 +153,7 @@ export default {
             type: Object,
         },
 
-        reportDlgVisible : {}
+        reportDlgVisible: {},
     },
 
     data() {
@@ -136,10 +163,15 @@ export default {
 
             //报警列表
             alarmList: [],
+
+            //报警卡片类
+            alertClass: "",
         };
     },
 
     computed: {
+        ...mapGetters(['displayRow']),
+
         getGender() {
             let info = this.renderInfo;
             console.log("info");
@@ -151,9 +183,56 @@ export default {
                 return "female";
             }
         },
+
+        alertVisible: {
+            get() {
+                let alertFlag = this.renderInfo?.alertFlag ?? false;
+
+                if(alertFlag && this.displayRow === 'X6'){
+                    return true
+                }else{
+                    return false
+                }
+            },
+
+            set(visible) {},
+        },
     },
 
-    inject : ['openElderDlg_inject', 'openHealthReportDlg_inject'],
+    watch: {
+        renderInfo: {
+            deep: true,
+            handler(newValue) {
+                let { msg_text, alertFlag } = newValue;
+                let alertClass = "";
+
+                if (!alertFlag) {
+                    this.alertClass = "";
+                    return alertClass;
+                }
+                switch (msg_text) {
+                    case "跌倒告警":
+                    case "烟雾告警":
+                    case "燃气告警":
+                    case "紧急呼叫":
+                        alertClass = "alert-card-level-1";
+                        break;
+                    case "心率异常":
+                    case "呼吸异常":
+                    case "离床未归":
+                    case "翻身护理":
+                    case "水流异常":
+                    case "用水异常":
+                        alertClass = "alert-card-level-2";
+                        break;
+                }
+
+                this.alertClass = alertClass;
+            },
+        },
+    },
+
+    inject: ["openElderDlg_inject", "openHealthReportDlg_inject"],
 
     methods: {
         //获取待处理告警信息
@@ -177,13 +256,13 @@ export default {
 
         //打开老人信息窗体
         openElderDlg(id) {
-            this.openElderDlg_inject(id)
+            this.openElderDlg_inject(id);
         },
 
         //打开健康报告窗体
-        openHealthReportDlg(id){
-            this.openHealthReportDlg_inject(id)
-        }
+        openHealthReportDlg(id) {
+            this.openHealthReportDlg_inject(id);
+        },
     },
 };
 </script>
@@ -199,6 +278,7 @@ export default {
 </style>
 
 <style scoped>
+@import url("~@/styles/alarmPopover.css");
 
 .bed-card-by6-wrap {
     width: auto;
@@ -217,7 +297,7 @@ export default {
     font-size: 2.2rem;
     color: #18171d;
     text-align: center;
-    padding: 0 .6rem;
+    padding: 0 0.6rem;
 }
 
 .card-num {

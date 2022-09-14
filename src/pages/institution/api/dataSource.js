@@ -110,3 +110,15 @@ export function getRoomInfo(params){
     });
 }
 
+//处理弹窗告警
+export function handlePopAlarm(params){
+    return request({
+        url: `/warn/handle/data/api`,
+        method: "post",
+        data: qs.stringify(params),
+        headers: {
+            "content-type": "application/x-www-form-urlencoded",
+        },
+    });
+}
+

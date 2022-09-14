@@ -47,6 +47,10 @@ export default {
             type: Object,
             required: true,
         },
+
+        popOverVisible : {
+            type : Boolean,
+        },
     },
 
     data() {
@@ -68,7 +72,7 @@ export default {
     },
 
     methods: {
-        ...mapActions("data", ["resolveBedAlarm", "resolveRoomAlarm"]),
+        ...mapActions("data", ["resolveBedAlarm", "resolveRoomAlarm", "deleteRoomData"]),
 
         //处理告警
         handleAlarmResolve(item, index) {
@@ -81,7 +85,7 @@ export default {
 
         //处理床铺告警
         doBedAlarmResolve({ id: alarmId }, index) {
-            let { id: roomId, partner_id } = this.bedInfo;
+            let { id, partner_id, } = this.bedInfo;
             let params = {
                 id: alarmId,
                 belong: "nursing",
@@ -97,9 +101,14 @@ export default {
                         let warn_qty = res.data.warn_qty;
                         this.renderData.splice(index, 1);
                         this.resolveBedAlarm({
-                            partner_id,
+                            id,
                             warn_qty,
                         });
+
+                        if(this.renderData.length === 0){
+                            console.log("无剩余未处理")
+                            this.$emit('update:popOverVisible', false);
+                        }
 
                         this.$message({
                             showClose: true,
@@ -139,6 +148,14 @@ export default {
                             id : room_id,
                             warn_qty,
                         });
+
+                        if(this.renderData.length === 0){
+                            console.log("无剩余未处理")
+                            this.deleteRoomData({
+                                id : room_id,
+                            })
+                            this.$emit('update:popOverVisible', false);
+                        }
 
                         this.$message({
                             showClose: true,
