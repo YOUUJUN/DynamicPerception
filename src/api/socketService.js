@@ -49,7 +49,7 @@ export default class SocketService {
         };
 
         this.ws.onmessage = (msg) => {
-            console.log("从服务端获取到了数据", msg);
+            // console.log("从服务端获取到了数据", msg);
             this.callBackMap.forEach((callback, index) => {
                 callback.call(this, msg);
             });

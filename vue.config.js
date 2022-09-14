@@ -36,7 +36,7 @@ const buildPageSync = () => {
             if (process.env.NODE_ENV === "development") {
                 page.filename = file.concat(".html");
             } else {
-                page.filename = "./vue-pages/".concat(file, ".html");
+                page.filename = "./".concat(file, ".html");
             }
             // page.filename = file.concat('.html');
             pages[file] = page;
@@ -110,9 +110,11 @@ let pageConstruction = buildPageSync();
 
 delete require.cache[module.id];
 
+let publicPath = !isProd ? '/' : "/fm_dynamic_perception/static/templates/default/zh_CN";
+
 module.exports = function () {
     return {
-        publicPath: "/",
+        publicPath,
         outputDir: "./dist",
         assetsDir: "static",
         filenameHashing: true,

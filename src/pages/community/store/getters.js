@@ -98,6 +98,7 @@ const getters = {
     filteredDeviceData: (state, getters) => {
         let offlineData = getters.offlineData;
         let displayFilters = getters.displayFilters;
+        console.log('offlineData--offline', offlineData);
         let result = [];
         let levelQueue = displayFilters
             .map((item) => {
