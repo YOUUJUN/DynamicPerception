@@ -193,19 +193,18 @@ export default {
             "updateBedData",
             "setBedAlertStatus",
             "resolveBedAlarm",
+            "updateBedVitalData",
         ]),
 
         //设置socket数据处理
         setSocketHandler() {
             this.$socket.registerCallBack("init", (msg) => {
-                console.log("socket", msg);
                 let jsonData = "";
                 try {
                     jsonData = JSON.parse(msg?.data ?? null);
                 } catch (err) {
                     return;
                 }
-                console.log("jsonData", jsonData);
 
                 let operation = jsonData?.operation;
                 let data = jsonData?.data ?? [];
@@ -215,11 +214,11 @@ export default {
                         data = data.map((item) => {
                             Object.assign(item, {
                                 alarm_msg: item.alarming,
-                                persons : [
+                                persons: [
                                     {
-                                        name : item.pop_show.name
-                                    }
-                                ]
+                                        name: item.pop_show.name,
+                                    },
+                                ],
                             });
                             return item;
                         });
@@ -233,7 +232,12 @@ export default {
 
                     //处理设备离线告警
                     case "fm_offline_iot":
+                        this.handleOfflineSocket(data);
                         break;
+
+                    case "f_bed_vital_iot":
+                        this.handleVitalSignSocket(data);
+                    break;
                 }
             });
         },
@@ -305,6 +309,14 @@ export default {
             // }, 500);
 
             // this.openAlarmNotification(data, this.handleResolveRoomAlert);
+        },
+
+        //处理设备离线告警
+        handleOfflineSocket(data) {},
+
+        //处理生命体征消息推送
+        handleVitalSignSocket(data){
+
         },
 
         //打开页面右下角告警弹窗

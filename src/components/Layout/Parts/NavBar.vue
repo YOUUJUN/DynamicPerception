@@ -8,11 +8,11 @@
 
         <section class="center">
             <div class="bread-wrap">
-                <router-view name="breadCtrl"></router-view>
+                <slot name="breadCtrl"></slot>
             </div>
 
             <div class="ctrl-wrap">
-                <router-view name="navCtrl" />
+                <slot name="navCtrl"></slot>
             </div>
         </section>
 

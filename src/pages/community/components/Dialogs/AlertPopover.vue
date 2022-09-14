@@ -307,8 +307,9 @@ export default {
 </style>
 
 <style scoped>
-/*---告警级别---*/
-/*---1---*/
+/*------告警级别------*/
+
+/*---一级告警---*/
 .level_1_warning {
     border: 2px solid #dd1d1d;
     border-radius: 4px;
@@ -335,7 +336,7 @@ export default {
     color: #dd1d1d;
 }
 
-/*---2---*/
+/*---二级告警---*/
 .level_2_warning {
     border: 2px solid #fd7f0e;
     border-radius: 4px;
@@ -361,4 +362,8 @@ export default {
 .level_2_warning .alert-footer button {
     color: #fd7f0e;
 }
+
+
+/*---离线告警---*/
+
 </style>

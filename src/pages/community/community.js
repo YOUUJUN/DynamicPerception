@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './Community.vue'
-import router from './router'
 import store from './store'
 import Request from '@/utils/http.js'
 //vue2.0 template 链运算符使用 
@@ -47,7 +46,6 @@ Vue.prototype.$bus = new Vue();
 Vue.prototype.$useChain = useChain;
 
 new Vue({
-  router,
   store,
   render: h => h(App)
 }).$mount('#app');

@@ -8,6 +8,8 @@
     display: none;
 }
 
+/*---一级告警---*/
+
 .alert-card-level-1{
     border: 2px solid #dd1d1d;
 }
@@ -21,7 +23,7 @@
 }
 
 
-
+/*---二级告警---*/
 
 .alert-card-level-2{
     border: 2px solid #fd7f0e;
@@ -32,5 +34,19 @@
 }
 
 .alert-card-level-2 .alert-card-item{
+    color: #fd7f0e !important;
+}
+
+/*---离线告警---*/
+
+.alert-card-level-offline{
+    border: 2px solid #fd7f0e;
+}
+
+.alert-card-level-offline .card-num{
+    background-color:#fd7f0e !important;
+}
+
+.alert-card-level-offline .alert-card-item{
     color: #fd7f0e !important;
 }

@@ -10,6 +10,7 @@ const fs = require("fs");
 const path = require("path");
 
 const webpack = require("webpack");
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 const productionGzipExtensions = ["js", "css"];
 const isProd = process.env.NODE_ENV === "production";
@@ -180,11 +181,11 @@ module.exports = function () {
             }
 
             config.when(process.env.NODE_ENV === "development", (config) =>
-                config
-                    .plugin("webpack-bundle-analyzer")
-                    .use(
-                        require("webpack-bundle-analyzer").BundleAnalyzerPlugin
-                    )
+                config.plugin("webpack-bundle-analyzer").use(
+                    new BundleAnalyzerPlugin({
+                        analyzerPort: "auto",
+                    })
+                )
             );
 
             //优化moment 去掉国际化内容；

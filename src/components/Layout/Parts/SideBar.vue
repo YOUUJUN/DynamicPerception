@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <router-view name="sideMenu"/>
+        <slot></slot>
     </div>
 
 </template>

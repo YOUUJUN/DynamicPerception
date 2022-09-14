@@ -176,8 +176,21 @@ const mutations = {
                 warn_id: bed.warn_id,
                 status : bed.status ?? '--',
                 heart : bed?.heart ?? '--',
+                breathing : bed?.breathing ?? '--',
                 alarming : bed?.alarming ?? '--',
                 pop_show : bed?.pop_show,
+            });
+        }
+    },
+
+    UPDATE_BED_Vital_DATA(state, payload) {
+        let beds = payload;
+        for (let bed of beds) {
+            let oldBed = state.originData.find((item) => item.id === bed.id);
+            Object.assign(oldBed, {
+                status : bed.status ?? '--',
+                heart : bed?.heart ?? '--',
+                breathing : bed?.breathing ?? '--',
             });
         }
     },
@@ -370,6 +383,18 @@ const actions = {
         return new Promise((resolve, reject) => {
             try {
                 commit("UPDATE_BED_DATA", payload);
+                resolve();
+            } catch {
+                reject();
+            }
+        });
+    },
+
+    //更新床位生命体征信息
+    updateBedVitalData({ state, commit }, payload) {
+        return new Promise((resolve, reject) => {
+            try {
+                commit("UPDATE_BED_Vital_DATA", payload);
                 resolve();
             } catch {
                 reject();
