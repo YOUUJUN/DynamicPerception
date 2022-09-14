@@ -307,7 +307,7 @@ const getters = {
             case "2":
             case "3":
                 result = filteredBedData.filter((item) => {
-                    if (item.status === displayCategoryLabel) {
+                    if (item.in_out_bed === displayCategoryLabel) {
                         return item;
                     }
                 });
@@ -362,14 +362,14 @@ const getters = {
     allDataNum: (state, getters) => getters.filteredBedData.length,
     inBedNum: (state, getters) => {
         return getters.filteredBedData.filter((item) => {
-            if (item.status === "在床") {
+            if (item?.in_out_bed === "在床") {
                 return item;
             }
         }).length;
     },
     offBedNum: (state, getters) => {
         return getters.filteredBedData.filter((item) => {
-            if (item.status === "离床") {
+            if (item?.in_out_bed === "离床") {
                 return item;
             }
         }).length;
