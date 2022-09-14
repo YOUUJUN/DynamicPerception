@@ -322,7 +322,11 @@ const getters = {
 
             //设备
             case "5":
-                result = filteredDeviceData;
+                result = filteredDeviceData.filter(item => {
+                    if (item.sign === "0") {
+                        return item;
+                    }
+                });
                 break;
 
             //房间

@@ -60,14 +60,14 @@ const mutations = {
     SET_ORIGIN_DATA(state, payload) {
         let originData = payload.map((item) => {
             Object.assign(item, {
-                persons : [
+                persons: [
                     {
-                        name : item.pop_show.name
-                    }
+                        name: item.pop_show.name,
+                    },
                 ],
                 alertFlag: false,
-                category : 'bed',
-                in_out_bed : item.status,
+                category: "bed",
+                in_out_bed: item.status,
             });
             return item;
         });
@@ -82,7 +82,7 @@ const mutations = {
         let roomData = payload.map((item) => {
             Object.assign(item, {
                 alertFlag: false,
-                category : 'room',
+                category: "room",
             });
             return item;
         });
@@ -163,7 +163,6 @@ const mutations = {
         }
     },
 
-
     /*---------床位-----------*/
 
     UPDATE_BED_DATA(state, payload) {
@@ -172,14 +171,14 @@ const mutations = {
             let oldBed = state.originData.find((item) => item.id === bed.id);
             Object.assign(oldBed, {
                 qty: bed.qty,
-                alarming : bed.pop_show.state,
+                alarming: bed.pop_show.state,
                 msg_text: bed.alarming,
                 warn_id: bed.warn_id,
-                status : bed.status ?? '--',
-                heart : bed?.heart ?? '--',
-                breathing : bed?.breathing ?? '--',
-                alarming : bed?.alarming ?? '--',
-                pop_show : bed?.pop_show,
+                status: bed.status ?? "--",
+                heart: bed?.heart ?? "--",
+                breathing: bed?.breathing ?? "--",
+                alarming: bed?.alarming ?? "--",
+                pop_show: bed?.pop_show,
             });
         }
     },
@@ -189,10 +188,10 @@ const mutations = {
         for (let bed of beds) {
             let oldBed = state.originData.find((item) => item.id === bed.id);
             Object.assign(oldBed, {
-                status : bed.status ?? '--',
-                in_out_bed : bed?.in_out_bed ?? '',
-                heart : bed?.heart ?? '--',
-                breathing : bed?.breathing ?? '--',
+                status: bed.status ?? "--",
+                in_out_bed: bed?.in_out_bed ?? "",
+                heart: bed?.heart ?? "--",
+                breathing: bed?.breathing ?? "--",
             });
         }
     },
@@ -212,9 +211,7 @@ const mutations = {
 
     CHANGE_BED_ALARM_QTY(state, payload) {
         let { id, warn_qty } = payload;
-        let rowData = state.originData.find(
-            (data) => data.id === id
-        );
+        let rowData = state.originData.find((data) => data.id === id);
         rowData.qty = warn_qty;
     },
 
@@ -224,17 +221,19 @@ const mutations = {
         rowData.qty--;
     },
 
-
     /*---------离线-----------*/
 
     UPDATE_OFFLINE_DATA(state, payload) {
         let devices = payload;
         for (let device of devices) {
-            let oldDevice = state.offlineData.find((item) => item.id === device.id);
+            let oldDevice = state.offlineData.find(
+                (item) => item.id === device.id
+            );
             Object.assign(oldDevice, {
                 devices: device.devices,
                 qty: device.qty,
                 off_qty: device.off_qty,
+                sign: "0",
             });
         }
     },
@@ -274,10 +273,7 @@ const actions = {
                     if (res.status === 200) {
                         let result = res.data.data;
                         let offlineData = result.filter((item) => {
-                            if (
-                                item.sign === "0" &&
-                                item.mech_name === state.menu.data[0].name
-                            ) {
+                            if (item.mech_name === state.menu.data[0].name) {
                                 return item;
                             }
                         });
@@ -341,7 +337,6 @@ const actions = {
         commit("SET_MENU_FILTERS", payload);
     },
 
-
     /*---------房间-----------*/
 
     //更新房间信息
@@ -391,7 +386,6 @@ const actions = {
             }
         });
     },
-
 
     /*---------床位-----------*/
 
@@ -444,10 +438,9 @@ const actions = {
         });
     },
 
-
     /*---------离线-----------*/
 
-    updateOfflineData({ state, commit }, payload){
+    updateOfflineData({ state, commit }, payload) {
         return new Promise((resolve, reject) => {
             try {
                 commit("UPDATE_OFFLINE_DATA", payload);
@@ -456,8 +449,7 @@ const actions = {
                 reject();
             }
         });
-    }
-
+    },
 };
 
 export default {
