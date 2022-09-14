@@ -2,9 +2,10 @@
     <section ref="cardsWrap" class="main-wrap" :class="displayClass">
         <template>
             <component
-                v-for="item in renderData.data"
+                v-for="(item, index) in renderData.data"
                 :renderInfo="item"
                 :is="displayComponentName"
+                :key="index"
             ></component>
         </template>
 
@@ -25,6 +26,8 @@
             :visible.sync="roomDlgVisible"
             :roomInfo="roomInfo"
         ></room-info-dlg>
+
+        <div ref="audioWrap" style="display: none"></div>
     </section>
 </template>
 
@@ -58,7 +61,7 @@ import AlertNotification from "../components/Dialogs/AlertNotification.vue";
 
 import moment from "moment";
 
-import { isInViewPort } from "@/utils/index.js";
+import { isInViewPort, sleep } from "@/utils/index.js";
 
 export default {
     components: {
@@ -103,7 +106,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(["renderData", "displayRow", "roomData", "originData"]),
+        ...mapGetters(["renderData", "displayRow", "roomData", "originData", "offlineData"]),
 
         displayClass() {
             let displayRow = this.displayRow;
@@ -194,6 +197,7 @@ export default {
             "setBedAlertStatus",
             "resolveBedAlarm",
             "updateBedVitalData",
+            "updateOfflineData",
         ]),
 
         //设置socket数据处理
@@ -205,6 +209,8 @@ export default {
                 } catch (err) {
                     return;
                 }
+
+                console.log("jsonData", jsonData);
 
                 let operation = jsonData?.operation;
                 let data = jsonData?.data ?? [];
@@ -222,6 +228,12 @@ export default {
                             });
                             return item;
                         });
+
+                        //触发语音告警
+                        data.forEach(item => {
+                            this.doTalk(item.audio_url);
+                        })
+
                         this.handleBedSocket(data);
                         break;
 
@@ -232,12 +244,22 @@ export default {
 
                     //处理设备离线告警
                     case "fm_offline_iot":
+
+                        let audioAlert = data.find(item => {
+                            return item.sign === '1';
+                        })
+
+                        //触发语音告警
+                        if (audioAlert) {
+                            this.doTalk(audioAlert.audio_url)
+                        }
+
                         this.handleOfflineSocket(data);
                         break;
 
                     case "f_bed_vital_iot":
                         this.handleVitalSignSocket(data);
-                    break;
+                        break;
                 }
             });
         },
@@ -312,11 +334,18 @@ export default {
         },
 
         //处理设备离线告警
-        handleOfflineSocket(data) {},
+        handleOfflineSocket(data) {
+            let { id } = data[0];
+            if (this.offlineData.find((item) => item.id === id)) {
+                this.updateOfflineData(data);
+            }
+
+            this.openAlarmNotification(data, this.handleResolveOfflineAlert);
+        },
 
         //处理生命体征消息推送
-        handleVitalSignSocket(data){
-
+        handleVitalSignSocket(data) {
+            this.updateBedVitalData(data);
         },
 
         //打开页面右下角告警弹窗
@@ -390,6 +419,12 @@ export default {
             }
         },
 
+        //处理页面右下角设备离线告警
+        handleResolveOfflineAlert(params){
+            let {notifyInstance} = params;
+            this.handleAlarmPopoverClose(notifyInstance);
+        },
+
         //打开老人信息窗体
         openElderDlg(id) {
             getElderlyData({
@@ -458,6 +493,28 @@ export default {
                 partner_id: id,
                 report_date: date,
             });
+        },
+
+        //创建语音播报
+        creatAudio(url) {
+            let shell = this.$refs.audioWrap;
+            let audio = document.createElement("audio");
+            audio.autoplay = true;
+            setTimeout(() => {
+                audio.src = url;
+            }, 0);
+
+            shell.appendChild(audio);
+            audio.play();
+        },
+
+        //开启语音播报
+        async doTalk(url) {
+            this.creatAudio(url);
+            await sleep(5500);
+            this.creatAudio(url);
+            await sleep(5500);
+            this.creatAudio(url);
         },
     },
 };

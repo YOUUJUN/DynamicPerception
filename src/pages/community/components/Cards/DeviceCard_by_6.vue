@@ -2,7 +2,9 @@
 <template>
     <el-card class="device-card-by6-wrap">
         <div class="card-header">
-            <span class="card-name" @click="openRoomInfoDlg(renderInfo.id)">{{ renderInfo.room_name }}</span>
+            <span class="card-name" @click="openRoomInfoDlg(renderInfo.id)">{{
+                renderInfo.room_name
+            }}</span>
         </div>
 
         <div class="card-body">
@@ -12,6 +14,7 @@
                         class="card-item"
                         v-for="(item, index) in renderInfo.devices"
                         :key="index"
+                        :class="{ offlineAlert: item.status === '离线' }"
                     >
                         <div class="card-item-left">
                             <img :src="item.img" class="status-icon" />
@@ -53,15 +56,13 @@ export default {
 
     computed: {},
 
-    inject : ['openRoomInfoDlg_inject'],
+    inject: ["openRoomInfoDlg_inject"],
 
     methods: {
-
         //打开房间信息窗体
-        openRoomInfoDlg(id){
-            this.openRoomInfoDlg_inject(id)
-        }
-
+        openRoomInfoDlg(id) {
+            this.openRoomInfoDlg_inject(id);
+        },
     },
 };
 </script>
@@ -153,6 +154,10 @@ export default {
 
 .status-name {
     font-size: 1.4rem;
+}
+
+.offlineAlert {
+    color: #dd1d1d !important;
 }
 </style>
 

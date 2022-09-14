@@ -221,6 +221,21 @@ const mutations = {
         let rowData = state.originData.find((data) => data.id === id);
         rowData.qty--;
     },
+
+
+    /*---------离线-----------*/
+
+    UPDATE_OFFLINE_DATA(state, payload) {
+        let devices = payload;
+        for (let device of devices) {
+            let oldDevice = state.offlineData.find((item) => item.id === device.id);
+            Object.assign(oldDevice, {
+                devices: device.devices,
+                qty: device.qty,
+                off_qty: device.off_qty,
+            });
+        }
+    },
 };
 
 const actions = {
@@ -426,6 +441,20 @@ const actions = {
             }
         });
     },
+
+
+    /*---------离线-----------*/
+
+    updateOfflineData({ state, commit }, payload){
+        return new Promise((resolve, reject) => {
+            try {
+                commit("UPDATE_OFFLINE_DATA", payload);
+                resolve();
+            } catch {
+                reject();
+            }
+        });
+    }
 
 };
 

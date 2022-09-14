@@ -1,10 +1,11 @@
 <template>
     <article class="alert-wrap" :class="alertLevelClass">
         <header class="alert-header">
-            <div class="header-left">
+            <div class="header-left" v-if="renderInfo.persons">
                 <img src="@/static/offlineImg/male.png" />
                 <span>{{ renderInfo.persons[0].name }}</span>
             </div>
+            <div v-else style="width:1rem;"></div>
             <div class="header-center">
                 <span>{{ renderInfo.name }}</span>
             </div>
@@ -106,6 +107,10 @@ export default {
                     case "用水异常":
                         alertClass = "level_2_warning";
                         imgPath = require("@/static/img/usingWater.png")
+                        break;
+                    case "设备离线":
+                        alertClass = "level_offline_warning";
+                        imgPath = require("@/static/img/offline.png")
                         break;
                 }
 
@@ -255,7 +260,8 @@ export default {
 
 <style scoped>
 /*---告警级别---*/
-/*---1---*/
+
+/*---一级告警---*/
 .level_1_warning {
     border: 2px solid #dd1d1d;
     border-radius: 4px;
@@ -268,6 +274,7 @@ export default {
 
 .level_1_warning .count-num {
     background: #dd1d1d;
+    border-color: #dd1d1d;
 }
 
 .level_1_warning .alert-footer {
@@ -282,19 +289,20 @@ export default {
     color: #dd1d1d;
 }
 
-/*---2---*/
+/*---二级告警---*/
 .level_2_warning {
     border: 2px solid #fd7f0e;
     border-radius: 4px;
 }
 
-.level_1_warning .alert-header,
-.level_1_warning .alert-main {
+.level_2_warning .alert-header,
+.level_2_warning .alert-main {
     background: #fbeee9;
 }
 
 .level_2_warning .count-num {
     background: #fd7f0e;
+    border-color: #fd7f0e;
 }
 
 .level_2_warning .alert-footer {
@@ -308,4 +316,33 @@ export default {
 .level_2_warning .alert-footer button {
     color: #fd7f0e;
 }
+
+/*---离线告警---*/
+.level_offline_warning {
+    border: 2px solid #ababab;
+    border-radius: 4px;
+}
+
+.level_offline_warning .alert-header,
+.level_offline_warning .alert-main {
+    background: #f9f9f9;
+}
+
+.level_offline_warning .count-num {
+    background: #ababab;
+    border-color: #ababab;
+}
+
+.level_offline_warning .alert-footer {
+    background: #ababab;
+}
+
+.level_offline_warning .alert-footer span {
+    color: #fff;
+}
+
+.level_offline_warning .alert-footer button {
+    color: #ababab;
+}
+
 </style>
