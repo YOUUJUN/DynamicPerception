@@ -135,7 +135,11 @@ export default {
     display: flex;
     align-items: center;
     padding: 0 2rem !important;
-    color:#606266;
+    color: #606266;
+}
+
+::v-deep .el-tree-node__expand-icon.is-leaf{
+    color: transparent;
 }
 
 ::v-deep .el-tree-node:focus > .el-tree-node__content {
