@@ -136,6 +136,7 @@ const mutations = {
             Object.assign(item, roomData, {
                 alertFlag: true,
                 msg_text: item.alarm_msg,
+                category: "room",
             });
             return item;
         });

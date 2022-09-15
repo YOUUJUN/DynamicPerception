@@ -49,6 +49,9 @@ export const useChain = (target) => {
 
 //判断元素是否在可视区域内
 export function isInViewPort(element) {
+    if(!element){
+        return false;
+    }
     const viewWidth = window.innerWidth || document.documentElement.clientWidth;
     const viewHeight =
         window.innerHeight || document.documentElement.clientHeight;
