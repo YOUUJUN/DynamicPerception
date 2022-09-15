@@ -69,6 +69,7 @@ export default {
     height: 6rem;
     padding: 0;
     border-bottom: 0.1rem solid #e2dede;
+    background-color: #fff;
 }
 
 .main-wrap {
@@ -81,6 +82,10 @@ export default {
     position: relative;
     transition: width 0.3s;
     border-right: 0.1rem solid #e2dede;
+}
+
+.aside-wrap{
+    background-color: #fff;
 }
 
 .content,
