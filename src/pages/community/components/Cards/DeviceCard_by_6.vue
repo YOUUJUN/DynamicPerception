@@ -169,3 +169,19 @@ export default {
 }
 </style>
 
+<style scoped>
+::v-deep .el-scrollbar .el-scrollbar__bar.is-horizontal {
+    display: none;
+}
+
+::v-deep .el-scrollbar__wrap {
+    overflow-x: hidden;
+    overflow-y: auto;
+    width:100%;
+}
+
+::v-deep .el-scrollbar__view {
+    height: 100%;
+}
+</style>
+

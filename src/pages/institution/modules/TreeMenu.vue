@@ -2,6 +2,7 @@
 <!-- :default-checked-keys="menuCheckedKeys" -->
     <el-tree
         class="treemenu"
+        icon-class="el-icon-arrow-right"
         ref="treeMenu"
         :data="menuData"
         node-key="id"
@@ -134,6 +135,7 @@ export default {
     display: flex;
     align-items: center;
     padding: 0 2rem !important;
+    color:#606266;
 }
 
 ::v-deep .el-tree-node:focus > .el-tree-node__content {

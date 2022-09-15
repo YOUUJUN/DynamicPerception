@@ -13,7 +13,11 @@ export function getAudioUrl(name) {
         turn: "",
     };
 
-    return audioUrl[name] ?? "";
+    if(audioUrl[name]){
+        return `${audioUrl[name]}`
+    }else{
+        return ""
+    }
 }
 
 export function getDeviceImgUrl(name) {
@@ -34,5 +38,9 @@ export function getDeviceImgUrl(name) {
         male: require("@/static/offlineImg/male.png"),
     };
 
-    return devicePic[name] ?? devicePic.gateway_device;
+    if(devicePic[name]){
+        return `${devicePic[name]}`
+    }else{
+        return `${devicePic.gateway_device}`
+    }
 }

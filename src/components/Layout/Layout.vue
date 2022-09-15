@@ -109,6 +109,7 @@ export default {
 ::v-deep .el-scrollbar__wrap {
     overflow-x: hidden;
     overflow-y: auto;
+    width:100%;
 }
 
 ::v-deep .el-scrollbar__view {
