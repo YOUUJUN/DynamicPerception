@@ -285,7 +285,7 @@ export default {
 }
 
 .card-name {
-    font-size: 2.2rem;
+    font-size: 2rem;
     color: #18171d;
     text-align: center;
     padding: 0 0.6rem;

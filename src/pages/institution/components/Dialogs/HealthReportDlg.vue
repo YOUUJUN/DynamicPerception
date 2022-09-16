@@ -332,6 +332,7 @@ export default {
     grid-template-rows: repeat(6, 1fr);
     grid-column-gap: 5rem;
     grid-row-gap: 1rem;
+    height:34rem;
 }
 
 .report-item-wrap {
@@ -373,6 +374,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height:34rem;
 }
 
 .blank-body-top {

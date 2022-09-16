@@ -104,7 +104,7 @@ export default {
 .card-name {
     font-weight: bold;
     color: #18171d;
-    font-size: 2.6rem;
+    font-size: 2.2rem;
     cursor: pointer;
 }
 
