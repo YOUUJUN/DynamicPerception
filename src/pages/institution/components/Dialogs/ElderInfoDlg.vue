@@ -11,7 +11,7 @@
 
         <section class="dlg-body">
             <div class="body-top">
-                <img class="avatar" :src="elderInfo.img" />
+                <img class="avatar" :src="elderAvatar(elderInfo)" />
                 <span class="name">{{ elderInfo.name }}</span>
                 <span class="gender">{{ elderInfo.gender }}</span>
                 <span class="age">{{ elderInfo.age }}岁</span>
@@ -55,7 +55,7 @@
             </div>
             <div class="foot-bottom">
                 <div v-for="(item, index) in elderInfo.diseases">
-                    {{item.name}}
+                    {{ item.name }}
                 </div>
             </div>
         </section>
@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import { getDeviceImgUrl } from "@/api/dict.js";
+
 export default {
     props: {
         visible: {
@@ -72,12 +74,28 @@ export default {
 
         elderInfo: {
             type: Object,
-            required : true,
+            required: true,
         },
     },
 
     data() {
         return {};
+    },
+
+    computed: {
+        elderAvatar() {
+            return (elderInfo) => {
+                if (elderInfo.img) {
+                    return elderInfo.img;
+                }
+
+                if (elderInfo.gender === "男") {
+                    return getDeviceImgUrl("male");
+                } else {
+                    return getDeviceImgUrl("female");
+                }
+            };
+        },
     },
 
     methods: {
@@ -108,7 +126,7 @@ export default {
 .dlg-header {
     text-align: center;
     padding: 0 1rem 1rem 1rem;
-    border-bottom: .1rem solid #7c98ad;
+    border-bottom: 0.1rem solid #7c98ad;
 }
 
 .dlg-header .dlg-title {
@@ -162,7 +180,7 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     padding: 1rem 0;
-    border-bottom: .1rem solid #e8e8e8;
+    border-bottom: 0.1rem solid #e8e8e8;
 }
 
 .list-item-left {
