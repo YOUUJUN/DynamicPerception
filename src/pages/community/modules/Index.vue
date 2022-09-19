@@ -241,6 +241,11 @@ export default {
 
                     //处理房间告警
                     case "fm_room_all_iot":
+                        //触发语音告警
+                        data.forEach(item => {
+                            this.doTalk(getAudioUrl(item.audio_name));
+                        })
+                        
                         this.handleRoomSocket(data);
                         break;
 
@@ -512,6 +517,7 @@ export default {
 
         //开启语音播报
         async doTalk(url) {
+            console.log('url', url);
             this.creatAudio(url);
             await sleep(5500);
             this.creatAudio(url);

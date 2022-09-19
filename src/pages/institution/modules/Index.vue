@@ -240,6 +240,11 @@ export default {
 
                     //处理房间告警
                     case "fm_room_all_iot":
+                        //触发语音告警
+                        data.forEach(item => {
+                            this.doTalk(getAudioUrl(item.audio_name));
+                        })
+                        
                         this.handleRoomSocket(data);
                         break;
 
