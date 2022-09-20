@@ -54,9 +54,7 @@
                 <span>慢病类型：</span>
             </div>
             <div class="foot-bottom">
-                <div v-for="(item, index) in elderInfo.diseases">
-                    {{ item.name }}
-                </div>
+                <el-tag type="info" v-for="(item, index) in elderInfo.diseases">{{ item.name }}</el-tag>
             </div>
         </section>
     </el-dialog>
@@ -197,4 +195,14 @@ export default {
     color: #2c506c;
     padding: 2.8rem 1rem 0;
 }
+
+.foot-bottom{
+    margin-top:.8rem;
+    margin-left:3rem;
+}
+
+/*---tags---*/
+.el-tag + .el-tag {
+    margin-left: 1rem;
+  }
 </style>

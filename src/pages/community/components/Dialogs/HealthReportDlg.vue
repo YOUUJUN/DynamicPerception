@@ -125,7 +125,7 @@
                         <span class="report-item-name">心率</span>
                     </span>
 
-                    <span class="report-answer"> {{ renderData.hr }} </span>
+                    <span class="report-answer"> {{ renderData.hr }}次/分钟 </span>
                 </div>
                 <div class="report-item-wrap">
                     <span class="report-label">
@@ -136,7 +136,7 @@
                         <span class="report-item-name">呼吸</span>
                     </span>
 
-                    <span class="report-answer"> {{ renderData.br }} </span>
+                    <span class="report-answer"> {{ renderData.br }}次/分钟 </span>
                 </div>
 
                 <div class="report-item-wrap">
@@ -148,7 +148,7 @@
                         <span class="report-item-name">体动</span>
                     </span>
 
-                    <span class="report-answer"> {{ renderData.bm }} </span>
+                    <span class="report-answer"> {{ renderData.bm }}次 </span>
                 </div>
                 <div class="report-item-wrap">
                     <span class="report-label">
@@ -159,7 +159,7 @@
                         <span class="report-item-name">起身</span>
                     </span>
 
-                    <span class="report-answer"> {{ renderData.gu }} </span>
+                    <span class="report-answer"> {{ renderData.gu }}次 </span>
                 </div>
             </section>
 

@@ -433,6 +433,7 @@ export default {
 
         //打开老人信息窗体
         openElderDlg(id) {
+            let cardInfo = this.originData.find(item => item.id === id);
             getElderlyData({
                 bed_id: id,
                 belong: "nursing",
@@ -441,7 +442,10 @@ export default {
                     console.log("res -->", res);
                     if (res.status === 200) {
                         let bedInfo = res.data.data[0];
-                        this.elderInfo = bedInfo;
+                        this.elderInfo = Object.assign(bedInfo, {
+                            heart: cardInfo?.heart,
+                            breathing: cardInfo?.breathing,
+                        });
                         this.elderDlgVisible = true;
                     }
                 })
