@@ -33,11 +33,11 @@
                     </li>
                     <li class="list-item">
                         <div class="list-item-left">心率</div>
-                        <div class="list-item-right"></div>
+                        <div class="list-item-right">{{ elderInfo.heart }}</div>
                     </li>
                     <li class="list-item">
                         <div class="list-item-left">呼吸</div>
-                        <div class="list-item-right"></div>
+                        <div class="list-item-right">{{ elderInfo.breathing }}</div>
                     </li>
                     <li class="list-item">
                         <div class="list-item-left">能力等级</div>
