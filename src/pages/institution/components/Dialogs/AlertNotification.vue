@@ -1,7 +1,7 @@
 <template>
     <article class="alert-wrap" :class="alertLevelClass">
         <header class="alert-header">
-            <div class="header-left" v-if="renderInfo.persons">
+            <div class="header-left" v-if="renderInfo.pop_show">
                 <img src="@/static/offlineImg/male.png" />
                 <span>{{ renderInfo.persons[0].name }}</span>
             </div>

@@ -1,10 +1,11 @@
 <template>
     <article class="alert-wrap" :class="alertLevelClass">
         <header class="alert-header">
-            <div class="header-left">
+            <div class="header-left" v-if="renderInfo.pop_show">
                 <img src="@/static/offlineImg/male.png" />
                 <span>{{ renderInfo.persons[0].name }}</span>
             </div>
+            <div v-else style="width:1rem;"></div>
             <div class="header-center">
                 <span>{{ renderInfo.name }}</span>
             </div>
