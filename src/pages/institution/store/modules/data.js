@@ -44,15 +44,18 @@ const mutations = {
 
     SET_ALL_ROOM_DIC(state, payload) {
         let rooms = [];
-        for (let plot of payload[0].items) {
-            let roomData = plot.items.map((item) => {
-                Object.assign(item, {
-                    res_community_id: payload[0].id,
-                    community_id: plot.id,
+        for (let building of payload[0].items) {
+            for (let plot of building.items) {
+                let roomData = plot.items.map((item) => {
+                    Object.assign(item, {
+                        nursing_id: payload[0].id,
+                        nursing_building_id: plot.id,
+                        nursing_floor_id : item.id,
+                    });
+                    return item;
                 });
-                return item;
-            });
-            rooms.push(...roomData);
+                rooms.push(...roomData);
+            }
         }
         state.allRoomDic = rooms;
     },
