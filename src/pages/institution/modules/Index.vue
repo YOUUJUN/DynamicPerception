@@ -211,6 +211,10 @@ export default {
                     return;
                 }
 
+                if(jsonData?.data[0]?.belong !== 'nursing'){
+                    return;
+                }
+
                 console.log("jsonData", jsonData);
 
                 let operation = jsonData?.operation;

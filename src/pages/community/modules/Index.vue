@@ -214,6 +214,10 @@ export default {
 
                 console.log("jsonData", jsonData);
 
+                if(jsonData?.data[0]?.belong !== 'household'){
+                    return;
+                }
+
                 let operation = jsonData?.operation;
                 let data = jsonData?.data ?? [];
                 switch (operation) {
