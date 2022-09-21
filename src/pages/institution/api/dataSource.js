@@ -28,7 +28,7 @@ export function getOfflineData(params) {
 //获取房间告警数据
 export function getRoomData(params) {
     return request({
-        url: `/warn/home/all/alarm/api`,
+        url: `/warn/inst/all/alarm/api`,
         method: "post",
         data: qs.stringify(params),
         headers: {
