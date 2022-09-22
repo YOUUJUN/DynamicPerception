@@ -8,7 +8,7 @@
         </div>
 
         <div class="card-body">
-            <el-scrollbar style="height: 100%">
+            <el-scrollbar style="height: 100%;width:100%;">
                 <ul class="card-list">
                     <li
                         class="card-item"
@@ -178,6 +178,7 @@ export default {
     overflow-x: hidden;
     overflow-y: auto;
     width:100%;
+    scrollbar-width: none;
 }
 
 ::v-deep .el-scrollbar__view {
