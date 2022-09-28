@@ -108,7 +108,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(["renderData", "displayRow", "roomData", "originData", "offlineData"]),
+        ...mapGetters(["renderData", "displayRow", "roomData", "originData", "offlineData", "menuData"]),
 
         displayClass() {
             let displayRow = this.displayRow;
@@ -214,7 +214,7 @@ export default {
 
                 console.log("jsonData", jsonData);
 
-                if(jsonData?.data[0]?.belong !== 'household'){
+                if(jsonData?.data[0]?.belong !== 'household' || jsonData?.data[0]?.mech_name !== this.menuData[0].name){
                     return;
                 }
 

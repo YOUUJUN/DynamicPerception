@@ -211,7 +211,7 @@ export default {
                     return;
                 }
 
-                if(jsonData?.data[0]?.belong !== 'nursing'){
+                if(jsonData?.data[0]?.belong !== 'nursing' || jsonData?.data[0]?.mech_name !== this.menuData[0].name){
                     return;
                 }
 
