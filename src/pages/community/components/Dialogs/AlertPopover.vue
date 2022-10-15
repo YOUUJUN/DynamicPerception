@@ -99,6 +99,9 @@ export default {
                         alertClass = "level_1_warning";
                         imgPath = require("@/static/img/SOS.png");
                         break;
+                    case "紧急呼叫":
+                        alertClass = "level_1_warning";
+                        imgPath = require("@/static/img/SOS.png");
                     case "心率异常":
                         alertClass = "level_2_warning";
                         imgPath = require("@/static/img/alarmingHeart.png");

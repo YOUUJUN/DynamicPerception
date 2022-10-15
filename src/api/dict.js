@@ -8,6 +8,7 @@ export function getAudioUrl(name) {
         device: "", // 设备离线
         flow: require("@/static/media/water_flow.mp3"), // 水流异常
         emergency: require("@/static/media/urgent.mp3"), // 紧急呼叫
+        intelligent_call : require("@/static/media/urgent.mp3"), //智能呼叫
         heart: require("@/static/media/heart.mp3"), // 心率异常
         breath: require("@/static/media/breath.mp3"), // 呼吸异常
         turn: "",
@@ -34,6 +35,7 @@ export function getDeviceImgUrl(name) {
         "fanmis:door_sensor": require("@/static/offlineImg/door_sensor.png"), // 门磁
         "fanmis:motion_sensor": require("@/static/offlineImg/motion_sensor.png"), // 红外
         "fanmis:personal_emerg_button": require("@/static/offlineImg/personal_emerg_button.png"), // 紧急按钮
+        "fyt:smart_call_alarm":require("@/static/offlineImg/personal_emerg_button.png"), //智能呼叫设备
         female: require("@/static/offlineImg/female.png"),
         male: require("@/static/offlineImg/male.png"),
     };

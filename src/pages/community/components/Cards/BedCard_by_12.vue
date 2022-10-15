@@ -134,6 +134,7 @@ export default {
                     case "烟雾告警":
                     case "燃气告警":
                     case "紧急呼叫":
+                    case "智能呼叫":
                         alertClass = "alert-card-level-1";
                         break;
                     case "心率异常":
