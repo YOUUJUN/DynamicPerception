@@ -214,7 +214,7 @@ export default {
 
                 console.log("jsonData", jsonData);
 
-                if(jsonData?.data[0]?.belong !== 'household' || jsonData?.data[0]?.mech_name !== this.menuData[0].name){
+                if(jsonData?.data[0]?.belong !== 'household' || (jsonData?.data[0]?.mech_name !== this.menuData[0].name && jsonData?.operation !== 'f_bed_vital_iot')){
                     return;
                 }
 
@@ -356,7 +356,7 @@ export default {
 
         //处理生命体征消息推送
         handleVitalSignSocket(data) {
-            this.updateBedVitalData(data);
+            this.updateBedVitalData(data).catch(err => {});
         },
 
         //打开页面右下角告警弹窗

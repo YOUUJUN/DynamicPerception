@@ -107,7 +107,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(["renderData", "displayRow", "roomData", "originData", "offlineData"]),
+        ...mapGetters(["renderData", "displayRow", "roomData", "originData", "offlineData", "menuData"]),
 
         displayClass() {
             let displayRow = this.displayRow;
@@ -211,7 +211,7 @@ export default {
                     return;
                 }
 
-                if(jsonData?.data[0]?.belong !== 'nursing' || jsonData?.data[0]?.mech_name !== this.menuData[0].name){
+                if(jsonData?.data[0]?.belong !== 'nursing' || (jsonData?.data[0]?.mech_name !== this.menuData[0].name && jsonData?.operation !== 'f_bed_vital_iot')){
                     return;
                 }
 
@@ -355,7 +355,7 @@ export default {
 
         //处理生命体征消息推送
         handleVitalSignSocket(data) {
-            this.updateBedVitalData(data);
+            this.updateBedVitalData(data).catch(err => {});
         },
 
         //打开页面右下角告警弹窗
