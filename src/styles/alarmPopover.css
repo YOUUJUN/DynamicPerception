@@ -56,11 +56,11 @@
 .not-check-in{
     width: 2rem;
     height: 2rem;
-    background: url("~@/static/img/notCheckIn.png");
+    background-image: url("~@/static/img/notCheckIn.png");
     background-repeat: no-repeat;
     background-position: right top;
     background-size: 5.5rem 5.5rem;
-    
+    background-color: #fff;
 }
 
 .not-check-in button{
