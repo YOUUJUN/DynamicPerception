@@ -64,6 +64,6 @@
     transition: none;
 }
 
-.not-check-in button{
+.not-check-in .el-button--primary{
     cursor:not-allowed !important;
 }

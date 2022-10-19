@@ -10,22 +10,22 @@
         <el-radio-group v-model="categoryRadio">
             <el-radio class="radio-btn" label="1" border>
                 <div class="ctrl-label-wrap">
-                    <span>全部</span><span>{{ allDataNum }}</span>
+                    <span>全部老人</span><span>{{ allDataNum }}</span>
                 </div>
             </el-radio>
             <el-radio class="radio-btn" label="2" border>
                 <div class="ctrl-label-wrap">
-                    <span>在床</span><span>{{ inBedNum }}</span>
+                    <span>在床老人</span><span>{{ inBedNum }}</span>
                 </div></el-radio
             >
             <el-radio class="radio-btn" label="3" border
                 ><div class="ctrl-label-wrap">
-                    <span>离床</span><span>{{ offBedNum }}</span>
+                    <span>离床老人</span><span>{{ offBedNum }}</span>
                 </div></el-radio
             >
             <el-radio class="radio-btn" label="4" border
                 ><div class="ctrl-label-wrap">
-                    <span>告警</span><span>{{ alarmBedNum }}</span>
+                    <span>床位告警</span><span>{{ alarmBedNum }}</span>
                 </div></el-radio
             >
             <el-divider class="split" direction="vertical"></el-divider>
