@@ -59,8 +59,9 @@
     background-image: url("~@/static/img/notCheckIn.png");
     background-repeat: no-repeat;
     background-position: right top;
-    background-size: 5.5rem 5.5rem;
+    background-size: auto;
     background-color: #fff;
+    transition: none;
 }
 
 .not-check-in button{
