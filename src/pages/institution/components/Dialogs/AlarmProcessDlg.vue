@@ -91,6 +91,7 @@ export default {
                 belong: "nursing",
                 type: "",
                 room_id: "",
+                bed_id : id,
                 partner_id,
             };
 
@@ -135,6 +136,7 @@ export default {
                 belong: "nursing",
                 type: "all",
                 room_id,
+                bed_id : "",
                 partner_id: "",
             });
 

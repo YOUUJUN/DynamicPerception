@@ -85,12 +85,14 @@ export default {
 
         //处理床铺告警
         doBedAlarmResolve({ id: alarmId }, index) {
+            console.log('bedInfo', this.bedInfo);
             let { id, partner_id, } = this.bedInfo;
             let params = {
                 id: alarmId,
                 belong: "household",
                 type: "",
                 room_id: "",
+                bed_id : id,
                 partner_id,
             };
 
@@ -135,6 +137,7 @@ export default {
                 belong: "household",
                 type: "all",
                 room_id,
+                bed_id : "",
                 partner_id: "",
             });
 
