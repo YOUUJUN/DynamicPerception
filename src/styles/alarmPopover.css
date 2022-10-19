@@ -50,3 +50,19 @@
 .alert-card-level-offline .alert-card-item{
     color: #fd7f0e !important;
 }
+
+
+/*---未入住---*/
+.not-check-in{
+    width: 2rem;
+    height: 2rem;
+    background: url("~@/static/img/notCheckIn.png");
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 5.5rem 5.5rem;
+    
+}
+
+.not-check-in button{
+    cursor:not-allowed !important;
+}

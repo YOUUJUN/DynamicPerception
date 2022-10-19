@@ -12,7 +12,7 @@
             :alertVisible="alertVisible"
         ></alert-popover>
 
-        <el-card slot="reference" class="bed-card-by24-wrap" :class="alertClass">
+        <el-card slot="reference" class="bed-card-by24-wrap" :class="[alertClass, notCheckInClass]">
             <div class="card-header">
                 <el-popover
                     popper-class="bedBySix-popover"
@@ -106,6 +106,15 @@ export default {
 
             set(visible) {},
         },
+
+        notCheckInClass (){
+            let notCheckInClass = "";
+            let {partner_id} = this.renderInfo;
+            if(!partner_id){
+                notCheckInClass = "not-check-in"
+            }
+            return notCheckInClass;
+        }
     },
 
     watch: {

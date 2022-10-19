@@ -9,9 +9,11 @@ const getters = {
     displayRow: (state) => state.display.displayRow,
     displayCategory: (state) => state.display.displayCategory,
     displayCategoryMap: (state) => state.display.displayCategoryMap,
+    ifDisplayEmptyBeds : (state) => state.display.ifDisplayEmptyBeds,
     displayCategoryLabel: (state, getters) =>
         getters.displayCategoryMap.get(getters.displayCategory),
     displayFilters: (state) => state.data.menu.filters,
+    
 
     /*---原始数据---*/
     originData: (state) => state.data.originData,
@@ -309,9 +311,19 @@ const getters = {
             })
         })
 
+        let renderData = getters.classifiedData;
+        //控制是否显示空床位
+        if(getters.ifDisplayEmptyBeds === false){
+            renderData = getters.classifiedData.filter(data => {
+                if(data.partner_id){
+                    return data;
+                }
+            })
+        }
+
         return {
             role, //渲染角色
-            data: getters.classifiedData,
+            data: renderData,
         };
     },
 

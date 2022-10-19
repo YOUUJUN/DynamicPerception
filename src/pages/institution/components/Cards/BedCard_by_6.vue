@@ -13,12 +13,12 @@
             :alertVisible="alertVisible"
         ></alert-popover>
 
-        <el-card slot="reference" class="bed-card-by6-wrap" :class="alertClass">
+        <el-card slot="reference" class="bed-card-by6-wrap" :class="[alertClass, notCheckInClass]">
             <div class="card-header">
                 <img
                     class="card-avatar"
                     :src="elderAvatar(renderInfo)"
-                    @click="openElderDlg(renderInfo.id)"
+                    @click="openElderDlg(renderInfo)"
                 />
 
                 <span class="card-name">{{ renderInfo.name }}</span>
@@ -120,7 +120,7 @@
                     type="primary"
                     size="small"
                     round
-                    @click="openHealthReportDlg(renderInfo.partner_id)"
+                    @click="openHealthReportDlg(renderInfo)"
                     >查看报告</el-button
                 >
             </div>
@@ -169,8 +169,10 @@ export default {
             return (elderInfo) => {
                 if (elderInfo?.pop_show?.gender === "男") {
                     return getDeviceImgUrl("male");
-                } else {
+                } else if (elderInfo?.pop_show?.gender === "女") {
                     return getDeviceImgUrl("female");
+                } else{
+                    return getDeviceImgUrl("nomen");
                 }
             };
         },
@@ -188,6 +190,15 @@ export default {
 
             set(visible) {},
         },
+
+        notCheckInClass (){
+            let notCheckInClass = "";
+            let {partner_id} = this.renderInfo;
+            if(!partner_id){
+                notCheckInClass = "not-check-in"
+            }
+            return notCheckInClass;
+        }
     },
 
     watch: {
@@ -247,13 +258,19 @@ export default {
         },
 
         //打开老人信息窗体
-        openElderDlg(id) {
+        openElderDlg({id, partner_id}) {
+            if(!partner_id){
+                return;
+            }
             this.openElderDlg_inject(id);
         },
 
         //打开健康报告窗体
-        openHealthReportDlg(id) {
-            this.openHealthReportDlg_inject(id);
+        openHealthReportDlg({partner_id}) {
+            if(!partner_id){
+                return;
+            }
+            this.openHealthReportDlg_inject(partner_id);
         },
     },
 };

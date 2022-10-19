@@ -38,6 +38,7 @@ export function getDeviceImgUrl(name) {
         "fyt:smart_call_alarm":require("@/static/offlineImg/personal_emerg_button.png"), //智能呼叫设备
         female: require("@/static/offlineImg/female.png"),
         male: require("@/static/offlineImg/male.png"),
+        nomen : require("@/static/offlineImg/nomen.png"),
     };
 
     if(devicePic[name]){

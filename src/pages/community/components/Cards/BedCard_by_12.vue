@@ -11,7 +11,7 @@
             :renderInfo="renderInfo"
             :alertVisible="alertVisible"
         ></alert-popover>
-        <el-card slot="reference" class="bed-card-by12-wrap" :class="alertClass">
+        <el-card slot="reference" class="bed-card-by12-wrap" :class="[alertClass, notCheckInClass]">
             <div class="card-header">
                 <el-popover
                     popper-class="bedBySix-popover"
@@ -59,7 +59,7 @@
                     type="primary"
                     size="mini"
                     round
-                    @click="openHealthReportDlg(renderInfo.partner_id)"
+                    @click="openHealthReportDlg(renderInfo)"
                     >查看报告</el-button
                 >
             </div>
@@ -116,6 +116,15 @@ export default {
 
             set(visible) {},
         },
+
+        notCheckInClass (){
+            let notCheckInClass = "";
+            let {partner_id} = this.renderInfo;
+            if(!partner_id){
+                notCheckInClass = "not-check-in"
+            }
+            return notCheckInClass;
+        }
     },
 
     watch: {
@@ -175,8 +184,11 @@ export default {
         },
 
         //打开健康报告窗体
-        openHealthReportDlg(id) {
-            this.openHealthReportDlg_inject(id);
+        openHealthReportDlg({partner_id}) {
+            if(!partner_id){
+                return;
+            }
+            this.openHealthReportDlg_inject(partner_id);
         },
     },
 };

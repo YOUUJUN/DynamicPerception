@@ -18,6 +18,9 @@ const state = {
         ['5' , '设备离线'],
         ['6' , '房间告警'],
     ]),
+
+    //是否显示空床位
+    ifDisplayEmptyBeds : false,
 };
 
 const mutations = {
@@ -28,6 +31,10 @@ const mutations = {
     CHANGE_DISPLAY_CATEGORY(state, payload) {
         state.displayCategory = payload;
     },
+
+    CHANGE_EMPTY_BEDS_DISPLAY(state, payload){
+        state.ifDisplayEmptyBeds = payload;
+    }
 };
 
 const actions = {
@@ -38,6 +45,11 @@ const actions = {
     changeDisplayCategory({ commit }, payload) {
         commit("CHANGE_DISPLAY_CATEGORY", payload);
     },
+
+    //控制是否显示空床位
+    changeEmptyBedsDisplay({ commit }, payload){
+        commit("CHANGE_EMPTY_BEDS_DISPLAY", payload);
+    }
 };
 
 export default {
