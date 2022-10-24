@@ -1,6 +1,7 @@
 /*-----告警处理弹窗---*/
 
 .alarm-popover {
+    width: 22rem;
     height: 24rem;
     padding: 0 !important;
 }

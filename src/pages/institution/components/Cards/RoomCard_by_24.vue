@@ -30,7 +30,6 @@
             <div class="card-body">
                 <el-popover
                     popper-class="alarm-popover"
-                    width="220"
                     placement="right"
                     trigger="click"
                     v-model="popOverVisible"
