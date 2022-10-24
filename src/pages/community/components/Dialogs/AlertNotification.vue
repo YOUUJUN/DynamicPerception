@@ -28,6 +28,16 @@
                 <el-button size="mini" round @click="handleAlert(renderInfo)"
                     >立即处理</el-button
                 >
+
+                <el-button
+                    v-if="renderInfo.msg_text === '智能呼叫'"
+                    type="success"
+                    icon="el-icon-phone"
+                    size="mini"
+                    :circle="true"
+                    class="phone-btn"
+                    @click="handleRTCCall(renderInfo)"
+                ></el-button>
             </div>
         </footer>
     </article>
@@ -177,6 +187,14 @@ export default {
                     console.warn("err", err);
                 });
         },
+
+        //处理智能告警实时语音
+        handleRTCCall(renderInfo){
+            console.log('renderInfo', renderInfo);
+            let {talk_url} = renderInfo
+            this.$listeners.handleRTCCall(talk_url);
+            this.handleAlert(renderInfo)
+        }
     },
 };
 </script>
@@ -226,7 +244,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 8rem;
+    height: 9rem;
     padding: 0 1.2rem;
 }
 
@@ -247,9 +265,22 @@ export default {
     margin-left: 0.6rem;
 }
 
-.footer-right > button {
+.footer-right > .el-button {
     font-size: 1rem;
     padding: 0.5rem 1rem;
+}
+
+/*---按钮---*/
+.footer-right{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-right > .phone-btn{
+    padding:0.4rem !important;
+    margin-left: .4rem;
 }
 
 .count-num {

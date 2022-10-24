@@ -5,7 +5,7 @@
                 <img src="@/static/offlineImg/male.png" />
                 <span>{{ renderInfo.persons[0].name }}</span>
             </div>
-             <div v-else style="width:1rem;"></div>
+            <div v-else style="width: 1rem"></div>
             <div class="header-center">
                 <span>{{ renderInfo.name }}</span>
             </div>
@@ -28,6 +28,16 @@
                 <el-button size="mini" round @click="handleAlert(renderInfo)"
                     >立即处理</el-button
                 >
+
+                <el-button
+                    v-if="renderInfo.msg_text === '智能呼叫'"
+                    type="success"
+                    icon="el-icon-phone"
+                    size="mini"
+                    :circle="true"
+                    class="phone-btn"
+                    @click="handleRTCCall(renderInfo)"
+                ></el-button>
             </div>
         </footer>
     </article>
@@ -48,6 +58,8 @@ export default {
             required: true,
         },
     },
+
+    inject : ['openRTCCallDlg_inject'],
 
     data() {
         return {
@@ -121,11 +133,11 @@ export default {
                         break;
                     case "水流异常":
                         alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/abnormalWater.png")
+                        imgPath = require("@/static/img/abnormalWater.png");
                         break;
                     case "用水异常":
                         alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/usingWater.png")
+                        imgPath = require("@/static/img/usingWater.png");
                         break;
                 }
 
@@ -139,34 +151,40 @@ export default {
     created() {},
 
     methods: {
-        ...mapActions("data", ["setRoomAlertStatus", "resolveRoomAlarm", "deleteRoomData", "setBedAlertStatus", "resolveBedAlarm"]),
+        ...mapActions("data", [
+            "setRoomAlertStatus",
+            "resolveRoomAlarm",
+            "deleteRoomData",
+            "setBedAlertStatus",
+            "resolveBedAlarm",
+        ]),
 
         //设置告警状态
-        setAlertStatus (...params) {
+        setAlertStatus(...params) {
             let category = this.renderInfo?.category;
-            if(category === 'bed'){
+            if (category === "bed") {
                 return this.setBedAlertStatus.apply(this, params);
-            }else if(category === 'room'){
+            } else if (category === "room") {
                 return this.setRoomAlertStatus.apply(this, params);
             }
         },
 
         //处理告警
-        resolveAlarm (...params) {
+        resolveAlarm(...params) {
             let category = this.renderInfo?.category;
-            if(category === 'bed'){
+            if (category === "bed") {
                 return this.resolveBedAlarm.apply(this, params);
-            }else if(category === 'room'){
+            } else if (category === "room") {
                 return this.resolveRoomAlarm.apply(this, params);
             }
         },
 
         //删除数据
-        deleteData (...params) {
+        deleteData(...params) {
             let category = this.renderInfo?.category;
-            if(category === 'bed'){
+            if (category === "bed") {
                 return () => {};
-            }else if(category === 'room'){
+            } else if (category === "room") {
                 return this.deleteRoomData.apply(this, params);
             }
         },
@@ -187,7 +205,7 @@ export default {
 
         //处理警告
         handleAlert(renderInfo) {
-            console.log('renderInfo', renderInfo);
+            console.log("renderInfo", renderInfo);
             let { warn_id, id, qty } = renderInfo;
             handlePopAlarm({
                 warn_id,
@@ -226,6 +244,13 @@ export default {
                     console.warn("err", err);
                 });
         },
+
+        //处理智能告警实时语音
+        handleRTCCall(renderInfo){
+            let {talk_url} = renderInfo
+            this.openRTCCallDlg_inject(talk_url);
+            this.handleAlert(renderInfo)
+        }
     },
 };
 </script>
@@ -275,7 +300,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 8rem;
+    height: 9rem;
     padding: 0 1.2rem;
 }
 
@@ -296,9 +321,22 @@ export default {
     margin-left: 0.6rem;
 }
 
-.footer-right > button {
+.footer-right > .el-button {
     font-size: 1rem;
     padding: 0.5rem 1rem;
+}
+
+/*---按钮---*/
+.footer-right{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-right > .phone-btn{
+    padding:0.4rem !important;
+    margin-left: .4rem;
 }
 
 .count-num {
@@ -367,7 +405,6 @@ export default {
 .level_2_warning .alert-footer button {
     color: #fd7f0e;
 }
-
 
 /*---离线告警---*/
 

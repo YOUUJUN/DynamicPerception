@@ -127,6 +127,7 @@ const mutations = {
                 qty: room.qty,
                 msg_text: room.alarm_msg,
                 warn_id: room.warn_id,
+                talk_url : room.talk_url,
             });
         }
     },
@@ -183,6 +184,7 @@ const mutations = {
                 breathing: bed?.breathing ?? "--",
                 alarming: bed?.alarming ?? "--",
                 pop_show: bed?.pop_show,
+                talk_url : bed?.talk_url,
             });
         }
     },

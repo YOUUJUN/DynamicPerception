@@ -27,6 +27,8 @@
             :roomInfo="roomInfo"
         ></room-info-dlg>
 
+        <rtc-call-dlg ref="rtcDlg" :visible.sync="rtcDlgVisible"></rtc-call-dlg>
+
         <div ref="audioWrap" style="display: none"></div>
     </section>
 </template>
@@ -50,6 +52,8 @@ const ElderInfoDlg = () => import("../components/Dialogs/ElderInfoDlg.vue");
 const HealthReportDlg = () =>
     import("../components/Dialogs/HealthReportDlg.vue");
 const RoomInfoDlg = () => import("../components/Dialogs/RoomInfoDlg.vue");
+
+const RtcCallDlg = () => import("../components/Dialogs/RTCCallDlg.vue");
 
 import { mapGetters, mapActions } from "vuex";
 import {
@@ -82,6 +86,8 @@ export default {
         RoomInfoDlg,
 
         AlertNotification,
+
+        RtcCallDlg,
     },
 
     data() {
@@ -104,6 +110,9 @@ export default {
 
             //告警弹窗队列
             alertNotifyQueue: [],
+
+            //智能告警实时通话窗体
+            rtcDlgVisible : false
         };
     },
 
@@ -179,6 +188,7 @@ export default {
             openRoomInfoDlg_inject: this.openRoomInfoDlg,
             fetchElderHealthReportByTime_inject:
                 this.fetchElderHealthReportByTime,
+            openRTCCallDlg_inject : this.openRTCCallDlg,
         };
     },
 
@@ -382,6 +392,7 @@ export default {
                     on: {
                         countover: this.handleAlarmPopoverClose,
                         resolveAlert: alertCallBack,
+                        handleRTCCall : this.openRTCCallDlg,
                     },
                 }),
                 duration: 0,
@@ -532,6 +543,14 @@ export default {
             await sleep(5500);
             this.creatAudio(url);
         },
+
+        //处理智能告警实时语音
+        openRTCCallDlg(url){
+            this.rtcDlgVisible = true;
+            this.$nextTick(() => {
+                this.$refs.rtcDlg.setIframeContent(url);
+            })
+        }
     },
 };
 </script>

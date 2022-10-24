@@ -6,11 +6,12 @@
 }
 
 .alert-notification.el-notification .el-notification__group {
+    width:100%;
     margin: 0;
 }
 
 .alert-notification.el-notification .el-notification__content {
     display: flex;
     margin: 0;
-    width: 150px;
+    width: 17rem;
 }

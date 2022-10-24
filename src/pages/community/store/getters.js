@@ -313,7 +313,7 @@ const getters = {
 
         let renderData = getters.classifiedData;
         //控制是否显示空床位
-        if(getters.ifDisplayEmptyBeds === false){
+        if(getters.ifDisplayEmptyBeds === false && displayCategory !== "5" && displayCategory !== "6"){
             renderData = getters.classifiedData.filter(data => {
                 if(data.partner_id){
                     return data;

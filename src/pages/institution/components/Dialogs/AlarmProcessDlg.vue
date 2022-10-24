@@ -24,6 +24,16 @@
                             @click="handleAlarmResolve(item, index)"
                             >立即处理</el-button
                         >
+
+                        <el-button
+                            v-if="item.msg_text === '智能呼叫'"
+                            type="success"
+                            icon="el-icon-phone"
+                            size="mini"
+                            :circle="true"
+                            class="phone-btn"
+                            @click="handleRTCCall(item, index)"
+                        ></el-button>
                     </div>
                 </li>
             </ul>
@@ -52,6 +62,8 @@ export default {
             type : Boolean,
         },
     },
+
+    inject: ["openRTCCallDlg_inject"],
 
     data() {
         return {
@@ -175,6 +187,23 @@ export default {
                     console.warn("err", err);
                 });
         },
+
+        //处理智能告警实时语音
+        handleRTCCall(item, index) {
+            let { talk_url, alarming_date } = item;
+            let alarmDate = new Date(alarming_date).getTime();
+            let currentDate = new Date().getTime();
+            if (Math.abs(alarmDate - currentDate) > 29 * 60 * 100) {
+                this.$message({
+                    showClose: true,
+                    message: "超时：无法通话-语音通话仅限报警发生30分钟内，请尝试其他联系方式.",
+                    type: "warning",
+                });
+                return;
+            }
+            this.openRTCCallDlg_inject(talk_url);
+            this.handleAlarmResolve(item, index);
+        },
     },
 };
 </script>
@@ -185,5 +214,17 @@ export default {
 ::v-deep .el-scrollbar__wrap {
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+/*---按钮---*/
+.alarm-item-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.alarm-item-right .phone-btn {
+    padding: 0.3rem;
 }
 </style>
