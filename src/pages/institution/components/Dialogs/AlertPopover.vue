@@ -294,7 +294,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 9rem;
+    height: 10rem;
     padding: 0 1.2rem;
 }
 
