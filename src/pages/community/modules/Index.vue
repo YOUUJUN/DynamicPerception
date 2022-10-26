@@ -529,14 +529,19 @@ export default {
         //创建语音播报
         creatAudio(url) {
             let shell = this.$refs.audioWrap;
-            let audio = document.createElement("audio");
-            audio.autoplay = true;
-            setTimeout(() => {
-                audio.src = url;
-            }, 0);
+            let iframe = document.createElement("iframe");
+            iframe.setAttribute('allow', 'autoplay');
+            iframe.setAttribute('src', url);
+            shell.appendChild(iframe);
 
-            shell.appendChild(audio);
-            audio.play();
+            // let audio = document.createElement("audio");
+            // audio.autoplay = true;
+            // setTimeout(() => {
+            //     audio.src = url;
+            // }, 0);
+
+            // shell.appendChild(audio);
+            // audio.play();
         },
 
         //开启语音播报
@@ -563,20 +568,21 @@ export default {
         //中止语音播报
         stopTalk(warn_id){
             clearInterval(this.talkLoopHandle[warn_id]);
-            let audios = [...this.$refs.audioWrap.querySelectorAll('AUDIO')]
-            audios.forEach(audio => {
-                audio.pause();
-            })
+            this.$refs.audioWrap.innerHTML = "";
+            // let audios = [...this.$refs.audioWrap.querySelectorAll('IFRAME')]
+            // audios.forEach(audio => {
+            //     audio.pause();
+            // })
         },
 
         //处理智能告警实时语音
         openRTCCallDlg(url){
-            // this.rtcDlgVisible = true;
-            // this.$nextTick(() => {
-            //     this.$refs.rtcDlg.setIframeContent(url);
-            // })
+            this.rtcDlgVisible = true;
+            this.$nextTick(() => {
+                this.$refs.rtcDlg.setIframeContent(url);
+            })
 
-            window.open(url, '_blank')
+            // window.open(url, '_blank')
         }
     },
 };
