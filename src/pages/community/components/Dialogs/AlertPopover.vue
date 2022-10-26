@@ -59,7 +59,7 @@ export default {
         },
     },
 
-    inject : ['openRTCCallDlg_inject'],
+    inject : ['openRTCCallDlg_inject', 'stopTalk_inject'],
 
     data() {
         return {
@@ -207,6 +207,10 @@ export default {
         handleAlert(renderInfo) {
             console.log("renderInfo", renderInfo);
             let { warn_id, id, qty } = renderInfo;
+
+            //中止语音告警
+            this.stopTalk_inject(warn_id);
+
             handlePopAlarm({
                 warn_id,
             })

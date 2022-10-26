@@ -62,7 +62,7 @@ export default {
         },
     },
 
-    inject: ["openRTCCallDlg_inject"],
+    inject: ["openRTCCallDlg_inject", "stopTalk_inject"],
 
     data() {
         return {
@@ -91,6 +91,10 @@ export default {
 
         //处理告警
         handleAlarmResolve(item, index) {
+            let {alarmId} = item;
+            //中止语音告警
+            this.stopTalk_inject(alarmId);
+
             if (["1", "2", "3", "4"].includes(this.displayCategory)) {
                 this.doBedAlarmResolve(item, index);
             } else if (["6"].includes(this.displayCategory)) {

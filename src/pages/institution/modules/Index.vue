@@ -111,7 +111,10 @@ export default {
             alertNotifyQueue: [],
 
             //智能告警实时通话窗体
-            rtcDlgVisible : false
+            rtcDlgVisible : false,
+
+            //告警语音循环
+            talkLoopHandle : {},
         };
     },
 
@@ -188,6 +191,7 @@ export default {
             fetchElderHealthReportByTime_inject:
                 this.fetchElderHealthReportByTime,
             openRTCCallDlg_inject : this.openRTCCallDlg,
+            stopTalk_inject : this.stopTalk,
         };
     },
 
@@ -246,7 +250,7 @@ export default {
 
                         //触发语音告警
                         data.forEach(item => {
-                            this.doTalk(getAudioUrl(item.audio_name));
+                            this.doTalk(getAudioUrl(item.audio_name), item.warn_id);
                         })
 
                         this.handleBedSocket(data);
@@ -256,7 +260,7 @@ export default {
                     case "fm_room_all_iot":
                         //触发语音告警
                         data.forEach(item => {
-                            this.doTalk(getAudioUrl(item.audio_name));
+                            this.doTalk(getAudioUrl(item.audio_name), item.warn_id);
                         })
                         
                         this.handleRoomSocket(data);
@@ -271,7 +275,7 @@ export default {
 
                         //触发语音告警
                         if (audioAlert) {
-                            this.doTalk(getAudioUrl(item.audio_name));
+                            this.doTalk(getAudioUrl(item.audio_name), item.warn_id);
                         }
 
                         this.handleOfflineSocket(data);
@@ -392,6 +396,7 @@ export default {
                         countover: this.handleAlarmPopoverClose,
                         resolveAlert: alertCallBack,
                         handleRTCCall : this.openRTCCallDlg,
+                        stopTalk : this.stopTalk,
                     },
                 }),
                 duration: 0,
@@ -534,20 +539,43 @@ export default {
         },
 
         //开启语音播报
-        async doTalk(url) {
+        async doTalk(url, warn_id) {
+            console.log('url', url);
             this.creatAudio(url);
-            await sleep(5500);
-            this.creatAudio(url);
-            await sleep(5500);
-            this.creatAudio(url);
+            
+            let count = 1;
+            let loopHandle = setInterval(() => {
+                this.creatAudio(url);
+                count++;
+                if(count > 2){
+                    clearInterval(loopHandle);
+                }
+            },5500)
+            this.talkLoopHandle[warn_id] = loopHandle
+
+            // await sleep(5500);
+            // this.creatAudio(url);
+            // await sleep(5500);
+            // this.creatAudio(url);
+        },
+
+        //中止语音播报
+        stopTalk(warn_id){
+            clearInterval(this.talkLoopHandle[warn_id]);
+            let audios = [...this.$refs.audioWrap.querySelectorAll('AUDIO')]
+            audios.forEach(audio => {
+                audio.pause();
+            })
         },
 
         //处理智能告警实时语音
         openRTCCallDlg(url){
-            this.rtcDlgVisible = true;
-            this.$nextTick(() => {
-                this.$refs.rtcDlg.setIframeContent(url);
-            })
+            // this.rtcDlgVisible = true;
+            // this.$nextTick(() => {
+            //     this.$refs.rtcDlg.setIframeContent(url);
+            // })
+
+            window.open(url, '_blank')
         }
     },
 };

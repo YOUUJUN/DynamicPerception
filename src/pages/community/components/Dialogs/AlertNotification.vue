@@ -154,6 +154,10 @@ export default {
         handleAlert(renderInfo) {
             console.log('renderInfo', renderInfo);
             let { warn_id, id, qty } = renderInfo;
+
+            //中止语音告警
+            this.$listeners.stopTalk(warn_id);
+
             handlePopAlarm({
                 warn_id,
             })

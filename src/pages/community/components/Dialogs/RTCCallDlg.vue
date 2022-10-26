@@ -6,7 +6,7 @@
         :close-on-click-modal="false"
     >
         <section class="iframe-wrap">
-            <iframe id="callFrame" :src="iframeUrl"></iframe>
+            <iframe id="callFrame" :src="iframeUrl" allow="autoplay *; camera *; microphone *; speaker-selection *;"></iframe>
         </section>
     </el-dialog>
 </template>
