@@ -381,7 +381,13 @@ const getters = {
     },
 
     /*---分类数据---*/
-    allDataNum: (state, getters) => getters.filteredBedData.length,
+    allDataNum: (state, getters) => {
+        return getters.filteredBedData.filter(data => {
+            if(data.partner_id){
+                return data;
+            }
+        }).length
+    },
     inBedNum: (state, getters) => {
         return getters.filteredBedData.filter((item) => {
             if (item?.in_out_bed === "在床") {
