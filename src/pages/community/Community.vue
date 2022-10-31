@@ -87,6 +87,7 @@ body {
     font-size: 62.5%;
     font-family: Poppins, sans-serif;
     box-sizing: border-box;
+    -webkit-text-size-adjust:none;
 }
 
 ul {
