@@ -112,7 +112,9 @@ const mutations = {
     REDUCE_ROOM_ALARM_QTY(state, payload) {
         let { id } = payload;
         let rowData = state.roomData.find((data) => data.id === id);
-        rowData.qty--;
+        if(rowData.qty > 0){
+            rowData.qty--;
+        }
     },
 
     UPDATE_ROOM_DATA(state, payload) {
@@ -223,7 +225,9 @@ const mutations = {
     REDUCE_BED_ALARM_QTY(state, payload) {
         let { id } = payload;
         let rowData = state.originData.find((data) => data.id === id);
-        rowData.qty--;
+        if(rowData.qty > 0){
+            rowData.qty--;
+        }
     },
 
     /*---------离线-----------*/
