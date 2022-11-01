@@ -531,7 +531,7 @@ export default {
 
             let iframe = document.createElement("iframe");
             iframe.setAttribute('allow', 'autoplay');
-            iframe.setAttribute('src', url);
+            iframe.setAttribute('src', `${url}#toolbar=0`);
             shell.appendChild(iframe);
 
             // let audio = document.createElement("audio");
