@@ -201,7 +201,7 @@ export default {
             let { talk_url, alarming_date } = item;
             let alarmDate = new Date(alarming_date).getTime();
             let currentDate = new Date().getTime();
-            if (Math.abs(alarmDate - currentDate) > 29 * 60 * 100) {
+            if (Math.abs(alarmDate - currentDate) > 29 * 60 * 1000) {
                 this.$message({
                     showClose: true,
                     message: "超时：无法通话-语音通话仅限报警发生30分钟内，请尝试其他联系方式.",
