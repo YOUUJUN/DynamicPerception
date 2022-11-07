@@ -5,9 +5,10 @@
         icon-class="el-icon-arrow-right"
         ref="treeMenu"
         :data="menuData"
-        node-key="id"
+        node-key="randomId"
         :default-checked-keys="menuCheckedKeys"
         :default-expanded-keys="menuExpandedKeys"
+        :default-expand-all="true"
         :props="defaultProps"
         :highlight-current="true"
         :show-checkbox="true"
@@ -65,7 +66,7 @@ export default {
         //处理菜单点击事件
         handleNodeClick(data,node) {
             // console.log('data', data);
-            let payload = [data.id];
+            let payload = [data.randomId];
             //修改菜单选中项
             this.changeMenuChecked(payload);
         },

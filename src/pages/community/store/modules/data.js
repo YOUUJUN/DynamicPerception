@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import {
     getAllData,
     getOfflineData,
@@ -30,10 +32,20 @@ const state = {
 
 const mutations = {
     SET_MENU_DATA(state, payload) {
-        state.menu.data = payload;
-        state.menu.checkedKeys = [payload[0].id];
-        state.menu.expandedKeys = [payload[0].id];
-        state.menu.selectedKey = payload[0].id;
+        const setRandomID = (arr) => arr.map(item => {
+            return {
+                ...item,
+                randomId : uuidv4(),
+                items : item.items ? setRandomID(item.items) : null
+            }
+        })
+
+        let dataSource = setRandomID(payload);
+
+        state.menu.data = dataSource;
+        state.menu.checkedKeys = [dataSource[0].randomId];
+        state.menu.expandedKeys = [dataSource[0].randomId];
+        state.menu.selectedKey = dataSource[0].randomId;
         state.menu.filters = [
             {
                 id: payload[0].id,
