@@ -13,7 +13,7 @@ const webpack = require("webpack");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 const productionGzipExtensions = ["js", "css"];
-const isProd = process.env.NODE_ENV === "production";
+const isDev = process.env.NODE_ENV === "development";
 
 const buildPageSync = () => {
     let pages = {};
@@ -110,7 +110,7 @@ let pageConstruction = buildPageSync();
 
 delete require.cache[module.id];
 
-let publicPath = !isProd ? '/' : "/fm_dynamic_perception/static/templates/default/zh_CN";
+let publicPath = isDev ? '/' : "/fm_dynamic_perception/static/templates/default/zh_CN";
 
 module.exports = function () {
     return {
