@@ -1,5 +1,37 @@
 const wsURL = process.env.VUE_APP_API_SOCKET_URL;
 
+class HeartCheck {
+    ws = null;
+    timeout = 45000;
+    timeoutObj = null;
+    serverTimeoutObj = null;
+
+    constructor(ws) {
+        this.ws = ws;
+    }
+
+    reset() {
+        clearTimeout(this.timeoutObj);
+        clearTimeout(this.serverTimeoutObj);
+        return this;
+    }
+    start() {
+        this.timeoutObj && clearTimeout(this.timeoutObj);
+        this.serverTimeoutObj && clearTimeout(this.serverTimeoutObj);
+        this.timeoutObj = setTimeout(() => {
+            //这里发送一个心跳，后端收到后，返回一个心跳消息，
+            //onmessage拿到返回的心跳就说明连接正常
+            this.ws.send("HeartBeat");
+            console.log("ping");
+            this.serverTimeoutObj = setTimeout(() => {
+                // 如果超过一定时间还没重置，说明后端主动断开了
+                console.log("关闭服务");
+                this.ws.close(); //onclose执行reconnect
+            }, this.timeout);
+        }, this.timeout);
+    }
+}
+
 export default class SocketService {
     //socket 单例
     static instance = null;
@@ -25,6 +57,9 @@ export default class SocketService {
     //重新尝试连接次数
     connectRetryCount = 0;
 
+    //心跳检测
+    heartCheck = null;
+
     //连接方法
     connect() {
         if (!window.WebSocket) {
@@ -33,16 +68,21 @@ export default class SocketService {
         }
 
         this.ws = new WebSocket(wsURL);
+        this.heartCheck = new HeartCheck(this.ws);
+
         this.ws.onopen = () => {
             console.log("ws 连接服务器成功!");
             this.connected = true;
             this.connectRetryCount = 0;
+            //心跳检测重置
+            this.heartCheck.reset().start();
         };
 
         this.ws.onclose = () => {
             console.log("ws 连接服务器失败!");
             this.connected = false;
             this.connectRetryCount++;
+            this.heartCheck.reset(); //心跳检测关闭
             setTimeout(() => {
                 this.connect();
             }, 500 * this.connectRetryCount);
@@ -50,6 +90,12 @@ export default class SocketService {
 
         this.ws.onmessage = (msg) => {
             // console.log("从服务端获取到了数据", msg);
+            //心跳检测重置
+            this.heartCheck.reset().start();
+
+            if (msg.data === "HeartBeat") {
+                return;
+            }
             this.callBackMap.forEach((callback, index) => {
                 callback.call(this, msg);
             });
