@@ -54,7 +54,6 @@ export function getAlertLevelClass(msg_text, alertFlag) {
     let alertClass = "";
 
     if (!alertFlag) {
-        this.alertClass = "";
         return alertClass;
     }
     switch (msg_text) {
