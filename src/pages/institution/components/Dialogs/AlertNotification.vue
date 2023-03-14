@@ -5,7 +5,7 @@
                 <img src="@/static/offlineImg/male.png" />
                 <span>{{ renderInfo.persons[0].name }}</span>
             </div>
-            <div v-else style="width:1rem;"></div>
+            <div v-else style="width: 1rem"></div>
             <div class="header-center">
                 <span>{{ renderInfo.name }}</span>
             </div>
@@ -46,6 +46,8 @@
 <script>
 import { handlePopAlarm } from "../../api/dataSource.js";
 import { mapActions } from "vuex";
+import { getAlertLevelImg } from "@/api/dict.js";
+
 export default {
     props: {
         renderInfo: {
@@ -75,60 +77,7 @@ export default {
                 console.log("newValue", newValue);
                 let { msg_text } = newValue;
                 console.log("msg_text", msg_text);
-                let imgPath = "";
-                let alertClass = "";
-                switch (msg_text) {
-                    case "跌倒告警":
-                        alertClass = "level_1_warning";
-                        imgPath = require("@/static/img/alarming-fall.png");
-                        break;
-                    case "烟雾告警":
-                        alertClass = "level_1_warning";
-                        imgPath = require("@/static/img/smokeAlarm.png");
-                        break;
-                    case "燃气告警":
-                        alertClass = "level_1_warning";
-                        imgPath = require("@/static/img/gasAlarm.png");
-                        break;
-                    case "紧急呼叫":
-                        alertClass = "level_1_warning";
-                        imgPath = require("@/static/img/SOS.png");
-                        break;
-                    case "智能呼叫":
-                        alertClass = "level_1_warning";
-                        imgPath = require("@/static/img/SOS.png");
-                        break;
-                    case "心率异常":
-                        alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/alarmingHeart.png");
-                        break;
-                    case "呼吸异常":
-                        alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/alarmingbreathing.png");
-                        break;
-                    case "离床未归":
-                        alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/alarmingOffbed.png");
-                        break;
-                    case "翻身护理":
-                        alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/alarmingturning.png");
-                        break;
-                    case "水流异常":
-                        alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/abnormalWater.png")
-                        break;
-                    case "用水异常":
-                        alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/usingWater.png")
-                        break;
-                    case "设备离线":
-                        alertClass = "level_offline_warning";
-                        imgPath = require("@/static/img/offline.png")
-                        break;
-                }
-
-                console.log("imgPath", imgPath);
+                const { alertClass, imgPath } = getAlertLevelImg(msg_text);
                 this.alertLevelClass = alertClass;
                 this.alertImgPath = imgPath;
             },
@@ -152,7 +101,7 @@ export default {
 
         //处理警告
         handleAlert(renderInfo) {
-            console.log('renderInfo', renderInfo);
+            console.log("renderInfo", renderInfo);
             let { warn_id, id, qty } = renderInfo;
 
             //中止语音告警
@@ -165,14 +114,14 @@ export default {
                     console.log("res-->", res);
                     if (res.status === 200) {
                         if (res.data.result === "success") {
-                            console.log('this-->', this);
+                            console.log("this-->", this);
                             let warn_qty = res?.data?.warn_qty;
                             this.$listeners.resolveAlert({
                                 id,
                                 alertFlag: false,
-                                notifyInstance : this.$parent,
+                                notifyInstance: this.$parent,
                                 qty,
-                            })
+                            });
 
                             this.$message({
                                 showClose: true,
@@ -193,12 +142,12 @@ export default {
         },
 
         //处理智能告警实时语音
-        handleRTCCall(renderInfo){
-            console.log('renderInfo', renderInfo);
-            let {talk_url} = renderInfo
+        handleRTCCall(renderInfo) {
+            console.log("renderInfo", renderInfo);
+            let { talk_url } = renderInfo;
             this.$listeners.handleRTCCall(talk_url);
-            this.handleAlert(renderInfo)
-        }
+            this.handleAlert(renderInfo);
+        },
     },
 };
 </script>
@@ -275,16 +224,16 @@ export default {
 }
 
 /*---按钮---*/
-.footer-right{
+.footer-right {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
-.footer-right > .phone-btn{
-    padding:0.4rem !important;
-    margin-left: .4rem;
+.footer-right > .phone-btn {
+    padding: 0.4rem !important;
+    margin-left: 0.4rem;
 }
 
 .count-num {
@@ -383,5 +332,4 @@ export default {
 .level_offline_warning .alert-footer button {
     color: #ababab;
 }
-
 </style>

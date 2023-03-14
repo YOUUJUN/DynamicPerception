@@ -8,16 +8,17 @@ export function getAudioUrl(name) {
         device: "", // 设备离线
         flow: require("@/static/media/water_flow.mp3"), // 水流异常
         emergency: require("@/static/media/urgent.mp3"), // 紧急呼叫
-        intelligent_call : require("@/static/media/urgent.mp3"), //智能呼叫
+        intelligent_call: require("@/static/media/urgent.mp3"), //智能呼叫
         heart: require("@/static/media/heart.mp3"), // 心率异常
         breath: require("@/static/media/breath.mp3"), // 呼吸异常
+        retention: require("@/static/media/retention.mp3"), //滞留告警
         turn: "",
     };
 
-    if(audioUrl[name]){
-        return `${audioUrl[name]}`
-    }else{
-        return ""
+    if (audioUrl[name]) {
+        return `${audioUrl[name]}`;
+    } else {
+        return "";
     }
 }
 
@@ -35,15 +36,110 @@ export function getDeviceImgUrl(name) {
         "fanmis:door_sensor": require("@/static/offlineImg/door_sensor.png"), // 门磁
         "fanmis:motion_sensor": require("@/static/offlineImg/motion_sensor.png"), // 红外
         "fanmis:personal_emerg_button": require("@/static/offlineImg/personal_emerg_button.png"), // 紧急按钮
-        "fyt:smart_call_alarm":require("@/static/offlineImg/personal_emerg_button.png"), //智能呼叫设备
+        "fyt:smart_call_alarm": require("@/static/offlineImg/personal_emerg_button.png"), //智能呼叫设备
         female: require("@/static/offlineImg/female.png"),
         male: require("@/static/offlineImg/male.png"),
-        nomen : require("@/static/offlineImg/nomen.png"),
+        nomen: require("@/static/offlineImg/nomen.png"),
     };
 
-    if(devicePic[name]){
-        return `${devicePic[name]}`
-    }else{
-        return `${devicePic.gateway_device}`
+    if (devicePic[name]) {
+        return `${devicePic[name]}`;
+    } else {
+        return `${devicePic.gateway_device}`;
     }
+}
+
+//获取告警级别类
+export function getAlertLevelClass(msg_text, alertFlag) {
+    let alertClass = "";
+
+    if (!alertFlag) {
+        this.alertClass = "";
+        return alertClass;
+    }
+    switch (msg_text) {
+        case "跌倒告警":
+        case "烟雾告警":
+        case "燃气告警":
+        case "紧急呼叫":
+        case "智能呼叫":
+        case "滞留告警":
+            alertClass = "alert-card-level-1";
+            break;
+        case "心率异常":
+        case "呼吸异常":
+        case "离床未归":
+        case "翻身护理":
+        case "水流异常":
+        case "用水异常":
+            alertClass = "alert-card-level-2";
+            break;
+    }
+
+    return alertClass;
+}
+
+//获取告警图片
+export function getAlertLevelImg(msg_text) {
+    let imgPath = "";
+    let alertClass = "";
+    switch (msg_text) {
+        case "跌倒告警":
+            alertClass = "level_1_warning";
+            imgPath = require("@/static/img/alarming-fall.png");
+            break;
+        case "烟雾告警":
+            alertClass = "level_1_warning";
+            imgPath = require("@/static/img/smokeAlarm.png");
+            break;
+        case "燃气告警":
+            alertClass = "level_1_warning";
+            imgPath = require("@/static/img/gasAlarm.png");
+            break;
+        case "紧急呼叫":
+            alertClass = "level_1_warning";
+            imgPath = require("@/static/img/SOS.png");
+            break;
+        case "智能呼叫":
+            alertClass = "level_1_warning";
+            imgPath = require("@/static/img/SOS.png");
+            break;
+        case "滞留告警":
+            alertClass = "level_1_warning";
+            imgPath = require("@/static/img/lingeringAlarm.png");
+            break;
+        case "心率异常":
+            alertClass = "level_2_warning";
+            imgPath = require("@/static/img/alarmingHeart.png");
+            break;
+        case "呼吸异常":
+            alertClass = "level_2_warning";
+            imgPath = require("@/static/img/alarmingbreathing.png");
+            break;
+        case "离床未归":
+            alertClass = "level_2_warning";
+            imgPath = require("@/static/img/alarmingOffbed.png");
+            break;
+        case "翻身护理":
+            alertClass = "level_2_warning";
+            imgPath = require("@/static/img/alarmingturning.png");
+            break;
+        case "水流异常":
+            alertClass = "level_2_warning";
+            imgPath = require("@/static/img/abnormalWater.png");
+            break;
+        case "用水异常":
+            alertClass = "level_2_warning";
+            imgPath = require("@/static/img/usingWater.png");
+            break;
+        case "设备离线":
+            alertClass = "level_offline_warning";
+            imgPath = require("@/static/img/offline.png");
+            break;
+    }
+
+    return {
+        imgPath,
+        alertClass,
+    };
 }
