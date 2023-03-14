@@ -111,15 +111,22 @@ export default {
             alertNotifyQueue: [],
 
             //智能告警实时通话窗体
-            rtcDlgVisible : false,
+            rtcDlgVisible: false,
 
             //告警语音循环
-            talkLoopHandle : {},
+            talkLoopHandle: {},
         };
     },
 
     computed: {
-        ...mapGetters(["renderData", "displayRow", "roomData", "originData", "offlineData", "menuData"]),
+        ...mapGetters([
+            "renderData",
+            "displayRow",
+            "roomData",
+            "originData",
+            "offlineData",
+            "menuData",
+        ]),
 
         displayClass() {
             let displayRow = this.displayRow;
@@ -190,8 +197,8 @@ export default {
             openRoomInfoDlg_inject: this.openRoomInfoDlg,
             fetchElderHealthReportByTime_inject:
                 this.fetchElderHealthReportByTime,
-            openRTCCallDlg_inject : this.openRTCCallDlg,
-            stopTalk_inject : this.stopTalk,
+            openRTCCallDlg_inject: this.openRTCCallDlg,
+            stopTalk_inject: this.stopTalk,
         };
     },
 
@@ -225,7 +232,11 @@ export default {
                     return;
                 }
 
-                if(jsonData?.data[0]?.belong !== 'nursing' || (jsonData?.data[0]?.mech_name !== this.menuData[0].name && jsonData?.operation !== 'f_bed_vital_iot')){
+                if (
+                    jsonData?.data[0]?.belong !== "nursing" ||
+                    (jsonData?.data[0]?.mech_name !== this.menuData[0].name &&
+                        jsonData?.operation !== "f_bed_vital_iot")
+                ) {
                     return;
                 }
 
@@ -249,9 +260,12 @@ export default {
                         });
 
                         //触发语音告警
-                        data.forEach(item => {
-                            this.doTalk(getAudioUrl(item.audio_name), item.warn_id);
-                        })
+                        data.forEach((item) => {
+                            this.doTalk(
+                                getAudioUrl(item.audio_name),
+                                item.warn_id
+                            );
+                        });
 
                         this.handleBedSocket(data);
                         break;
@@ -259,23 +273,28 @@ export default {
                     //处理房间告警
                     case "fm_room_all_iot":
                         //触发语音告警
-                        data.forEach(item => {
-                            this.doTalk(getAudioUrl(item.audio_name), item.warn_id);
-                        })
-                        
+                        data.forEach((item) => {
+                            this.doTalk(
+                                getAudioUrl(item.audio_name),
+                                item.warn_id
+                            );
+                        });
+
                         this.handleRoomSocket(data);
                         break;
 
                     //处理设备离线告警
                     case "fm_offline_iot":
-
-                        let audioAlert = data.find(item => {
-                            return item.sign === '1';
-                        })
+                        let audioAlert = data.find((item) => {
+                            return item.sign === "1";
+                        });
 
                         //触发语音告警
                         if (audioAlert) {
-                            this.doTalk(getAudioUrl(item.audio_name), item.warn_id);
+                            this.doTalk(
+                                getAudioUrl(item.audio_name),
+                                item.warn_id
+                            );
                         }
 
                         this.handleOfflineSocket(data);
@@ -296,9 +315,13 @@ export default {
             }
 
             let cards = [...this.$refs.cardsWrap.querySelectorAll(".el-card")];
-            let alertCardIndex = this.renderData.data.findIndex(
-                (item) => item.id === id
-            );
+            let alertCardIndex = this.renderData.data.findIndex((item) => {
+                if (item.id === id && item.role === "bed") {
+                    return item;
+                }
+            });
+
+            console.log("alertCardIndex", alertCardIndex);
 
             if (alertCardIndex === -1) {
                 //未渲染当前卡片右下角弹窗
@@ -327,9 +350,13 @@ export default {
             console.log("renderData", this.renderData);
 
             let cards = [...this.$refs.cardsWrap.querySelectorAll(".el-card")];
-            let alertCardIndex = this.renderData.data.findIndex(
-                (item) => item.id === id
-            );
+            let alertCardIndex = this.renderData.data.findIndex((item) => {
+                if (item.id === id && item.role === "room") {
+                    return item;
+                }
+            });
+
+            console.log("alertCardIndex", alertCardIndex);
 
             if (alertCardIndex === -1) {
                 //未渲染当前卡片右下角弹窗
@@ -369,7 +396,7 @@ export default {
 
         //处理生命体征消息推送
         handleVitalSignSocket(data) {
-            this.updateBedVitalData(data).catch(err => {});
+            this.updateBedVitalData(data).catch((err) => {});
         },
 
         //打开页面右下角告警弹窗
@@ -395,8 +422,8 @@ export default {
                     on: {
                         countover: this.handleAlarmPopoverClose,
                         resolveAlert: alertCallBack,
-                        handleRTCCall : this.openRTCCallDlg,
-                        stopTalk : this.stopTalk,
+                        handleRTCCall: this.openRTCCallDlg,
+                        stopTalk: this.stopTalk,
                     },
                 }),
                 duration: 0,
@@ -446,14 +473,14 @@ export default {
         },
 
         //处理页面右下角设备离线告警
-        handleResolveOfflineAlert(params){
-            let {notifyInstance} = params;
+        handleResolveOfflineAlert(params) {
+            let { notifyInstance } = params;
             this.handleAlarmPopoverClose(notifyInstance);
         },
 
         //打开老人信息窗体
         openElderDlg(id) {
-            let cardInfo = this.originData.find(item => item.id === id);
+            let cardInfo = this.originData.find((item) => item.id === id);
             getElderlyData({
                 bed_id: id,
                 belong: "nursing",
@@ -530,8 +557,8 @@ export default {
             let shell = this.$refs.audioWrap;
 
             let iframe = document.createElement("iframe");
-            iframe.setAttribute('allow', 'autoplay');
-            iframe.setAttribute('src', `${url}#toolbar=0`);
+            iframe.setAttribute("allow", "autoplay");
+            iframe.setAttribute("src", `${url}#toolbar=0`);
             shell.appendChild(iframe);
 
             // let audio = document.createElement("audio");
@@ -546,18 +573,18 @@ export default {
 
         //开启语音播报
         async doTalk(url, warn_id) {
-            console.log('url', url);
+            console.log("url", url);
             this.creatAudio(url);
-            
+
             let count = 1;
             let loopHandle = setInterval(() => {
                 this.creatAudio(url);
                 count++;
-                if(count > 2){
+                if (count > 2) {
                     clearInterval(loopHandle);
                 }
-            },5500)
-            this.talkLoopHandle[warn_id] = loopHandle
+            }, 5500);
+            this.talkLoopHandle[warn_id] = loopHandle;
 
             // await sleep(5500);
             // this.creatAudio(url);
@@ -566,7 +593,7 @@ export default {
         },
 
         //中止语音播报
-        stopTalk(warn_id){
+        stopTalk(warn_id) {
             clearInterval(this.talkLoopHandle[warn_id]);
             this.$refs.audioWrap.innerHTML = "";
             // let audios = [...this.$refs.audioWrap.querySelectorAll('IFRAME')]
@@ -576,14 +603,14 @@ export default {
         },
 
         //处理智能告警实时语音
-        openRTCCallDlg(url){
+        openRTCCallDlg(url) {
             this.rtcDlgVisible = true;
             this.$nextTick(() => {
                 this.$refs.rtcDlg.setIframeContent(url);
-            })
+            });
 
             // window.open(url, '_blank')
-        }
+        },
     },
 };
 </script>
