@@ -11,6 +11,7 @@ const path = require("path");
 
 const webpack = require("webpack");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const AliasPlugin = require("alias-jsconfig-webpack-plugin");
 
 const productionGzipExtensions = ["js", "css"];
 const isDev = process.env.NODE_ENV === "development";
@@ -110,7 +111,9 @@ let pageConstruction = buildPageSync();
 
 delete require.cache[module.id];
 
-let publicPath = isDev ? '/' : "/fm_dynamic_perception/static/templates/default/zh_CN";
+let publicPath = isDev
+    ? "/"
+    : "/fm_dynamic_perception/static/templates/default/zh_CN";
 
 module.exports = function () {
     return {
@@ -188,6 +191,15 @@ module.exports = function () {
                         analyzerPort: "auto",
                     })
                 )
+            );
+
+            //读取alias配置添加到jsconfig.json
+            config.plugin("alias").use(
+                new AliasPlugin({
+                    language: "js", // or 'ts'
+                    jsx: true, // default to true,
+                    indentation: 4, // default to 4, the indentation of jsconfig.json file
+                })
             );
 
             //优化moment 去掉国际化内容；
