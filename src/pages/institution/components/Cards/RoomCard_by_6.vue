@@ -61,8 +61,14 @@
                         >
                             <div class="card-item-left">
                                 <img
+                                    src="@/static/img/normalStatus_l.png"
+                                    class="status-icon"
+                                    v-if="item.name"
+                                />
+                                <img
                                     src="@/static/img/normalStatus.png"
                                     class="status-icon"
+                                    v-else
                                 />
                                 <span class="status-label">床位</span>
                             </div>

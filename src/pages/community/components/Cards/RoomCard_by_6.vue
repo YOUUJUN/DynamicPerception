@@ -1,4 +1,3 @@
-
 <template>
     <el-popover
         popper-class="alert-popover"
@@ -62,8 +61,14 @@
                         >
                             <div class="card-item-left">
                                 <img
+                                    src="@/static/img/normalStatus_l.png"
+                                    class="status-icon"
+                                    v-if="item.name"
+                                />
+                                <img
                                     src="@/static/img/normalStatus.png"
                                     class="status-icon"
+                                    v-else
                                 />
                                 <span class="status-label">床位</span>
                             </div>
@@ -106,7 +111,7 @@ const AlertPopover = () => import("../Dialogs/AlertPopover.vue");
 import { getAllRoomAlarmInfo } from "../../api/dataSource.js";
 import { getAlertLevelClass } from "@/api/dict";
 
-import {mapGetters} from "vuex"
+import { mapGetters } from "vuex";
 
 export default {
     components: {
@@ -134,7 +139,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(['displayRow']),
+        ...mapGetters(["displayRow"]),
 
         getGender() {
             let info = this.renderInfo;
@@ -153,10 +158,10 @@ export default {
                 let alertFlag = this.renderInfo?.alertFlag ?? false;
                 console.log("alertFlag", alertFlag);
 
-                if(alertFlag && this.displayRow === 'X6'){
-                    return true
-                }else{
-                    return false
+                if (alertFlag && this.displayRow === "X6") {
+                    return true;
+                } else {
+                    return false;
                 }
             },
 
@@ -201,7 +206,6 @@ export default {
                     console.warn("err", err);
                 });
         },
-
     },
 };
 </script>

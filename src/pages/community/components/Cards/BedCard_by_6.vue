@@ -56,8 +56,14 @@
                 <li class="card-item">
                     <div class="card-item-left">
                         <img
+                            src="@/static/img/normalStatus_l.png"
+                            class="status-icon"
+                            v-if="renderInfo.partner_id"
+                        />
+                        <img
                             src="@/static/img/normalStatus.png"
                             class="status-icon"
+                            v-else
                         />
                         <span class="status-label">状态</span>
                     </div>
@@ -69,8 +75,14 @@
                 <li class="card-item">
                     <div class="card-item-left">
                         <img
+                            src="@/static/img/normalHeart_l.png"
+                            class="status-icon"
+                            v-if="renderInfo.partner_id"
+                        />
+                        <img
                             src="@/static/img/normalHeart.png"
                             class="status-icon"
+                            v-else
                         />
                         <span class="status-label">心率</span>
                     </div>
@@ -82,8 +94,14 @@
                 <li class="card-item">
                     <div class="card-item-left">
                         <img
+                            src="@/static/img/normalBreathing_l.png"
+                            class="status-icon"
+                            v-if="renderInfo.partner_id"
+                        />
+                        <img
                             src="@/static/img/normalBreathing.png"
                             class="status-icon"
+                            v-else
                         />
                         <span class="status-label">呼吸</span>
                     </div>
@@ -97,8 +115,19 @@
                 <li class="card-item alert-card-item">
                     <div class="card-item-left">
                         <img
+                            src="@/static/img/normalAlarming_r.png"
+                            class="status-icon"
+                            v-if="renderInfo.alertFlag"
+                        />
+                        <img
+                            src="@/static/img/normalAlarming_l.png"
+                            class="status-icon"
+                            v-else-if="renderInfo.partner_id"
+                        />
+                        <img
                             src="@/static/img/normalAlarming.png"
                             class="status-icon"
+                            v-else
                         />
                         <span class="status-label">告警</span>
                     </div>
