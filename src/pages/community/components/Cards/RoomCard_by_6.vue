@@ -104,6 +104,7 @@
 const AlarmProcessDlg = () => import("../Dialogs/AlarmProcessDlg.vue");
 const AlertPopover = () => import("../Dialogs/AlertPopover.vue");
 import { getAllRoomAlarmInfo } from "../../api/dataSource.js";
+import { getAlertLevelClass } from "@/api/dict";
 
 import {mapGetters} from "vuex"
 
@@ -168,31 +169,7 @@ export default {
             deep: true,
             handler(newValue) {
                 let { msg_text, alertFlag } = newValue;
-                let alertClass = "";
-
-                if (!alertFlag) {
-                    this.alertClass = "";
-                    return alertClass;
-                }
-                switch (msg_text) {
-                    case "跌倒告警":
-                    case "烟雾告警":
-                    case "燃气告警":
-                    case "紧急呼叫":
-                    case "智能呼叫":
-                        alertClass = "alert-card-level-1";
-                        break;
-                    case "心率异常":
-                    case "呼吸异常":
-                    case "离床未归":
-                    case "翻身护理":
-                    case "水流异常":
-                    case "用水异常":
-                        alertClass = "alert-card-level-2";
-                        break;
-                }
-
-                this.alertClass = alertClass;
+                this.alertClass = getAlertLevelClass(msg_text, alertFlag);
             },
         },
     },

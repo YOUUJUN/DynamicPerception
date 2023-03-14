@@ -12,7 +12,11 @@
             :alertVisible="alertVisible"
         ></alert-popover>
 
-        <el-card slot="reference" class="bed-card-by24-wrap" :class="[alertClass, notCheckInClass]">
+        <el-card
+            slot="reference"
+            class="bed-card-by24-wrap"
+            :class="[alertClass, notCheckInClass]"
+        >
             <div class="card-header">
                 <el-popover
                     popper-class="bedBySix-popover"
@@ -61,7 +65,8 @@ const AlarmProcessDlg = () => import("../Dialogs/AlarmProcessDlg.vue");
 const BedCardBySix = () => import("../Cards/BedCard_by_6.vue");
 const AlertPopover = () => import("../Dialogs/AlertPopover.vue");
 import { getUnsolvedAlarmInfo } from "../../api/dataSource.js";
-import {mapGetters} from "vuex"
+import { mapGetters } from "vuex";
+import { getAlertLevelClass } from "@/api/dict.js";
 
 export default {
     components: {
@@ -90,30 +95,30 @@ export default {
     },
 
     computed: {
-        ...mapGetters(['displayRow']),
+        ...mapGetters(["displayRow"]),
 
         alertVisible: {
             get() {
                 let alertFlag = this.renderInfo?.alertFlag ?? false;
 
-                if(alertFlag && this.displayRow === 'X24'){
-                    return true
-                }else{
-                    return false
+                if (alertFlag && this.displayRow === "X24") {
+                    return true;
+                } else {
+                    return false;
                 }
             },
 
             set(visible) {},
         },
 
-        notCheckInClass (){
+        notCheckInClass() {
             let notCheckInClass = "";
-            let {partner_id} = this.renderInfo;
-            if(!partner_id){
-                notCheckInClass = "not-check-in"
+            let { partner_id } = this.renderInfo;
+            if (!partner_id) {
+                notCheckInClass = "not-check-in";
             }
             return notCheckInClass;
-        }
+        },
     },
 
     watch: {
@@ -121,31 +126,7 @@ export default {
             deep: true,
             handler(newValue) {
                 let { msg_text, alertFlag } = newValue;
-                let alertClass = "";
-
-                if (!alertFlag) {
-                    this.alertClass = "";
-                    return alertClass;
-                }
-                switch (msg_text) {
-                    case "跌倒告警":
-                    case "烟雾告警":
-                    case "燃气告警":
-                    case "紧急呼叫":
-                    case "智能呼叫":
-                        alertClass = "alert-card-level-1";
-                        break;
-                    case "心率异常":
-                    case "呼吸异常":
-                    case "离床未归":
-                    case "翻身护理":
-                    case "水流异常":
-                    case "用水异常":
-                        alertClass = "alert-card-level-2";
-                        break;
-                }
-
-                this.alertClass = alertClass;
+                this.alertClass = getAlertLevelClass(msg_text, alertFlag);
             },
         },
     },

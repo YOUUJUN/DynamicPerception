@@ -46,6 +46,7 @@
 <script>
 import { handlePopAlarm } from "../../api/dataSource.js";
 import { mapActions } from "vuex";
+import { getAlertLevelImg } from "@/api/dict.js";
 
 export default {
     props: {
@@ -59,7 +60,7 @@ export default {
         },
     },
 
-    inject : ['openRTCCallDlg_inject', 'stopTalk_inject'],
+    inject: ["openRTCCallDlg_inject", "stopTalk_inject"],
 
     data() {
         return {
@@ -92,54 +93,7 @@ export default {
             immediate: true,
             handler(newValue) {
                 let { msg_text } = newValue;
-                let imgPath = "";
-                let alertClass = "";
-                switch (msg_text) {
-                    case "跌倒告警":
-                        alertClass = "level_1_warning";
-                        imgPath = require("@/static/img/alarming-fall.png");
-                        break;
-                    case "烟雾告警":
-                        alertClass = "level_1_warning";
-                        imgPath = require("@/static/img/smokeAlarm.png");
-                        break;
-                    case "燃气告警":
-                        alertClass = "level_1_warning";
-                        imgPath = require("@/static/img/gasAlarm.png");
-                        break;
-                    case "紧急呼叫":
-                        alertClass = "level_1_warning";
-                        imgPath = require("@/static/img/SOS.png");
-                        break;
-                    case "智能呼叫":
-                        alertClass = "level_1_warning";
-                        imgPath = require("@/static/img/SOS.png");
-                        break;
-                    case "心率异常":
-                        alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/alarmingHeart.png");
-                        break;
-                    case "呼吸异常":
-                        alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/alarmingbreathing.png");
-                        break;
-                    case "离床未归":
-                        alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/fallBed.png");
-                        break;
-                    case "翻身护理":
-                        alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/alarmingturning.png");
-                        break;
-                    case "水流异常":
-                        alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/abnormalWater.png");
-                        break;
-                    case "用水异常":
-                        alertClass = "level_2_warning";
-                        imgPath = require("@/static/img/usingWater.png");
-                        break;
-                }
+                const { alertClass, imgPath } = getAlertLevelImg(msg_text);
 
                 console.log("imgPath", imgPath);
                 this.alertLevelClass = alertClass;
@@ -250,11 +204,11 @@ export default {
         },
 
         //处理智能告警实时语音
-        handleRTCCall(renderInfo){
-            let {talk_url} = renderInfo
+        handleRTCCall(renderInfo) {
+            let { talk_url } = renderInfo;
             this.openRTCCallDlg_inject(talk_url);
-            this.handleAlert(renderInfo)
-        }
+            this.handleAlert(renderInfo);
+        },
     },
 };
 </script>
@@ -331,16 +285,16 @@ export default {
 }
 
 /*---按钮---*/
-.footer-right{
+.footer-right {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
-.footer-right > .phone-btn{
-    padding:0.4rem !important;
-    margin-left: .4rem;
+.footer-right > .phone-btn {
+    padding: 0.4rem !important;
+    margin-left: 0.4rem;
 }
 
 .count-num {
@@ -411,5 +365,4 @@ export default {
 }
 
 /*---离线告警---*/
-
 </style>
